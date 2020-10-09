@@ -68,8 +68,6 @@ namespace GroundedBot
                         Say.DoCommand(message);
                         break;
                 }
-            else
-                message.Channel.SendMessageAsync("Ismeretlen parancs.");
 
             return Task.CompletedTask;
         }

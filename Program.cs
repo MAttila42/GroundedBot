@@ -67,6 +67,9 @@ namespace GroundedBot
                     case "say":
                         Say.DoCommand(message);
                         break;
+                    case "fleux":
+                        Fleux.DoCommand(message);
+                        break;
                 }
 
             return Task.CompletedTask;

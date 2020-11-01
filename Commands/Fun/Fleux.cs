@@ -4,6 +4,13 @@ using System.Threading;
 using System.IO;
 using System.Text.Json;
 using System.Linq;
+using System.Net.Http;
+using Newtonsoft.Json.Linq;
+using Discord;
+using System.Threading.Channels;
+using Discord.Commands;
+using Discord.Rest;
+using System.Threading.Tasks;
 
 namespace GroundedBot.Commands.Fun
 {
@@ -19,15 +26,44 @@ namespace GroundedBot.Commands.Fun
         }
 
     }
+
     public class Fleux
     {
 
-
-        public static void DoCommand(SocketMessage message)
+        public static async void DoCommand(SocketMessage message)
         {
-            parancsadd();
+            //parancsadd();
             int bedbi = 0;
             string firstWord = message.Content.Split()[1];
+
+            if (firstWord == "cc")
+            {
+
+                message.Channel.SendMessageAsync(""+message.Id);
+
+            }
+
+
+            if (firstWord == "asd")
+            {
+
+
+            }
+
+
+            if (firstWord == "szam")
+            {
+
+                var zold = new Emoji("\U0001F7E2");
+                var piros = new Emoji("\U0001F7E5");
+                message.Channel.SendMessageAsync("Gondolj egy számra és jegyezd meg.");
+                var rMessage = (RestUserMessage) await message.Channel.GetMessageAsync(message.Id);
+                message.AddReactionAsync(zold, new RequestOptions());
+                message.AddReactionAsync(piros, new RequestOptions());
+
+            }
+
+
             if (firstWord == "floppy")
             {
                 int floppydb = int.Parse(FleuxFloppy.GetConfig().Floppy);
@@ -37,6 +73,19 @@ namespace GroundedBot.Commands.Fun
             else if ( firstWord == "id")
             {
                 message.Channel.SendMessageAsync($"{message.Author} egyedi azonosítója: {message.Author.Id}");
+                dynamic adatok = new JObject();
+                adatok.id = message.Author.Id;
+                adatok.floppy = 0;
+
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                };
+
+                File.WriteAllText("cica.json", JsonSerializer.Serialize(adatok.ToString() , options));
+
+                message.Channel.SendMessageAsync($"Dinamikus JSON hozzáadva.");
+
             }
             else if (firstWord == "cmd")
             {

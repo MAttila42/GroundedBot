@@ -29,6 +29,14 @@ namespace GroundedBot.Commands.Fun
 
     public class Fleux
     {
+        public static string[] Aliases()
+        {
+            string[] aliases =
+            {
+                "fleux"
+            };
+            return aliases;
+        }
 
         public static async void DoCommand(SocketMessage message)
         {

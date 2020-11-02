@@ -6,6 +6,7 @@ using Discord;
 using Discord.WebSocket;
 using GroundedBot.Commands.Administration;
 using GroundedBot.Commands.Fun;
+using System.Linq;
 
 namespace GroundedBot
 {
@@ -48,26 +49,15 @@ namespace GroundedBot
             string firstWord = message.Content.Split()[0];
             string command = firstWord.Substring(1, firstWord.Length - 1).ToLower();
 
-            switch (command)
-            {
-                // Administration
-                case "helper":
-                    Helper.DoCommand(message);
-                    break;
-                // Fun
-                case "aknakereso":
-                    Aknakereső.DoCommand(message);
-                    break;
-                case "fleux":
-                    Fleux.DoCommand(message);
-                    break;
-                case "hello":
-                    Hello.DoCommand(message);
-                    break;
-                case "say":
-                    Say.DoCommand(message);
-                    break;
-            }
+            // Administration
+            if (Helper.Aliases().Contains(command))
+                Helper.DoCommand(message);
+
+            // Fun
+            if (Fleux.Aliases().Contains(command))
+                Fleux.DoCommand(message);
+            if (Minesweeper.Aliases().Contains(command))
+                Minesweeper.DoCommand(message);
 
             return Task.CompletedTask;
         }

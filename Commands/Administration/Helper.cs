@@ -10,6 +10,16 @@ namespace GroundedBot.Commands.Administration
 {
     public class Helper
     {
+        public static string[] Aliases()
+        {
+            string[] aliases =
+            {
+                "helper",
+                "helped",
+                "help"
+            };
+            return aliases;
+        }
         public static void DoCommand(SocketMessage message)
         {
             var members = Members.PullData();

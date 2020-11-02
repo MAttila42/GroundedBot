@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.IO;
-
 using Discord;
 using Discord.WebSocket;
-
+using GroundedBot.Commands.Administration;
 using GroundedBot.Commands.Fun;
 
 namespace GroundedBot
@@ -15,7 +13,7 @@ namespace GroundedBot
     {
         public string Token { get; set; }
         public char Prefix { get; set; }
-        public string[] Commands { get; set; }
+        public string Owner { get; set; }
 
         public static BaseConfig GetConfig()
         {
@@ -25,17 +23,13 @@ namespace GroundedBot
     class Program
     {
         private DiscordSocketClient _client;
-
         static void Main() => new Program().MainAsync().GetAwaiter().GetResult();
-
         public async Task MainAsync()
         {
             _client = new DiscordSocketClient();
             _client.MessageReceived += CommandHandler;
             _client.Log += Log;
-
             var token = BaseConfig.GetConfig().Token;
-
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
             await Task.Delay(-1);
@@ -54,23 +48,26 @@ namespace GroundedBot
             string firstWord = message.Content.Split()[0];
             string command = firstWord.Substring(1, firstWord.Length - 1).ToLower();
 
-            if (BaseConfig.GetConfig().Commands.Contains(command))
-                switch (command)
-                {
-                    // Fun
-                    case "aknakereso":
-                        Aknakereső.DoCommand(message);
-                        break;
-                    case "hello":
-                        Hello.DoCommand(message);
-                        break;
-                    case "say":
-                        Say.DoCommand(message);
-                        break;
-                    case "fleux":
-                        Fleux.DoCommand(message);
-                        break;
-                }
+            switch (command)
+            {
+                // Administration
+                case "helper":
+                    Helper.DoCommand(message);
+                    break;
+                // Fun
+                case "aknakereso":
+                    Aknakereső.DoCommand(message);
+                    break;
+                case "fleux":
+                    Fleux.DoCommand(message);
+                    break;
+                case "hello":
+                    Hello.DoCommand(message);
+                    break;
+                case "say":
+                    Say.DoCommand(message);
+                    break;
+            }
 
             return Task.CompletedTask;
         }

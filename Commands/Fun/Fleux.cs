@@ -39,7 +39,7 @@ namespace GroundedBot.Commands.Fun
             if (firstWord == "cc")
             {
 
-                message.Channel.SendMessageAsync(""+message.Id);
+                await message.Channel.SendMessageAsync("" + message.Id);
 
             }
 
@@ -56,10 +56,10 @@ namespace GroundedBot.Commands.Fun
 
                 var zold = new Emoji("\U0001F7E2");
                 var piros = new Emoji("\U0001F7E5");
-                message.Channel.SendMessageAsync("Gondolj egy számra és jegyezd meg.");
-                var rMessage = (RestUserMessage) await message.Channel.GetMessageAsync(message.Id);
-                message.AddReactionAsync(zold, new RequestOptions());
-                message.AddReactionAsync(piros, new RequestOptions());
+                await message.Channel.SendMessageAsync("Gondolj egy számra és jegyezd meg.");
+                var rMessage = (RestUserMessage)await message.Channel.GetMessageAsync(message.Id);
+                await message.AddReactionAsync(zold, new RequestOptions());
+                await message.AddReactionAsync(piros, new RequestOptions());
 
             }
 
@@ -67,12 +67,12 @@ namespace GroundedBot.Commands.Fun
             if (firstWord == "floppy")
             {
                 int floppydb = int.Parse(FleuxFloppy.GetConfig().Floppy);
-                message.Channel.SendMessageAsync($"{message.Author}-nak/nek {floppydb} db :floppy_disk: van");
+                await message.Channel.SendMessageAsync($"{message.Author}-nak/nek {floppydb} db :floppy_disk: van");
 
             }
-            else if ( firstWord == "id")
+            else if (firstWord == "id")
             {
-                message.Channel.SendMessageAsync($"{message.Author} egyedi azonosítója: {message.Author.Id}");
+                await message.Channel.SendMessageAsync($"{message.Author} egyedi azonosítója: {message.Author.Id}");
                 dynamic adatok = new JObject();
                 adatok.id = message.Author.Id;
                 adatok.floppy = 0;
@@ -82,15 +82,15 @@ namespace GroundedBot.Commands.Fun
                     WriteIndented = true
                 };
 
-                File.WriteAllText("cica.json", JsonSerializer.Serialize(adatok.ToString() , options));
+                File.WriteAllText("cica.json", JsonSerializer.Serialize(adatok.ToString(), options));
 
-                message.Channel.SendMessageAsync($"Dinamikus JSON hozzáadva.");
+                await message.Channel.SendMessageAsync($"Dinamikus JSON hozzáadva.");
 
             }
             else if (firstWord == "cmd")
             {
                 int floppydb = int.Parse(FleuxFloppy.GetConfig().parancsok);
-                message.Channel.SendMessageAsync($"{message.Author} eddig {floppydb} db parancsot adott a botnak.");
+                await message.Channel.SendMessageAsync($"{message.Author} eddig {floppydb} db parancsot adott a botnak.");
 
             }
             else if (firstWord == "floppyadd")
@@ -116,7 +116,7 @@ namespace GroundedBot.Commands.Fun
                 floppyadd.Floppy = "" + fdb;
 
                 File.WriteAllText("cica.json", JsonSerializer.Serialize(floppyadd, options));
-                message.Channel.SendMessageAsync($"{message.Author}-nak/nek jóváírva {bedbi} :floppy_disk:");
+                await message.Channel.SendMessageAsync($"{message.Author}-nak/nek jóváírva {bedbi} :floppy_disk:");
 
             }
             else if (firstWord == "floppyel")
@@ -142,7 +142,7 @@ namespace GroundedBot.Commands.Fun
                 floppyadd.Floppy = "" + fdb;
 
                 File.WriteAllText("cica.json", JsonSerializer.Serialize(floppyadd, options));
-                message.Channel.SendMessageAsync($"{message.Author}-tól/től levonva {bedbi} :floppy_disk:");
+                await message.Channel.SendMessageAsync($"{message.Author}-tól/től levonva {bedbi} :floppy_disk:");
 
             }
         }

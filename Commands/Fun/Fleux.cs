@@ -56,7 +56,7 @@ namespace GroundedBot.Commands.Fun
 
             if (firstWord == "szabalyzat")
             {
-                message.Channel.SendMessageAsync("A szabályzatot megtalálod a <#770941212948824084> -ben.");
+                await message.Channel.SendMessageAsync("A szabályzatot megtalálod a <#770941212948824084> -ben.");
 
             }
             if (firstWord == "szam")

@@ -36,21 +36,21 @@ namespace GroundedBot.Commands.Fun
             int bedbi = 0;
             string firstWord = message.Content.Split()[1];
 
-            if (firstWord == "cc")
+            if (firstWord == "cc")//Törlés
             {
-
-                await message.Channel.SendMessageAsync("" + message.Id);
-
+                string amount = message.Content.Split()[2]; // Bekéred a darabot
+                int iamount = int.Parse(amount);
+                var messages = await message.Channel.GetMessagesAsync(iamount).FlattenAsync();//A darab nélkül mindent töröl.
+                    await ((ITextChannel)message.Channel).DeleteMessagesAsync(messages);
+                
             }
 
 
-            if (firstWord == "asd")
+            if (firstWord == "szabalyzat")
             {
-
+                message.Channel.SendMessageAsync("A szabályzatot megtalálod a <#770941212948824084> -ben.");
 
             }
-
-
             if (firstWord == "szam")
             {
 

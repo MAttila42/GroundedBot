@@ -22,10 +22,10 @@ namespace GroundedBot.Commands.Fun
         public static void DoCommand(SocketMessage message)
         {
             Random r = new Random();
-            int sor = r.Next(6, 15);
-            int oszlop = r.Next(6, 15);
-            int aknaDb = r.Next(sor * oszlop / 10, sor * oszlop / 3);
-            int segítség = 1;
+            int row = r.Next(6, 15);
+            int column = r.Next(6, 15);
+            int mines = r.Next(row * column / 10, row * column / 3);
+            int help = 1;
 
             string[] input = message.Content.Split();
 
@@ -33,18 +33,18 @@ namespace GroundedBot.Commands.Fun
             {
                 if (input.Length >= 2)
                 {
-                    sor = int.Parse(input[1]);
-                    aknaDb = r.Next(sor * oszlop / 10, sor * oszlop / 3);
+                    row = int.Parse(input[1]);
+                    mines = r.Next(row * column / 10, row * column / 3);
                 }
                 if (input.Length >= 3)
                 {
-                    oszlop = int.Parse(input[2]);
-                    aknaDb = r.Next(sor * oszlop / 10, sor * oszlop / 3);
+                    column = int.Parse(input[2]);
+                    mines = r.Next(row * column / 10, row * column / 3);
                 }
                 if (input.Length >= 4)
-                    aknaDb = int.Parse(input[3]);
+                    mines = int.Parse(input[3]);
                 if (input.Length >= 5)
-                    segítség = int.Parse(input[4]);
+                    help = int.Parse(input[4]);
             }
             catch (Exception)
             {
@@ -52,80 +52,80 @@ namespace GroundedBot.Commands.Fun
                 return;
             }
 
-            if (input.Length >= 6 || aknaDb > sor * oszlop)
+            if (input.Length >= 6 || mines > row * column)
             {
                 message.Channel.SendMessageAsync("Hibás használat!\n`.aknakereso <sor> <oszlop> <aknaDb> <segítség[0/1]>`\nAmelyik paraméternek nem adsz értéket, annak a Bot fog véletlenszerűen.");
                 return;
             }
 
-            int[,] tábla = new int[sor + 2, oszlop + 2];
-            for (int i = 0; i < aknaDb; i++)
+            int[,] table = new int[row + 2, column + 2];
+            for (int i = 0; i < mines; i++)
             {
                 int x;
                 int y;
                 do
                 {
-                    x = r.Next(1, sor + 1);
-                    y = r.Next(1, oszlop + 1);
-                } while (tábla[x, y] == -1);
+                    x = r.Next(1, row + 1);
+                    y = r.Next(1, column + 1);
+                } while (table[x, y] == -1);
 
-                tábla[x, y] = -1;
+                table[x, y] = -1;
                 for (int j = x - 1; j < x + 2; j++)
                     for (int k = y - 1; k < y + 2; k++)
-                        if (tábla[j, k] != -1)
-                            tábla[j, k]++;
+                        if (table[j, k] != -1)
+                            table[j, k]++;
             }
 
-            List<string> ki = new List<string>();
-            bool első = true;
-            ki.Add($"{sor}x{oszlop}, {aknaDb}db akna");
-            for (int i = 1; i <= sor; i++)
+            List<string> output = new List<string>();
+            bool first = true;
+            output.Add($"{row}x{column}, {mines}db akna");
+            for (int i = 1; i <= row; i++)
             {
-                string currentSor = "";
-                for (int j = 1; j <= oszlop; j++)
-                    switch (tábla[i, j])
+                string currentRow = "";
+                for (int j = 1; j <= column; j++)
+                    switch (table[i, j])
                     {
                         case 0:
-                            if (első && segítség == 1)
+                            if (first && help == 1)
                             {
-                                currentSor += ":zero:";
-                                első = false;
+                                currentRow += ":zero:";
+                                first = false;
                             }
-                            else currentSor += "||:zero:||";
+                            else currentRow += "||:zero:||";
                             break;
                         case 1:
-                            currentSor += "||:one:||";
+                            currentRow += "||:one:||";
                             break;
                         case 2:
-                            currentSor += "||:two:||";
+                            currentRow += "||:two:||";
                             break;
                         case 3:
-                            currentSor += "||:three:||";
+                            currentRow += "||:three:||";
                             break;
                         case 4:
-                            currentSor += "||:four:||";
+                            currentRow += "||:four:||";
                             break;
                         case 5:
-                            currentSor += "||:five:||";
+                            currentRow += "||:five:||";
                             break;
                         case 6:
-                            currentSor += "||:six:||";
+                            currentRow += "||:six:||";
                             break;
                         case 7:
-                            currentSor += "||:seven:||";
+                            currentRow += "||:seven:||";
                             break;
                         case 8:
-                            currentSor += "||:eight:||";
+                            currentRow += "||:eight:||";
                             break;
                         case -1:
-                            currentSor += "||:boom:||";
+                            currentRow += "||:boom:||";
                             break;
                     }
-                ki.Add(currentSor);
+                output.Add(currentRow);
             }
 
             string msg = "";
-            foreach (var i in ki)
+            foreach (var i in output)
                 msg += i + "\n";
 
             message.Channel.SendMessageAsync(msg.ToString());

@@ -63,6 +63,17 @@ namespace GroundedBot.Commands.Fun
                     await ((ITextChannel)message.Channel).DeleteMessagesAsync(messages);
                 
             }
+            if(firstWord == "flood")
+            {
+                string amount = message.Content.Split()[2]; // Bekéred a darabot
+                int iamount = int.Parse(amount);
+                for (int i = 0; i < iamount; i++)
+                {
+                    await message.Channel.SendMessageAsync($"Ez a {i}. üzenet.");
+                }
+            }
+
+
 
 
             if (firstWord == "szabalyzat")

@@ -50,11 +50,11 @@ namespace GroundedBot
             string command = firstWord.Substring(1, firstWord.Length - 1).ToLower();
 
             // Administration
-            if (Helper.Aliases().Contains(command))
+            if (Helper.Aliases().Contains(command) && Helper.HasPerm(message))
                 Helper.DoCommand(message);
 
             // Fun
-            if (Fleux.Aliases().Contains(command))
+            if (Fleux.Aliases().Contains(command) && Fleux.HasPerm(message))
                 Fleux.DoCommand(message);
             if (Minesweeper.Aliases().Contains(command))
                 Minesweeper.DoCommand(message);

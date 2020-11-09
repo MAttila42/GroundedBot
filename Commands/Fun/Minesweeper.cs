@@ -18,6 +18,19 @@ namespace GroundedBot.Commands.Fun
             };
             return aliases;
         }
+        private static bool HasPerm(SocketMessage message)
+        {
+            bool hasPerm = false;
+            foreach (var i in (message.Author as SocketGuildUser).Roles)
+                if (i.Id == 680465501599563794 || // Ptan+
+                    i.Id == 642864137960947755 || // Programtan
+                    i.Id == 727070093816758352) // Moderátor
+                {
+                    hasPerm = true;
+                    break;
+                }
+            return hasPerm;
+        }
 
         public static void DoCommand(SocketMessage message)
         {
@@ -28,6 +41,11 @@ namespace GroundedBot.Commands.Fun
             int help = 1;
 
             string[] input = message.Content.Split();
+            if (!HasPerm(message) && input.Length > 1)
+            {
+                message.Channel.SendMessageAsync("❌ Only Ptan+ members can generate custom boards!");
+                return;
+            }
 
             try
             {
@@ -48,13 +66,23 @@ namespace GroundedBot.Commands.Fun
             }
             catch (Exception)
             {
-                message.Channel.SendMessageAsync("Hibás használat!\n`.aknakereso <sor> <oszlop> <aknaDb> <segítség[0/1]>`\nAmelyik paraméternek nem adsz értéket, annak a Bot fog véletlenszerűen.");
+                message.Channel.SendMessageAsync("❌ Uh, oh! Something's not right.");
                 return;
             }
 
-            if (input.Length >= 6 || mines > row * column)
+            if (input.Length >= 6)
             {
-                message.Channel.SendMessageAsync("Hibás használat!\n`.aknakereso <sor> <oszlop> <aknaDb> <segítség[0/1]>`\nAmelyik paraméternek nem adsz értéket, annak a Bot fog véletlenszerűen.");
+                message.Channel.SendMessageAsync("❌ Too many parameters!");
+                return;
+            }
+            else if (row > 20 || column > 20)
+            {
+                message.Channel.SendMessageAsync("❌ Don't spam! No more than 20 rows or columns are allowed.");
+                return;
+            }
+            else if (mines > row * column)
+            {
+                message.Channel.SendMessageAsync("❌ Too many mines!");
                 return;
             }
 
@@ -78,7 +106,7 @@ namespace GroundedBot.Commands.Fun
 
             List<string> output = new List<string>();
             bool first = true;
-            output.Add($"{row}x{column}, {mines}db akna");
+            output.Add($"{row}x{column}, {mines} mine");
             for (int i = 1; i <= row; i++)
             {
                 string currentRow = "";
@@ -127,6 +155,9 @@ namespace GroundedBot.Commands.Fun
             string msg = "";
             foreach (var i in output)
                 msg += i + "\n";
+
+            if (msg.Length > 2000)
+                message.Channel.SendMessageAsync("❌ 2000+ characters!");
 
             message.Channel.SendMessageAsync(msg.ToString());
         }

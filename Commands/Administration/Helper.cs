@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text.Json;
-using System.IO;
 using Discord.WebSocket;
 using GroundedBot.Json;
-using Discord.Commands;
 
 namespace GroundedBot.Commands.Administration
 {
@@ -20,10 +16,22 @@ namespace GroundedBot.Commands.Administration
             };
             return aliases;
         }
+        public static bool HasPerm(SocketMessage message)
+        {
+            bool hasPerm = false;
+            foreach (var i in (message.Author as SocketGuildUser).Roles)
+                if (i.Id == 642864137960947755 || // Programtan
+                    i.Id == 727070093816758352) // Moderátor
+                {
+                    hasPerm = true;
+                    break;
+                }
+            return hasPerm;
+        }
         public static void DoCommand(SocketMessage message)
         {
-            var members = Members.PullData();
-            try { members.Add(new Members(message.Content.Split()[1])); }
+            var members = Member.PullData();
+            try { members.Add(new Member(ulong.Parse(message.Content.Split()[1]))); }
             catch (Exception) { }
 
             string output = "";
@@ -49,7 +57,7 @@ namespace GroundedBot.Commands.Administration
 
             message.Channel.SendMessageAsync(output);
 
-            Members.PushData(members);
+            Member.PushData(members);
         }
     }
 }

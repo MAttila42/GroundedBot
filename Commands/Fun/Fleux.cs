@@ -37,6 +37,17 @@ namespace GroundedBot.Commands.Fun
             };
             return aliases;
         }
+        public static bool HasPerm(SocketMessage message)
+        {
+            bool hasPerm = false;
+            foreach (var i in (message.Author as SocketGuildUser).Roles)
+                if (i.Id == 642864137960947755) // Programtan
+                {
+                    hasPerm = true;
+                    break;
+                }
+            return hasPerm;
+        }
 
         public static async void DoCommand(SocketMessage message)
         {

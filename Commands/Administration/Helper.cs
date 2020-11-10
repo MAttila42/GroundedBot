@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Discord.WebSocket;
 using GroundedBot.Json;
 
@@ -20,15 +21,15 @@ namespace GroundedBot.Commands.Administration
         {
             bool hasPerm = false;
             foreach (var i in (message.Author as SocketGuildUser).Roles)
-                if (i.Id == 642864137960947755 || // Programtan
-                    i.Id == 727070093816758352) // Moderátor
+                if (BaseConfig.GetConfig().Roles.Admin.Contains(i.Id) ||
+                    BaseConfig.GetConfig().Roles.Mod.Contains(i.Id))
                 {
                     hasPerm = true;
                     break;
                 }
             return hasPerm;
         }
-        public static void DoCommand(SocketMessage message)
+        public static async void DoCommand(SocketMessage message)
         {
             var members = Member.PullData();
             try { members.Add(new Member(ulong.Parse(message.Content.Split()[1]))); }
@@ -55,7 +56,7 @@ namespace GroundedBot.Commands.Administration
                 output += "\n";
             }
 
-            message.Channel.SendMessageAsync(output);
+            await message.Channel.SendMessageAsync(output);
 
             Member.PushData(members);
         }

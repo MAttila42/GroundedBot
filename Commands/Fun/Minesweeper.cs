@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Discord;
 using Discord.WebSocket;
 
 namespace GroundedBot.Commands.Fun
@@ -22,9 +24,9 @@ namespace GroundedBot.Commands.Fun
         {
             bool hasPerm = false;
             foreach (var i in (message.Author as SocketGuildUser).Roles)
-                if (i.Id == 680465501599563794 || // Ptan+
-                    i.Id == 642864137960947755 || // Programtan
-                    i.Id == 727070093816758352) // Moderátor
+                if (BaseConfig.GetConfig().Roles.Admin.Contains(i.Id) ||
+                    BaseConfig.GetConfig().Roles.Mod.Contains(i.Id) ||
+                    BaseConfig.GetConfig().Roles.PtanP.Contains(i.Id))
                 {
                     hasPerm = true;
                     break;
@@ -32,7 +34,7 @@ namespace GroundedBot.Commands.Fun
             return hasPerm;
         }
 
-        public static void DoCommand(SocketMessage message)
+        public static async void DoCommand(SocketMessage message)
         {
             Random r = new Random();
             int row = r.Next(6, 15);
@@ -43,7 +45,7 @@ namespace GroundedBot.Commands.Fun
             string[] input = message.Content.Split();
             if (!HasPerm(message) && input.Length > 1)
             {
-                message.Channel.SendMessageAsync("❌ Only Ptan+ members can generate custom boards!");
+                await message.Channel.SendMessageAsync("❌ Only Ptan+ members can generate custom boards!");
                 return;
             }
 
@@ -66,23 +68,23 @@ namespace GroundedBot.Commands.Fun
             }
             catch (Exception)
             {
-                message.Channel.SendMessageAsync("❌ Uh, oh! Something's not right.");
+                await message.Channel.SendMessageAsync("❌ Uh, oh! Something's not right.");
                 return;
             }
 
             if (input.Length >= 6)
             {
-                message.Channel.SendMessageAsync("❌ Too many parameters!");
+                await message.Channel.SendMessageAsync("❌ Too many parameters!");
                 return;
             }
             else if (row > 20 || column > 20)
             {
-                message.Channel.SendMessageAsync("❌ Don't spam! No more than 20 rows or columns are allowed.");
+                await message.Channel.SendMessageAsync("❌ Don't spam! No more than 20 rows or columns are allowed.");
                 return;
             }
             else if (mines > row * column)
             {
-                message.Channel.SendMessageAsync("❌ Too many mines!");
+                await message.Channel.SendMessageAsync("❌ Too many mines!");
                 return;
             }
 
@@ -157,9 +159,9 @@ namespace GroundedBot.Commands.Fun
                 msg += i + "\n";
 
             if (msg.Length > 2000)
-                message.Channel.SendMessageAsync("❌ 2000+ characters!");
+                await message.Channel.SendMessageAsync("❌ 2000+ characters!");
 
-            message.Channel.SendMessageAsync(msg.ToString());
+            await message.Channel.SendMessageAsync(msg.ToString());
         }
     }
 }

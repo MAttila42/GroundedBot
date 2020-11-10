@@ -41,7 +41,7 @@ namespace GroundedBot.Commands.Fun
         {
             bool hasPerm = false;
             foreach (var i in (message.Author as SocketGuildUser).Roles)
-                if (i.Id == 642864137960947755) // Programtan
+                if (BaseConfig.GetConfig().Roles.Admin.Contains(i.Id))
                 {
                     hasPerm = true;
                     break;

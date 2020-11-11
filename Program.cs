@@ -61,7 +61,7 @@ namespace GroundedBot
             return Task.CompletedTask;
         }
 
-        private async Task<Task> CommandHandler(SocketMessage message)
+        private Task CommandHandler(SocketMessage message)
         {
             if (!message.Content.StartsWith(BaseConfig.GetConfig().Prefix) || message.Author.IsBot)
                 return Task.CompletedTask;
@@ -77,8 +77,6 @@ namespace GroundedBot
                 Fleux.DoCommand(message);
             if (Minesweeper.Aliases().Contains(command))
                 Minesweeper.DoCommand(message);
-
-            await Log("command", message);
 
             return Task.CompletedTask;
         }

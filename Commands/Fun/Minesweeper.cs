@@ -162,6 +162,7 @@ namespace GroundedBot.Commands.Fun
                 await message.Channel.SendMessageAsync("❌ 2000+ characters!");
 
             await message.Channel.SendMessageAsync(msg.ToString());
+            await Program.Log("command", message);
         }
     }
 }

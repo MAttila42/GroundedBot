@@ -12,12 +12,11 @@ namespace GroundedBot.Commands.Administration
             string[] aliases =
             {
                 "helper",
-                "helped",
-                "help"
+                "helped"
             };
             return aliases;
         }
-        public static bool HasPerm(SocketMessage message)
+        static bool HasPerm(SocketMessage message)
         {
             bool hasPerm = false;
             foreach (var i in (message.Author as SocketGuildUser).Roles)
@@ -31,32 +30,71 @@ namespace GroundedBot.Commands.Administration
         }
         public static async void DoCommand(SocketMessage message)
         {
-            var members = Member.PullData();
-            try { members.Add(new Member(ulong.Parse(message.Content.Split()[1]))); }
-            catch (Exception) { }
+            string[] m = message.Content.Split();
+            string subCommand;
 
-            string output = "";
-            foreach (var i in members)
+            try { subCommand = m[1]; }
+            catch (Exception)
             {
-                output += $"{i.ID} ID-jű felhasználónak {i.Help} segítségpontja van.\nItemjei:\n";
-                if (i.Items.Count != 0)
-                    foreach (var j in i.Items)
-                        output += $" - {j}\n";
-                else
-                    output += " - a no.\n";
-                output += "\nyear? ";
-                try
-                {
-                    output += $"{DateTime.Parse(i.PPlusDate).Year}\n";
-                }
-                catch (Exception)
-                {
-                    output += "i dunno :(\n";
-                }
-                output += "\n";
+                await message.Channel.SendMessageAsync("❌ Missing parameters!");
+                return;
             }
 
-            await message.Channel.SendMessageAsync(output);
+            switch (subCommand)
+            {
+                case "test":
+                    break;
+                case "request":
+                    break;
+                case "approve":
+                    if (HasPerm(message))
+                        Approve(message);
+                    break;
+                default:
+                    await message.Channel.SendMessageAsync("❌ Unkown subcommand!");
+                    break;
+            }
+        }
+        static async void Approve(SocketMessage message)
+        {
+            var members = Member.PullData();
+            string[] m = message.Content.Split();
+            byte help;
+
+            if (m.Length < 4 || m.Length > 4 || message.MentionedUsers.Count() > 1)
+            {
+                await message.Channel.SendMessageAsync($"❌ {(m.Length < 4 ? "Missing" : "Too many")} parameters!");
+                return;
+            }
+            try { help = byte.Parse(m[3]); }
+            catch (Exception)
+            {
+                await message.Channel.SendMessageAsync("❌ Invalid score!");
+                return;
+            }
+            if (help < 1 || help > 5)
+            {
+                await message.Channel.SendMessageAsync("❌ Invalid score!");
+                return;
+            }
+
+            ulong id = Program.GetUserId(message, m[2]);
+            if (id == 0)
+                return;
+
+            try { members[members.IndexOf(members.Find(x => x.ID == id))].Help += help; }
+            catch (Exception) { members.Add(new Member(id, help)); }
+
+            try
+            {
+                var user = Program._client.GetUser(id);
+                await message.Channel.SendMessageAsync($"**{user.Username}**'s helping has been approved with the score: **{help}**.");
+            }
+            catch (Exception)
+            {
+                await message.Channel.SendMessageAsync("❌ Unknown user!");
+                return;
+            }
 
             Member.PushData(members);
         }

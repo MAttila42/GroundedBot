@@ -1,54 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Discord;
-using Discord.WebSocket;
 
 namespace GroundedBot.Commands.Fun
 {
     class Minesweeper
     {
-        public static string[] Aliases()
-        {
-            string[] aliases =
-            {
-                "minesweeper",
-                "ms",
-                "aknakereso",
-                "aknakereső",
-                "ak"
-            };
-            return aliases;
-        }
-        private static bool HasPerm(SocketMessage message)
-        {
-            bool hasPerm = false;
-            foreach (var i in (message.Author as SocketGuildUser).Roles)
-                if (BaseConfig.GetConfig().Roles.Admin.Contains(i.Id) ||
-                    BaseConfig.GetConfig().Roles.Mod.Contains(i.Id) ||
-                    BaseConfig.GetConfig().Roles.PtanP.Contains(i.Id))
-                {
-                    hasPerm = true;
-                    break;
-                }
-            return hasPerm;
-        }
+        public static List<ulong> AllowedRoles =
+            new List<ulong>(BaseConfig.GetConfig().Roles.PtanP);
 
-        public static async void DoCommand(SocketMessage message)
+        public static string[] Aliases =
         {
+            "minesweeper",
+            "ms",
+            "aknakereso",
+            "aknakereső",
+            "ak"
+        };
+
+        public static async void DoCommand()
+        {
+            var message = Recieved.Message;
+
+            await Program.Log("command");
+
             Random r = new Random();
-            int row = r.Next(6, 15);
-            int column = r.Next(6, 15);
-            int mines = r.Next(row * column / 10, row * column / 3);
+            int row = r.Next(6, 10);
+            int column = r.Next(6, 10);
+            int mines = r.Next(row * column / 10, row * column / 4);
             int help = 1;
-
             string[] input = message.Content.Split();
-            if (!HasPerm(message) && input.Length > 1)
+
+            if (!Program.HasPerm(AllowedRoles) && input.Length > 1)
             {
                 await message.Channel.SendMessageAsync("❌ Only Ptan+ members can generate custom boards!");
                 return;
             }
-
             try
             {
                 if (input.Length >= 2)
@@ -158,11 +145,13 @@ namespace GroundedBot.Commands.Fun
             foreach (var i in output)
                 msg += i + "\n";
 
-            if (msg.Length > 2000)
-                await message.Channel.SendMessageAsync("❌ 2000+ characters!");
+            if (msg.Count(x => x == '|') / 4 > 100)
+            {
+                await message.Channel.SendMessageAsync("❌ 100+ fields!");
+                return;
+            }
 
-            await message.Channel.SendMessageAsync(msg.ToString());
-            await Program.Log("command", message);
+            await message.Channel.SendMessageAsync(msg);
         }
     }
 }

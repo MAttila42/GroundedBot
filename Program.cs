@@ -1,38 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using System.Text.Json;
-using System.IO;
+
 using Discord;
 using Discord.WebSocket;
-using GroundedBot.Commands.Administration;
+
+using GroundedBot.Json;
+//using GroundedBot.Commands.Administration;
 using GroundedBot.Commands.Fun;
-using System.Linq;
 
 namespace GroundedBot
 {
-    public class Role
+    public class Recieved
     {
-        public ulong[] Admin { get; set; }
-        public ulong[] Mod { get; set; }
-        public ulong[] PtanP { get; set; }
+        public static SocketMessage Message;
     }
-    public class Channel
-    {
-        public ulong[] BotTerminal { get; set; }
-    }
-    public class BaseConfig
-    {
-        public string Token { get; set; }
-        public char Prefix { get; set; }
-        public ulong Owner { get; set; }
-        public Role Roles { get; set; }
-        public Channel Channels { get; set; }
 
-        public static BaseConfig GetConfig()
-        {
-            return JsonSerializer.Deserialize<BaseConfig>(File.ReadAllText("BaseConfig.json"));
-        }
-    }
     class Program
     {
         public static DiscordSocketClient _client;
@@ -40,6 +24,7 @@ namespace GroundedBot
         public async Task MainAsync()
         {
             _client = new DiscordSocketClient();
+            _client.MessageReceived += EventHandler;
             _client.MessageReceived += CommandHandler;
             _client.Log += Log;
             var token = BaseConfig.GetConfig().Token;
@@ -54,6 +39,16 @@ namespace GroundedBot
             return Task.CompletedTask;
         }
 
+        private Task EventHandler(SocketMessage message)
+        {
+            if (message.Author.IsBot)
+                return Task.CompletedTask;
+
+            Recieved.Message = message;
+
+
+            return Task.CompletedTask;
+        }
         private Task CommandHandler(SocketMessage message)
         {
             if (!message.Content.StartsWith(BaseConfig.GetConfig().Prefix) || message.Author.IsBot)
@@ -62,35 +57,69 @@ namespace GroundedBot
             string command = firstWord.Substring(1, firstWord.Length - 1).ToLower();
 
             // Administration
-            if (Helper.Aliases().Contains(command))
-                Helper.DoCommand(message);
+            //if (true)
 
             // Fun
-            if (Fleux.Aliases().Contains(command) && Fleux.HasPerm(message))
-                Fleux.DoCommand(message);
-            if (Minesweeper.Aliases().Contains(command))
-                Minesweeper.DoCommand(message);
+            if (Minesweeper.Aliases.Contains(command))
+                Minesweeper.DoCommand();
 
             return Task.CompletedTask;
         }
 
-        public static async Task Log(string mode, SocketMessage message)
+        /// <summary>
+        /// Meghatározható típusú logolás a terminálba és a BaseConfigban beállított szobákba.
+        /// </summary>
+        /// <param name="mode">command, rankup</param>
+        /// <returns></returns>
+        public static async Task Log(string mode)
         {
+            var message = Recieved.Message;
             Console.Write(DateTime.Now.ToString("yyyy.MM.dd. HH:mm:ss") + " ");
+            string output = "";
             switch (mode)
             {
                 case "command":
-                    string output = $"Command run - {message.Author.Username}#{message.Author.Discriminator} in #{message.Channel}: {message.Content}";
-                    Console.WriteLine(output);
-                    foreach (var id in BaseConfig.GetConfig().Channels.BotTerminal)
-                        await ((IMessageChannel)_client.GetChannel(id)).SendMessageAsync(output);
+                    output = $"Command run - {message.Author.Username}#{message.Author.Discriminator} in #{message.Channel}: {message.Content}";
                     break;
+
+                default:
+                    return;
             }
+            foreach (var id in BaseConfig.GetConfig().Channels.BotTerminal)
+                await ((IMessageChannel)_client.GetChannel(id)).SendMessageAsync(output);
+            Console.WriteLine(output);
         }
-        public static ulong GetUserId(SocketMessage message, string inputName)
+        /// <summary>
+        /// Ellenőrzi, hogy az üzenetküldőnek van-e megfelelő rangja
+        /// </summary>
+        /// <param name="allowedRoles"></param>
+        /// <returns></returns>
+        public static bool HasPerm(List<ulong> allowedRoles)
         {
+            bool hasPerm = false;
+            foreach (var role in (Recieved.Message.Author as SocketGuildUser).Roles)
+                if (allowedRoles.Contains(role.Id))
+                {
+                    hasPerm = true;
+                    break;
+                }
+            return hasPerm;
+        }
+        /// <summary>
+        /// ID, ping, név alapján megkeresi a keresett felhasználót és visszaadja az ID-jét.
+        /// </summary>
+        /// <param name="inputName"></param>
+        /// <returns></returns>
+        public static ulong GetUserId(string inputName)
+        {
+            var message = Recieved.Message;
             ulong id = 0;
-            try { id = ulong.Parse(inputName); }
+            try
+            {
+                id = ulong.Parse(inputName);
+                if (_client.GetUser(id) == null)
+                    throw new Exception();
+            }
             catch (Exception)
             {
                 try { id = message.MentionedUsers.First().Id; }
@@ -108,28 +137,22 @@ namespace GroundedBot
                         bool userMissing = true;
                         bool multipleFound = false;
                         if (userStr.Length == 2)
-                        {
                             foreach (var user in users)
-                            {
                                 if (user.Username == userStr.First() && user.Discriminator == userStr.Last())
                                 {
                                     id = user.Id;
                                     userMissing = false;
                                     break;
                                 }
-                            }
-                        }
                         if (userMissing && userStr.Length == 2)
                         {
                             int usersFound = 0;
                             foreach (var user in users)
-                            {
                                 if (user.Username.ToLower() == userStr.First().ToLower() && user.Discriminator == userStr.Last())
                                 {
                                     id = user.Id;
                                     usersFound++;
                                 }
-                            }
                             if (usersFound == 1)
                                 userMissing = false;
                             else if (usersFound > 1)
@@ -139,13 +162,11 @@ namespace GroundedBot
                         {
                             int usersFound = 0;
                             foreach (var user in users)
-                            {
                                 if (user.Username == userStr.First())
                                 {
                                     id = user.Id;
                                     usersFound++;
                                 }
-                            }
                             if (usersFound == 1)
                                 userMissing = false;
                             else if (usersFound > 1)
@@ -155,13 +176,11 @@ namespace GroundedBot
                         {
                             int usersFound = 0;
                             foreach (var user in users)
-                            {
                                 if (user.Username.ToLower() == userStr.First().ToLower())
                                 {
                                     id = user.Id;
                                     usersFound++;
                                 }
-                            }
                             if (usersFound == 1)
                                 userMissing = false;
                             else if (usersFound > 1)

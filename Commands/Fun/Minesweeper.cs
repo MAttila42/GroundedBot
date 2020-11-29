@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GroundedBot.Json;
 
 namespace GroundedBot.Commands.Fun
 {
     class Minesweeper
     {
-        public static List<ulong> AllowedRoles =
+        public static List<ulong> RequiredRoles =
             new List<ulong>(BaseConfig.GetConfig().Roles.PtanP);
 
         public static string[] Aliases =
@@ -20,10 +21,9 @@ namespace GroundedBot.Commands.Fun
 
         public static async void DoCommand()
         {
-            var message = Recieved.Message;
-
             await Program.Log("command");
 
+            var message = Recieved.Message;
             Random r = new Random();
             int row = r.Next(6, 10);
             int column = r.Next(6, 10);
@@ -31,7 +31,7 @@ namespace GroundedBot.Commands.Fun
             int help = 1;
             string[] input = message.Content.Split();
 
-            if (!Program.HasPerm(AllowedRoles) && input.Length > 1)
+            if (!Program.HasPerm(RequiredRoles) && input.Length > 1)
             {
                 await message.Channel.SendMessageAsync("❌ Only Ptan+ members can generate custom boards!");
                 return;

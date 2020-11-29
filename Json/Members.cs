@@ -5,7 +5,11 @@ using System.Text.Json;
 
 namespace GroundedBot.Json
 {
-    public class Members
+    /// <summary>
+    /// Fő adatbázis, a tagok általános adataival.
+    /// <para>ID, Floppy, Help, PPlusDate, PPlusRank, Items</para>
+    /// </summary>
+    class Members
     {
         public ulong ID { get; set; }
         public int Floppy { get; set; }

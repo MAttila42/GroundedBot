@@ -13,12 +13,14 @@ namespace GroundedBot.Json
     {
         public ulong[] BotChannel { get; set; }
         public ulong[] BotTerminal { get; set; }
+        public ulong PingRequests { get; set; }
+        public ulong AnswerRequests { get; set; }
     }
     /// <summary>
     /// A Bot működéséhez elengedhetetlen configok.
     /// <para>Token, Prefix, Roles, Channels</para>
     /// </summary>
-    public class BaseConfig
+    class BaseConfig
     {
         public string Token { get; set; }
         public char Prefix { get; set; }

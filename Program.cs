@@ -7,7 +7,8 @@ using Discord;
 using Discord.WebSocket;
 
 using GroundedBot.Json;
-//using GroundedBot.Commands.Administration;
+using GroundedBot.Commands.Administration;
+using GroundedBot.Commands.Dev;
 using GroundedBot.Commands.Fun;
 
 namespace GroundedBot
@@ -57,8 +58,11 @@ namespace GroundedBot
             string command = firstWord.Substring(1, firstWord.Length - 1).ToLower();
 
             // Administration
-            //if (true)
-
+            if (PingRequest.Aliases.Contains(command))
+                PingRequest.DoCommand();
+            // Dev
+            if (Test.Aliases.Contains(command) && HasPerm(Test.RequiredRoles))
+                Test.DoCommand();
             // Fun
             if (Minesweeper.Aliases.Contains(command))
                 Minesweeper.DoCommand();
@@ -75,18 +79,25 @@ namespace GroundedBot
         {
             var message = Recieved.Message;
             Console.Write(DateTime.Now.ToString("yyyy.MM.dd. HH:mm:ss") + " ");
-            string output = "";
+            string output;
             switch (mode)
             {
                 case "command":
                     output = $"Command run - {message.Author.Username}#{message.Author.Discriminator} in #{message.Channel}: {message.Content}";
                     break;
+                //case "ping-request":
+                //    break;
+                //case "ping-approve":
+                //    break;
+                //case "ping-deny":
+                //    break;
 
                 default:
                     return;
             }
             foreach (var id in BaseConfig.GetConfig().Channels.BotTerminal)
-                await ((IMessageChannel)_client.GetChannel(id)).SendMessageAsync(output);
+                try { await ((IMessageChannel)_client.GetChannel(id)).SendMessageAsync(output); }
+                catch (Exception) { }
             Console.WriteLine(output);
         }
         /// <summary>
@@ -98,12 +109,38 @@ namespace GroundedBot
         {
             bool hasPerm = false;
             foreach (var role in (Recieved.Message.Author as SocketGuildUser).Roles)
-                if (allowedRoles.Contains(role.Id))
+                if (allowedRoles.Contains(role.Id) ||
+                    BaseConfig.GetConfig().Roles.Admin.Contains(role.Id))
                 {
                     hasPerm = true;
                     break;
                 }
             return hasPerm;
+        }
+        public static ulong GetRoleId(string inputName)
+        {
+            var message = Recieved.Message;
+            ulong id = 0;
+            try
+            {
+                id = ulong.Parse(inputName);
+                if (((SocketGuildChannel)message.Channel).Guild.GetRole(id) == null)
+                    throw new Exception();
+            }
+            catch (Exception)
+            {
+                try { id = message.MentionedRoles.First().Id; }
+                catch (Exception)
+                {
+                    var roles = ((SocketGuildChannel)message.Channel).Guild.Roles;
+                    foreach (var role in roles)
+                        if (inputName.ToLower() == role.Name.ToLower())
+                            return role.Id;
+                }
+            }
+            if (id == 0)
+                message.Channel.SendMessageAsync("❌ Unknown role!");
+            return id;
         }
         /// <summary>
         /// ID, ping, név alapján megkeresi a keresett felhasználót és visszaadja az ID-jét.

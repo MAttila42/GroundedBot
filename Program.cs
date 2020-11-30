@@ -61,10 +61,10 @@ namespace GroundedBot
             if (PingRequest.Aliases.Contains(command))
                 PingRequest.DoCommand();
             // Dev
-            if (Test.Aliases.Contains(command) && HasPerm(Test.RequiredRoles))
+            if (Test.Aliases.Contains(command) && BotChannel() && HasPerm(Test.RequiredRoles))
                 Test.DoCommand();
             // Fun
-            if (Minesweeper.Aliases.Contains(command))
+            if (Minesweeper.Aliases.Contains(command) && BotChannel())
                 Minesweeper.DoCommand();
 
             return Task.CompletedTask;
@@ -85,12 +85,6 @@ namespace GroundedBot
                 case "command":
                     output = $"Command run - {message.Author.Username}#{message.Author.Discriminator} in #{message.Channel}: {message.Content}";
                     break;
-                //case "ping-request":
-                //    break;
-                //case "ping-approve":
-                //    break;
-                //case "ping-deny":
-                //    break;
 
                 default:
                     return;
@@ -107,15 +101,17 @@ namespace GroundedBot
         /// <returns></returns>
         public static bool HasPerm(List<ulong> allowedRoles)
         {
-            bool hasPerm = false;
             foreach (var role in (Recieved.Message.Author as SocketGuildUser).Roles)
                 if (allowedRoles.Contains(role.Id) ||
                     BaseConfig.GetConfig().Roles.Admin.Contains(role.Id))
-                {
-                    hasPerm = true;
-                    break;
-                }
-            return hasPerm;
+                    return true;
+            return false;
+        }
+        public static bool BotChannel()
+        {
+            if (BaseConfig.GetConfig().Channels.BotChannel.Contains(Recieved.Message.Channel.Id))
+                return true;
+            return false;
         }
         public static ulong GetRoleId(string inputName)
         {

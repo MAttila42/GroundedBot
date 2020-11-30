@@ -7,9 +7,9 @@ using Discord;
 using Discord.WebSocket;
 
 using GroundedBot.Json;
-using GroundedBot.Commands.Administration;
 using GroundedBot.Commands.Dev;
 using GroundedBot.Commands.Fun;
+using GroundedBot.Commands.Main;
 
 namespace GroundedBot
 {
@@ -57,15 +57,17 @@ namespace GroundedBot
             string firstWord = message.Content.Split()[0];
             string command = firstWord.Substring(1, firstWord.Length - 1).ToLower();
 
-            // Administration
-            if (PingRequest.Aliases.Contains(command))
-                PingRequest.DoCommand();
             // Dev
             if (Test.Aliases.Contains(command) && BotChannel() && HasPerm(Test.RequiredRoles))
                 Test.DoCommand();
             // Fun
             if (Minesweeper.Aliases.Contains(command) && BotChannel())
                 Minesweeper.DoCommand();
+            // Main
+            if (PingRequest.Aliases.Contains(command))
+                PingRequest.DoCommand();
+            if (AnswerRequest.Aliases.Contains(command))
+                AnswerRequest.DoCommand();
 
             return Task.CompletedTask;
         }
@@ -75,7 +77,7 @@ namespace GroundedBot
         /// </summary>
         /// <param name="mode">command, rankup</param>
         /// <returns></returns>
-        public static async Task Log(string mode)
+        public async static Task Log(string mode)
         {
             var message = Recieved.Message;
             Console.Write(DateTime.Now.ToString("yyyy.MM.dd. HH:mm:ss") + " ");
@@ -107,12 +109,21 @@ namespace GroundedBot
                     return true;
             return false;
         }
+        /// <summary>
+        /// Ellenőrzi, hogy az üzenet bot szobába volt-e küldve.
+        /// </summary>
+        /// <returns></returns>
         public static bool BotChannel()
         {
             if (BaseConfig.GetConfig().Channels.BotChannel.Contains(Recieved.Message.Channel.Id))
                 return true;
             return false;
         }
+        /// <summary>
+        /// ID, név alapján megkeresi a keresett rangot és visszaadja az ID-jét.
+        /// </summary>
+        /// <param name="inputName"></param>
+        /// <returns></returns>
         public static ulong GetRoleId(string inputName)
         {
             var message = Recieved.Message;

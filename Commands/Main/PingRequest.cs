@@ -5,7 +5,7 @@ using Discord;
 using Discord.WebSocket;
 using GroundedBot.Json;
 
-namespace GroundedBot.Commands.Administration
+namespace GroundedBot.Commands.Main
 {
     class PingRequest
     {
@@ -74,7 +74,7 @@ namespace GroundedBot.Commands.Administration
         {
             var requests = PingRequests.PullData();
             Random r = new Random();
-            var pingrequestsChannel = ((IMessageChannel)Program._client.GetChannel(BaseConfig.GetConfig().Channels.PingRequests));
+            var pingRequestsChannel = (IMessageChannel)Program._client.GetChannel(BaseConfig.GetConfig().Channels.PingRequests);
 
             var responseEmbed = new EmbedBuilder()
                 .WithAuthor(author =>
@@ -88,7 +88,7 @@ namespace GroundedBot.Commands.Administration
                 .WithColor(role.Color).Build();
             var response = await message.Channel.SendMessageAsync(null, embed: responseEmbed);
 
-            var embedMessage = await pingrequestsChannel.SendMessageAsync(null, embed: new EmbedBuilder().Build());
+            var embedMessage = await pingRequestsChannel.SendMessageAsync(null, embed: new EmbedBuilder().Build());
             var requestEmbed = new EmbedBuilder()
                 .WithAuthor(author =>
                 {
@@ -100,10 +100,10 @@ namespace GroundedBot.Commands.Administration
                 .WithFooter(((SocketGuildChannel)message.Channel).Guild.Name).Build();
             await embedMessage.ModifyAsync(m => m.Embed = requestEmbed);
 
-            var mention = await pingrequestsChannel.SendMessageAsync(((SocketGuildChannel)message.Channel).Guild.GetRole(782879567873310740).Mention); // PingRequest role pingelése a moderátorok értesítéséért.
+            var mention = await pingRequestsChannel.SendMessageAsync(((SocketGuildChannel)message.Channel).Guild.GetRole(782879567873310740).Mention); // PingRequest role pingelése a moderátorok értesítéséért.
 
             await message.Channel.DeleteMessageAsync(message);
-            await pingrequestsChannel.DeleteMessageAsync(mention);
+            await pingRequestsChannel.DeleteMessageAsync(mention);
 
             requests.Add(new PingRequests(embedMessage.Id, role.Id, message.Channel.Id, requestEmbed.Description));
             PingRequests.PushData(requests);

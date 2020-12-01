@@ -29,14 +29,8 @@ namespace GroundedBot.Commands.Main
 
             if (m.Length == 1)
                 Request(message);
-            else
+            if (m.Length >= 3 && Program.HasPerm(RequiredRoles))
             {
-                if (m.Length == 2)
-                {
-                    await message.Channel.SendMessageAsync("❌ Not enough parameters!");
-                    return;
-                }
-
                 ulong id;
                 try { id = ulong.Parse(m[1]); }
                 catch (Exception)

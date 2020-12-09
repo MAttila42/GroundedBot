@@ -7,7 +7,7 @@ namespace GroundedBot.Commands.Dev
 {
     class Test
     {
-        public static List<ulong> RequiredRoles =
+        public static List<ulong> AllowedRoles =
             new List<ulong>(BaseConfig.GetConfig().Roles.Admin);
 
         public static string[] Aliases =

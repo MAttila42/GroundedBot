@@ -7,6 +7,9 @@
 
   <ItemGroup>
     <PackageReference Include="Discord.Net" Version="2.3.0-dev-20201201.2" />
+    <PackageReference Include="Z.Expressions.Eval" Version="4.0.27" />
+    <PackageReference Include="IronPython" Version="2.7.10" />
+    <PackageReference Include="IronPython.StdLib" Version="2.7.10" />
   </ItemGroup>
 
   <ItemGroup>

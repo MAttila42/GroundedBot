@@ -58,7 +58,11 @@ namespace GroundedBot
             string command = firstWord.Substring(1, firstWord.Length - 1).ToLower();
 
             // Dev
-            if (Test.Aliases.Contains(command) && BotChannel() && HasPerm(Test.RequiredRoles))
+            if (Evaluate.Aliases.Contains(command) && BotChannel() && HasPerm(Evaluate.AllowedRoles))
+                Evaluate.DoCommand();
+            if (Restart.Aliases.Contains(command) && BotChannel() && HasPerm(Restart.AllowedRoles))
+                Restart.DoCommand();
+            if (Test.Aliases.Contains(command) && BotChannel() && HasPerm(Test.AllowedRoles))
                 Test.DoCommand();
             // Fun
             if (Minesweeper.Aliases.Contains(command) && BotChannel())

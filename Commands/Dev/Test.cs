@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Discord;
-using Discord.WebSocket;
 using GroundedBot.Json;
 
 namespace GroundedBot.Commands.Dev
@@ -19,15 +19,17 @@ namespace GroundedBot.Commands.Dev
         public static async void DoCommand()
         {
             await Program.Log("command");
+
             var message = Recieved.Message;
+            try
+            {
+                if (message.Content.Split()[1].ToLower() == "exit")
+                    Environment.Exit(0);
+            }
+            catch (Exception) { }
 
-            var msg = await message.Channel.SendMessageAsync("teszt");
-            //await msg.ModifyAsync(m => m.Content = "edited");
-
-            var oldMessage = await ((IMessageChannel)Program._client.GetChannel(msg.Channel.Id)).GetMessageAsync(msg.Id);
-            var oldMsg = (IUserMessage)oldMessage;
-            await oldMsg.ModifyAsync(m => m.Content = "edited");
-
+            await message.Channel.SendMessageAsync($"ping||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||{message.Author.Mention}");
+            await message.Channel.SendMessageAsync($"{message.Author.Mention}", allowedMentions: AllowedMentions.None);
         }
     }
 }

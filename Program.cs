@@ -58,7 +58,7 @@ namespace GroundedBot
             string command = firstWord.Substring(1, firstWord.Length - 1).ToLower();
 
             // Dev
-            if (Evaluate.Aliases.Contains(command) && BotChannel() && HasPerm(Evaluate.AllowedRoles))
+            if (Evaluate.Aliases.Contains(command) && HasPerm(Evaluate.AllowedRoles))
                 Evaluate.DoCommand();
             if (Restart.Aliases.Contains(command) && BotChannel() && HasPerm(Restart.AllowedRoles))
                 Restart.DoCommand();

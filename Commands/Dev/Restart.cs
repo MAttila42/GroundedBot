@@ -32,7 +32,7 @@ namespace GroundedBot.Commands.Dev
                     "git pull\n" +
                     "dotnet build -o build\n" +
                     "cd build\n" +
-                    "dotnet PixelBot.dll";
+                    "dotnet GroundedBot.dll";
                 var process = new ProcessStartInfo
                 {
                     FileName = "/bin/bash",

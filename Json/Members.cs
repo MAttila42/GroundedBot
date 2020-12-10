@@ -14,6 +14,8 @@ namespace GroundedBot.Json
         public ulong ID { get; set; }
         public int Floppy { get; set; }
         public int Help { get; set; }
+        public int XP { get; set; }
+        public int Rank { get; set; }
         public string PPlusDate { get; set; }
         public int PPlusRank { get; set; }
         public List<string> Items { get; set; }
@@ -60,6 +62,8 @@ namespace GroundedBot.Json
             ID = id;
             Floppy = 0;
             Help = 0;
+            XP = 0;
+            Rank = 0;
             PPlusDate = "";
             PPlusRank = 0;
             Items = new List<string>();

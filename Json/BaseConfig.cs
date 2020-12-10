@@ -15,6 +15,7 @@ namespace GroundedBot.Json
         public ulong[] BotTerminal { get; set; }
         public ulong PingRequests { get; set; }
         public ulong AnswerRequests { get; set; }
+        public ulong LevelUp { get; set; }
     }
     /// <summary>
     /// A Bot működéséhez elengedhetetlen configok.

@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 
-using GroundedBot.Json;
 using GroundedBot.Commands.Dev;
 using GroundedBot.Commands.Fun;
 using GroundedBot.Commands.Main;
+using GroundedBot.Commands.Xp;
+using GroundedBot.Events;
+using GroundedBot.Json;
 
 namespace GroundedBot
 {
@@ -47,6 +49,7 @@ namespace GroundedBot
 
             Recieved.Message = message;
 
+            Xp.DoEvent();
 
             return Task.CompletedTask;
         }
@@ -72,6 +75,11 @@ namespace GroundedBot
                 PingRequest.DoCommand();
             if (AnswerRequest.Aliases.Contains(command))
                 AnswerRequest.DoCommand();
+            // Xp
+            if (Leaderboard.Aliases.Contains(command) && BotChannel())
+                Leaderboard.DoCommand();
+            if (Rank.Aliases.Contains(command) && BotChannel())
+                Rank.DoCommand();
 
             return Task.CompletedTask;
         }

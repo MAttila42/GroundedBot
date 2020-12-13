@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using GroundedBot.Json;
 
-namespace GroundedBot.Commands.Dev
+namespace GroundedBot.Commands
 {
     class Restart
     {

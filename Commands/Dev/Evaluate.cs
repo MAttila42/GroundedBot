@@ -7,7 +7,7 @@ using IronPython.Hosting;
 using Discord;
 using GroundedBot.Json;
 
-namespace GroundedBot.Commands.Dev
+namespace GroundedBot.Commands
 {
     class Evaluate
     {

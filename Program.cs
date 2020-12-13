@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 
-using GroundedBot.Commands.Dev;
-using GroundedBot.Commands.Fun;
-using GroundedBot.Commands.Main;
-using GroundedBot.Commands.Xp;
+using GroundedBot.Commands;
 using GroundedBot.Events;
 using GroundedBot.Json;
 

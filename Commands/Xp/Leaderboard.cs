@@ -3,7 +3,7 @@ using Discord;
 using Discord.WebSocket;
 using GroundedBot.Json;
 
-namespace GroundedBot.Commands.Xp
+namespace GroundedBot.Commands
 {
     class Leaderboard
     {

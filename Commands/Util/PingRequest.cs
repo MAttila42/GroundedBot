@@ -5,7 +5,7 @@ using Discord;
 using Discord.WebSocket;
 using GroundedBot.Json;
 
-namespace GroundedBot.Commands.Main
+namespace GroundedBot.Commands
 {
     class PingRequest
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GroundedBot.Json;
 
-namespace GroundedBot.Commands.Fun
+namespace GroundedBot.Commands
 {
     class Minesweeper
     {

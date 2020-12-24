@@ -100,7 +100,7 @@ namespace GroundedBot
                     return;
             }
             foreach (var id in BaseConfig.GetConfig().Channels.BotTerminal)
-                try { await ((IMessageChannel)_client.GetChannel(id)).SendMessageAsync(output); }
+                try { await ((IMessageChannel)_client.GetChannel(id)).SendMessageAsync(output, allowedMentions: AllowedMentions.None); }
                 catch (Exception) { }
             Console.WriteLine(output);
         }

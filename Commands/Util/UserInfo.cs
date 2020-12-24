@@ -6,15 +6,25 @@ using GroundedBot.Json;
 
 namespace GroundedBot.Commands
 {
-    class Rank
+    class UserInfo
     {
         public static string[] Aliases =
         {
+            "userinfo",
+            "user-info",
+            "user",
+            "memberinfo",
+            "member-info",
+            "member",
             "rank",
             "level",
             "lvl",
             "xp",
-            "szint"
+            "szint",
+            "balance",
+            "bal",
+            "money",
+            "floppy"
         };
         public async static void DoCommand()
         {
@@ -33,25 +43,31 @@ namespace GroundedBot.Commands
             if (id == 0)
                 return;
             var members = Members.PullData();
-            int xp;
             int memberIndex = Members.GetMemberIndex(members, id.ToString());
             if (memberIndex == -1)
             {
                 memberIndex = members.Count();
                 members.Add(new Members(id));
             }
-            xp = members[memberIndex].XP;
+            int xp = members[memberIndex].XP;
+            int bal = members[memberIndex].Floppy;
             string progressBar = "";
             int partXp = xp;
             int rankup = 30;
             int totalXpNeeded = rankup;
             byte rank = 0;
 
-            List<Members> orderedMembers = new List<Members>();
+            List<Members> xpOrderedMembers = new List<Members>();
             foreach (var i in members.OrderByDescending(x => x.XP))
-                orderedMembers.Add(i);
-            int position = Members.GetMemberIndex(orderedMembers, id.ToString()) + 1;
-            int percent = (int)((double)position / members.Count() * 100);
+                xpOrderedMembers.Add(i);
+            int xpPosition = Members.GetMemberIndex(xpOrderedMembers, id.ToString()) + 1;
+            int xpPercent = (int)((double)xpPosition / members.Count() * 100);
+
+            List<Members> balOrderedMembers = new List<Members>();
+            foreach (var i in members.OrderByDescending(x => x.XP))
+                balOrderedMembers.Add(i);
+            int balPosition = Members.GetMemberIndex(balOrderedMembers, id.ToString()) + 1;
+            int balPercent = (int)((double)balPosition / members.Count() * 100);
 
             while (partXp >= rankup)
             {
@@ -68,14 +84,27 @@ namespace GroundedBot.Commands
             for (int i = 0; i < 32 - progress; i++)
                 progressBar += " ";
 
+            string desc =
+                ":dollar: __**Balance**__\n" +
+                $"­ ­ ­ ­ ­ ­ :trophy: Position: #**{balPosition}** (Top **{balPercent}**%)\n" +
+                $"­ ­ ­ ­ ­ ­ :floppy_disk: Floppy: **{bal}**\n" +
+                $"\n" +
+                $":star: __**Rank**__\n" +
+                $"­ ­ ­ ­ ­ ­ :trophy: Position: #**{xpPosition}** (Top **{xpPercent}**%\n" +
+                $"­ ­ ­ ­ ­ ­ :beginner: XP: **{xp}** /{totalXpNeeded}\n" +
+                $"­ ­ ­ ­ ­ ­ :medal: Rank: **{rank}**\n" +
+                $"\n" +
+                $"Progress:\n" +
+                $"`{progressBar}`";
+
             var embed = new EmbedBuilder()
                 .WithAuthor(author =>
                 {
                     author
                         .WithName(Program._client.GetUser(id).Username)
-                        .WithIconUrl("https://cdn.discordapp.com/attachments/782305154342322226/786349875859685446/noun_experience_3267131.png"); // experience by Larea from the Noun Project
+                        .WithIconUrl("https://cdn.discordapp.com/attachments/782305154342322226/791613388769067008/noun_profile_956157.png"); // profile by icongeek from the Noun Project
                 })
-                .WithDescription($":trophy: Position: #**{position}** (Top **{percent}**%)\n:beginner: XP: **{xp}** /{totalXpNeeded}\n:medal: Rank: **{rank}**\n\nProgress:\n`{progressBar}`")
+                .WithDescription(desc)
                 .WithFooter(((SocketGuildChannel)message.Channel).Guild.Name)
                 .WithThumbnailUrl(Program._client.GetUser(id).GetAvatarUrl())
                 .WithColor(new Color(0xFFCC00)).Build();

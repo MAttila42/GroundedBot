@@ -67,16 +67,15 @@ namespace GroundedBot
             // Fun
             if (Minesweeper.Aliases.Contains(command) && BotChannel())
                 Minesweeper.DoCommand();
-            // Main
-            if (PingRequest.Aliases.Contains(command))
-                PingRequest.DoCommand();
+            // Util
             if (AnswerRequest.Aliases.Contains(command))
                 AnswerRequest.DoCommand();
-            // Xp
             if (Leaderboard.Aliases.Contains(command) && BotChannel())
                 Leaderboard.DoCommand();
-            if (Rank.Aliases.Contains(command) && BotChannel())
-                Rank.DoCommand();
+            if (PingRequest.Aliases.Contains(command))
+                PingRequest.DoCommand();
+            if (UserInfo.Aliases.Contains(command) && BotChannel())
+                UserInfo.DoCommand();
 
             return Task.CompletedTask;
         }

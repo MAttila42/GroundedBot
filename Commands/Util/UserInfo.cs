@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Discord;
 using Discord.WebSocket;
@@ -61,13 +62,13 @@ namespace GroundedBot.Commands
             foreach (var i in members.OrderByDescending(x => x.XP))
                 xpOrderedMembers.Add(i);
             int xpPosition = Members.GetMemberIndex(xpOrderedMembers, id.ToString()) + 1;
-            int xpPercent = (int)((double)xpPosition / members.Count() * 100);
+            int xpPercent = (int)Math.Ceiling((double)xpPosition / ((SocketGuildChannel)message.Channel).Guild.MemberCount * 100);
 
             List<Members> balOrderedMembers = new List<Members>();
-            foreach (var i in members.OrderByDescending(x => x.XP))
+            foreach (var i in members.OrderByDescending(x => x.Floppy))
                 balOrderedMembers.Add(i);
             int balPosition = Members.GetMemberIndex(balOrderedMembers, id.ToString()) + 1;
-            int balPercent = (int)((double)balPosition / members.Count() * 100);
+            int balPercent = (int)Math.Ceiling((double)balPosition / ((SocketGuildChannel)message.Channel).Guild.MemberCount * 100);
 
             while (partXp >= rankup)
             {

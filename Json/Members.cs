@@ -17,8 +17,6 @@ namespace GroundedBot.Json
         public int XP { get; set; }
         public int Rank { get; set; }
         public string PPlusDate { get; set; }
-        public int PPlusRank { get; set; }
-        public List<string> Items { get; set; }
 
         /// <summary>
         /// Tagok adatainak lekérése a Json-ből.
@@ -65,8 +63,6 @@ namespace GroundedBot.Json
             XP = 0;
             Rank = 0;
             PPlusDate = "";
-            PPlusRank = 0;
-            Items = new List<string>();
         }
     }
 }

@@ -90,7 +90,7 @@ namespace GroundedBot.Commands
                 $"­ ­ ­ ­ ­ ­ :floppy_disk: Floppy: **{bal}**\n" +
                 $"\n" +
                 $":star: __**Rank**__\n" +
-                $"­ ­ ­ ­ ­ ­ :trophy: Position: #**{xpPosition}** (Top **{xpPercent}**%\n" +
+                $"­ ­ ­ ­ ­ ­ :trophy: Position: #**{xpPosition}** (Top **{xpPercent}**%)\n" +
                 $"­ ­ ­ ­ ­ ­ :beginner: XP: **{xp}** /{totalXpNeeded}\n" +
                 $"­ ­ ­ ­ ­ ­ :medal: Rank: **{rank}**\n" +
                 $"\n" +

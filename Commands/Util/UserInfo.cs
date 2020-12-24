@@ -84,7 +84,7 @@ namespace GroundedBot.Commands
             for (int i = 0; i < 32 - progress; i++)
                 progressBar += " ";
 
-            string desc =
+            string output =
                 ":dollar: __**Balance**__\n" +
                 $"­ ­ ­ ­ ­ ­ :trophy: Position: #**{balPosition}** (Top **{balPercent}**%)\n" +
                 $"­ ­ ­ ­ ­ ­ :floppy_disk: Floppy: **{bal}**\n" +
@@ -95,7 +95,7 @@ namespace GroundedBot.Commands
                 $"­ ­ ­ ­ ­ ­ :medal: Rank: **{rank}**\n" +
                 $"\n" +
                 $"Progress:\n" +
-                $"`{progressBar}`";
+                $"`{progressBar}`"; // Figyelem! Az üres helyek tele vannak "láthatatlan" karakterekkel.
 
             var embed = new EmbedBuilder()
                 .WithAuthor(author =>
@@ -104,7 +104,7 @@ namespace GroundedBot.Commands
                         .WithName(Program._client.GetUser(id).Username)
                         .WithIconUrl("https://cdn.discordapp.com/attachments/782305154342322226/791613388769067008/noun_profile_956157.png"); // profile by icongeek from the Noun Project
                 })
-                .WithDescription(desc)
+                .WithDescription(output)
                 .WithFooter(((SocketGuildChannel)message.Channel).Guild.Name)
                 .WithThumbnailUrl(Program._client.GetUser(id).GetAvatarUrl())
                 .WithColor(new Color(0xFFCC00)).Build();

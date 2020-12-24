@@ -19,11 +19,20 @@ namespace GroundedBot.Commands
             await Program.Log("command");
 
             var message = Recieved.Message;
+            string[] m = message.Content.Split();
             var members = Members.PullData();
             string output = "";
             byte counter = 1;
 
-            foreach (var i in members.OrderByDescending(x => x.XP).Take(5))
+            var ordered = members.OrderByDescending(x => x.Floppy);
+            string title = "Floppy Leaderboard";
+            if (m.Length > 1 && m[1].ToLower() == "xp")
+            {
+                ordered = members.OrderByDescending(x => x.XP);
+                title = "XP Leaderboard";
+            }
+
+            foreach (var i in ordered.Take(5))
             {
                 switch (counter)
                 {
@@ -43,6 +52,7 @@ namespace GroundedBot.Commands
 
                 ulong id = i.ID;
                 int xp = i.XP;
+                int bal = i.Floppy;
                 int partXp = xp;
                 int rankup = 30;
                 byte rank = 0;
@@ -56,11 +66,17 @@ namespace GroundedBot.Commands
                     totalXpNeeded += rankup;
                 }
 
-                output +=
-                    $"#**{counter}** {Program._client.GetUser(id).Mention}\n" +
-                    $"­ ­ ­ ­ ­ ­ ­ XP: **{xp}** /{totalXpNeeded}\n" +
-                    $"­ ­ ­ ­ ­ ­ ­ Rank: **{rank}**\n" +
-                    $"\n"; // Figyelem! Az üres helyek tele vannak "láthatatlan" karakterekkel.
+                if (m.Length > 1 && m[1].ToLower() == "xp")
+                    output +=
+                        $"#**{counter}** {Program._client.GetUser(id).Mention}\n" +
+                        $"­ ­ ­ ­ ­ ­ ­ XP: **{xp}** /{totalXpNeeded}\n" +
+                        $"­ ­ ­ ­ ­ ­ ­ Rank: **{rank}**\n" +
+                        $"\n"; // Figyelem! Az üres helyek tele vannak "láthatatlan" karakterekkel.
+                else
+                    output +=
+                        $"#**{counter}** {Program._client.GetUser(id).Mention}\n" +
+                        $"­ ­ ­ ­ ­ ­ ­ Floppy: **{bal}**\n" +
+                        $"\n"; // Figyelem! Az üres helyek tele vannak "láthatatlan" karakterekkel.
 
                 counter++;
             }
@@ -69,7 +85,7 @@ namespace GroundedBot.Commands
                 .WithAuthor(author =>
                 {
                     author
-                        .WithName("Leaderboard")
+                        .WithName(title)
                         .WithIconUrl("https://cdn.discordapp.com/attachments/782305154342322226/786668060849209364/noun_Podium_584809.png"); // Podium by Viktor Ostrovsky from the Noun Project
                 })
                 .WithDescription(output)

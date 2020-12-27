@@ -144,7 +144,7 @@ namespace GroundedBot.Commands
                         .WithName("Answer Request")
                         .WithIconUrl("https://cdn.discordapp.com/attachments/782305154342322226/782586791831666688/noun_checkmark_737739.png"); // checkmark by Vladimir from the Noun Project
                 })
-                .WithDescription(request.Description.Replace("Waiting...", "Approved"))
+                .WithDescription(request.Description.Replace("Waiting...", $"Approved ({score})"))
                 .WithFooter(((SocketGuildChannel)message.Channel).Guild.Name)
                 .WithColor(new Color(0x00DD00)).Build();
             var oldMsg = await ((IMessageChannel)Program._client.GetChannel(BaseConfig.GetConfig().Channels.AnswerRequests)).GetMessageAsync(request.ID);

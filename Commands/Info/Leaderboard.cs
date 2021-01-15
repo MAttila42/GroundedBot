@@ -31,54 +31,82 @@ namespace GroundedBot.Commands
                 ordered = members.OrderByDescending(x => x.XP);
                 title = "XP Leaderboard";
             }
-
-            foreach (var i in ordered.Take(5))
+            if (m.Length > 1 && m[1].ToLower() == "help")
             {
-                switch (counter)
+                title = "Help Leaderboard";
+
+                foreach (var i in members.Where(x => x.LastHelp > 0).OrderByDescending(x => x.LastHelp))
                 {
-                    case 1:
-                        output += ":first_place: ";
-                        break;
-                    case 2:
-                        output += ":second_place: ";
-                        break;
-                    case 3:
-                        output += ":third_place: ";
-                        break;
-                    default:
-                        output += ":small_blue_diamond: ";
-                        break;
+                    switch (counter)
+                    {
+                        case 1:
+                            output += ":first_place: ";
+                            break;
+                        case 2:
+                            output += ":second_place: ";
+                            break;
+                        case 3:
+                            output += ":third_place: ";
+                            break;
+                        default:
+                            output += ":small_blue_diamond: ";
+                            break;
+                    }
+
+                    output += $"#**{counter}** {Program._client.GetUser(i.ID).Mention} - **{i.LastHelp}**\n";
+                    counter++;
                 }
-
-                ulong id = i.ID;
-                int xp = i.XP;
-                int bal = i.Floppy;
-                int partXp = xp;
-                int rankup = 30;
-                byte rank = 0;
-                int totalXpNeeded = rankup;
-
-                while (partXp >= rankup)
+            }
+            else
+            {
+                foreach (var i in ordered.Take(5))
                 {
-                    rank++;
-                    partXp -= rankup;
-                    rankup += rankup / 5;
-                    totalXpNeeded += rankup;
+                    switch (counter)
+                    {
+                        case 1:
+                            output += ":first_place: ";
+                            break;
+                        case 2:
+                            output += ":second_place: ";
+                            break;
+                        case 3:
+                            output += ":third_place: ";
+                            break;
+                        default:
+                            output += ":small_blue_diamond: ";
+                            break;
+                    }
+
+                    ulong id = i.ID;
+                    int xp = i.XP;
+                    int bal = i.Floppy;
+                    int partXp = xp;
+                    int rankup = 30;
+                    byte rank = 0;
+                    int totalXpNeeded = rankup;
+
+                    while (partXp >= rankup)
+                    {
+                        rank++;
+                        partXp -= rankup;
+                        rankup += rankup / 5;
+                        totalXpNeeded += rankup;
+                    }
+
+                    if (m.Length > 1 && m[1].ToLower() == "xp")
+                        output +=
+                            $"#**{counter}** {Program._client.GetUser(id).Mention}\n" +
+                            $"­ ­ ­ ­ ­ ­ ­ XP: **{xp}** /{totalXpNeeded}\n" +
+                            $"­ ­ ­ ­ ­ ­ ­ Rank: **{rank}**\n" +
+                            $"\n"; // Figyelem! Az üres helyek tele vannak "láthatatlan" karakterekkel.
+                    else
+                        output +=
+                            $"#**{counter}** {Program._client.GetUser(id).Mention}\n" +
+                            $"­ ­ ­ ­ ­ ­ ­ Floppy: **{bal}**\n" +
+                            $"\n"; // Figyelem! Az üres helyek tele vannak "láthatatlan" karakterekkel.
+
+                    counter++;
                 }
-
-                if (m.Length > 1 && m[1].ToLower() == "xp")
-                    output +=
-                        $"#**{counter}** {Program._client.GetUser(id).Mention}\n" +
-                        $"­ ­ ­ ­ ­ ­ ­ XP: **{xp}** /{totalXpNeeded}\n" +
-                        $"­ ­ ­ ­ ­ ­ ­ Rank: **{rank}**\n" +
-                        $"\n"; // Figyelem! Az üres helyek tele vannak "láthatatlan" karakterekkel.
-                else
-                    output +=
-                        $"#**{counter}** {Program._client.GetUser(id).Mention}\n" +
-                        $"­ ­ ­ ­ ­ ­ ­ Floppy: **{bal}**\n" +
-                        $"\n"; // Figyelem! Az üres helyek tele vannak "láthatatlan" karakterekkel.
-
-                counter++;
             }
 
             var embed = new EmbedBuilder()

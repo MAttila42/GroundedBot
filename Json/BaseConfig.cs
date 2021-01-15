@@ -7,6 +7,8 @@ namespace GroundedBot.Json
     {
         public ulong[] Admin { get; set; }
         public ulong[] Mod { get; set; }
+        public ulong[] PtanB { get; set; }
+        public ulong[] PtanS { get; set; }
         public ulong[] PtanP { get; set; }
     }
     public class Channel

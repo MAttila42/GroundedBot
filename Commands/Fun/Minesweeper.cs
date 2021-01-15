@@ -8,7 +8,7 @@ namespace GroundedBot.Commands
     class Minesweeper
     {
         public static List<ulong> RequiredRoles =
-            new List<ulong>(BaseConfig.GetConfig().Roles.PtanP);
+            new List<ulong>(BaseConfig.GetConfig().Roles.PtanS);
 
         public static string[] Aliases =
         {

@@ -28,10 +28,7 @@ namespace GroundedBot.Commands
             string[] m = message.Content.Split();
 
             if (m.Length == 1)
-            {
-                await message.Channel.SendMessageAsync("❌ Not enough parameters!");
                 return;
-            }
             if (m.Length >= 3 && Program.HasPerm(RequiredRoles))
             {
                 if (m.Length >= 4)

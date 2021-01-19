@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using Discord;
 using Discord.WebSocket;
+using Discord.Rest;
 
 using GroundedBot.Commands;
 using GroundedBot.Events;
@@ -15,6 +16,8 @@ namespace GroundedBot
     public class Recieved
     {
         public static SocketMessage Message;
+        public static DateTime PingTime;
+        public static RestUserMessage PongMessage;
     }
 
     class Program
@@ -52,10 +55,12 @@ namespace GroundedBot
         }
         private Task CommandHandler(SocketMessage message)
         {
-            if (!message.Content.StartsWith(BaseConfig.GetConfig().Prefix) || message.Author.IsBot)
-                return Task.CompletedTask;
             string firstWord = message.Content.Split()[0];
             string command = firstWord.Substring(1, firstWord.Length - 1).ToLower();
+            if (message.Author.IsBot && firstWord == "Pinging...")
+                Ping.DoCommand(true);
+            if (!message.Content.StartsWith(BaseConfig.GetConfig().Prefix) || message.Author.IsBot)
+                return Task.CompletedTask;
 
             // Dev
             if (Evaluate.Aliases.Contains(command) && HasPerm(Evaluate.AllowedRoles))
@@ -67,6 +72,8 @@ namespace GroundedBot
             // Fun
             if (Minesweeper.Aliases.Contains(command) && BotChannel())
                 Minesweeper.DoCommand();
+            if (Ping.Aliases.Contains(command) && BotChannel())
+                Ping.DoCommand(false);
             // Info
             if (Leaderboard.Aliases.Contains(command) && BotChannel())
                 Leaderboard.DoCommand();

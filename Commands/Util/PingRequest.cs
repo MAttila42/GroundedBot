@@ -22,13 +22,14 @@ namespace GroundedBot.Commands
 
         public async static void DoCommand()
         {
-            await Program.Log("command");
-
             var message = Recieved.Message;
             string[] m = message.Content.Split();
 
             if (m.Length == 1)
                 return;
+
+            await Program.Log("command");
+
             if (m.Length >= 3 && Program.HasPerm(RequiredRoles))
             {
                 if (m.Length >= 4)

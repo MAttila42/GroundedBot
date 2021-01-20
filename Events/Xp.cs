@@ -45,8 +45,6 @@ namespace GroundedBot.Events
 
             if (rank > members[memberIndex].Rank)
             {
-                await Program.Log("rankup");
-
                 var embed = new EmbedBuilder()
                     .WithAuthor(author =>
                     {

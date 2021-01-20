@@ -17,7 +17,6 @@ namespace GroundedBot
     {
         public static SocketMessage Message;
         public static DateTime PingTime;
-        public static RestUserMessage PongMessage;
     }
 
     class Program
@@ -44,10 +43,10 @@ namespace GroundedBot
 
         private Task EventHandler(SocketMessage message)
         {
+            Recieved.Message = message;
+
             if (message.Author.IsBot)
                 return Task.CompletedTask;
-
-            Recieved.Message = message;
 
             Xp.DoEvent();
 

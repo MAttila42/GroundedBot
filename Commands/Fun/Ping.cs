@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using GroundedBot.Json;
 using Discord;
 using Discord.WebSocket;
@@ -21,8 +22,6 @@ namespace GroundedBot.Commands
 
         public static async void DoCommand(bool isResponse)
         {
-            await Program.Log("command");
-
             var message = Recieved.Message;
             if (message.Content.Split().Length > 1)
                 return;
@@ -30,14 +29,13 @@ namespace GroundedBot.Commands
             if (isResponse)
             {
                 var latency = DateTime.Now - Recieved.PingTime;
-                var oldMsg = await ((IMessageChannel)Program._client.GetChannel(Recieved.PongMessage.Channel.Id)).GetMessageAsync(Recieved.PongMessage.Id);
-                await ((IUserMessage)oldMsg).ModifyAsync(m => m.Content = $"Pong! `{latency.TotalMilliseconds:f0}ms`");
+                await ((IUserMessage)message).ModifyAsync(m => m.Content = $"Pong! `{latency.TotalMilliseconds:f0}ms`");
             }
             else
             {
-                var pongMessage = await message.Channel.SendMessageAsync($"Pinging...");
-                Recieved.PongMessage = pongMessage;
+                await Program.Log("command");
                 Recieved.PingTime = DateTime.Now;
+                await message.Channel.SendMessageAsync($"Pinging...");
             }
         }
     }

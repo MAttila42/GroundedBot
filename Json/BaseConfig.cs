@@ -27,6 +27,7 @@ namespace GroundedBot.Json
     {
         public string Token { get; set; }
         public char Prefix { get; set; }
+        public ulong BotID { get; set; }
         public Role Roles { get; set; }
         public Channel Channels { get; set; }
 

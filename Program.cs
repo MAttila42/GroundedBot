@@ -57,7 +57,7 @@ namespace GroundedBot
         {
             string firstWord = message.Content.Split()[0];
             string command = firstWord.Substring(1, firstWord.Length - 1).ToLower();
-            if (message.Author.IsBot && firstWord == "Pinging...")
+            if (message.Author.Id == BaseConfig.GetConfig().BotID && firstWord == "Pinging...")
                 Ping.DoCommand(true);
             if (!message.Content.StartsWith(BaseConfig.GetConfig().Prefix) || message.Author.IsBot)
                 return Task.CompletedTask;

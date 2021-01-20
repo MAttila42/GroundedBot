@@ -24,6 +24,8 @@ namespace GroundedBot.Commands
             await Program.Log("command");
 
             var message = Recieved.Message;
+            if (message.Content.Split().Length > 1)
+                return;
 
             if (isResponse)
             {

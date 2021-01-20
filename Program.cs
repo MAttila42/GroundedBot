@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 using Discord;
 using Discord.WebSocket;
-using Discord.Rest;
 
 using GroundedBot.Commands;
 using GroundedBot.Events;
@@ -43,9 +42,9 @@ namespace GroundedBot
 
         private Task EventHandler(SocketMessage message)
         {
-            Recieved.Message = message;
-
-            if (message.Author.IsBot)
+            if ((message.Author.Id == BaseConfig.GetConfig().BotID && message.Content == "Pinging...") || !message.Author.IsBot)
+                Recieved.Message = message;
+            else
                 return Task.CompletedTask;
 
             Xp.DoEvent();

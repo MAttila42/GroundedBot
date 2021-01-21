@@ -9,6 +9,9 @@ namespace GroundedBot.Commands
 {
     class UserInfo
     {
+        public static List<ulong> RequiredRoles =
+            new List<ulong>(BaseConfig.GetConfig().Roles.PtanS);
+
         public static string[] Aliases =
         {
             "userinfo",
@@ -35,7 +38,13 @@ namespace GroundedBot.Commands
             string[] m = message.Content.Split();
             ulong id = message.Author.Id;
             if (m.Length == 2)
-                id = Program.GetUserId(m[1]);
+                if (Program.HasPerm(RequiredRoles))
+                    id = Program.GetUserId(m[1]);
+                else
+                {
+                    await message.Channel.SendMessageAsync("❌ Only members with Ptan+ Standard can search for other members!");
+                    return;
+                }
             if (m.Length > 2)
             {
                 await message.Channel.SendMessageAsync("❌ Too many parameters!");

@@ -54,11 +54,11 @@ namespace GroundedBot
         private Task CommandHandler(SocketMessage message)
         {
             string firstWord = message.Content.Split()[0];
-            string command = firstWord.Substring(1, firstWord.Length - 1).ToLower();
             if (message.Author.Id == BaseConfig.GetConfig().BotID && firstWord == "Pinging...")
                 Ping.DoCommand(true);
             if (!message.Content.StartsWith(BaseConfig.GetConfig().Prefix) || message.Author.IsBot)
                 return Task.CompletedTask;
+            string command = firstWord.Substring(1, firstWord.Length - 1).ToLower();
 
             // Dev
             if (Evaluate.Aliases.Contains(command) && HasPerm(Evaluate.AllowedRoles))

@@ -49,25 +49,32 @@ namespace GroundedBot.Commands
             //}
             //Members.PushData(members);
 
+            var members = Members.PullData();
             try
             {
-                if (message.Content.Split()[1].ToLower() == "floppy")
+                switch (message.Content.Split()[1].ToLower())
                 {
-                    var members = Members.PullData();
-                    for (int i = 0; i < members.Count; i++)
-                    {
-                        members[i].Floppy += members[i].Help;
-                        members[i].LastHelp = members[i].Help;
-                        members[i].Help = 0;
-                    }
-                    Members.PushData(members);
-                    await message.Channel.SendMessageAsync("Floppyk kiosztva.");
-                    return;
-                }
-                else
-                {
-                    await message.Channel.SendMessageAsync($"ping||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||{message.Author.Mention}");
-                    await message.Channel.SendMessageAsync($"{message.Author.Mention}", allowedMentions: AllowedMentions.None);
+                    case "rankupfloppy":
+                        for (int i = 0; i < members.Count; i++)
+                            members[i].Floppy += members[i].Rank;
+                        Members.PushData(members);
+                        await message.Channel.SendMessageAsync("Szintlépésért járó Floppyk kiosztva.");
+                        return;
+                    case "helpfloppy":
+                        for (int i = 0; i < members.Count; i++)
+                        {
+                            members[i].Floppy += members[i].Help;
+                            members[i].LastHelp = members[i].Help;
+                            members[i].Help = 0;
+                        }
+                        Members.PushData(members);
+                        await message.Channel.SendMessageAsync("Segítségért járó Floppyk kiosztva.");
+                        return;
+
+                    default:
+                        await message.Channel.SendMessageAsync($"ping||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||{message.Author.Mention}");
+                        await message.Channel.SendMessageAsync($"{message.Author.Mention}", allowedMentions: AllowedMentions.None);
+                        break;
                 }
             }
             catch (Exception)

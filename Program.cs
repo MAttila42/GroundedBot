@@ -73,6 +73,8 @@ namespace GroundedBot
             if (Minesweeper.Aliases.Contains(command) && BotChannel())
                 Minesweeper.DoCommand();
             // Info
+            if (Commands.Commands.Aliases.Contains(command) && BotChannel())
+                Commands.Commands.DoCommand();
             if (Leaderboard.Aliases.Contains(command) && BotChannel())
                 Leaderboard.DoCommand();
             if (UserInfo.Aliases.Contains(command) && BotChannel())

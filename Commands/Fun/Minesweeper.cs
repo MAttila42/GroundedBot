@@ -33,7 +33,7 @@ namespace GroundedBot.Commands
 
             if (!Program.HasPerm(RequiredRoles) && input.Length > 1)
             {
-                await message.Channel.SendMessageAsync("❌ Only Ptan+ members can generate custom boards!");
+                await message.Channel.SendMessageAsync("❌ Only members with Ptan+ Standard can generate custom boards!");
                 return;
             }
             try

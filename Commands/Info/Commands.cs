@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Discord;
 using Discord.WebSocket;
+using GroundedBot.Json;
 
 namespace GroundedBot.Commands
 {
@@ -74,23 +75,36 @@ namespace GroundedBot.Commands
             switch (m.Length)
             {
                 case 1:
-                    content += "For more information use `.commands [command]`.\n" +
-                        "\n" +
-                        "**Dev**\n";
-                    for (int i = 0; i < commands.Where(x => x.Category == "Dev").Count(); i++)
-                        content += $"`{commands[i].Name}`{(i < commands.Where(x => x.Category == "Dev").Count() - 1 ? ", " : "\n\n")}";
-                    content += "**Fun**\n";
-                    for (int i = 0; i < commands.Where(x => x.Category == "Fun").Count(); i++)
-                        content += $"`{commands[i].Name}`{(i < commands.Where(x => x.Category == "Fun").Count() - 1 ? ", " : "\n\n")}";
-                    content += "**Info**\n";
-                    for (int i = 0; i < commands.Where(x => x.Category == "Info").Count(); i++)
-                        content += $"`{commands[i].Name}`{(i < commands.Where(x => x.Category == "Info").Count() - 1 ? ", " : "\n\n")}";
-                    content += "**Util**\n";
-                    for (int i = 0; i < commands.Where(x => x.Category == "Util").Count(); i++)
-                        content += $"`{commands[i].Name}`{(i < commands.Where(x => x.Category == "Util").Count() - 1 ? ", " : "\n\n")}";
-                    content += "Official Documentation on [Trello](https://trello.com/b/Ns1WcpEB/groundedbot)";
+                    content += "For more information use `.commands [command]`.\n\n";
+
+                    string[] categories =
+                    {
+                        "Dev",
+                        "Fun",
+                        "Info",
+                        "Util"
+                    };
+
+                    foreach (var i in categories)
+                    {
+                        content += $"**{i}**\n";
+                        var currentCategory = commands.Where(x => x.Category == i).ToList();
+                        for (int j = 0; j < currentCategory.Count(); j++)
+                            content += $"`{currentCategory[j].Name}`{(j < currentCategory.Count() - 1 ? ", " : "\n\n")}";
+                    }
+                    content += "Official Documentation on [Trello](https://trello.com/b/Ns1WcpEB/groundedbot).";
                     break;
                 case 2:
+                    var command = commands[commands.IndexOf(commands.Find(x => x.Aliases.Contains(m[1])))];
+                    title = command.Name;
+                    content += $"Category: **{command.Category}**\n" +
+                        $"{command.Description}\n" +
+                        $"{command.Permission}\n\n" +
+                        $"Usage: `{command.Usage}`\n\n" +
+                        $"Aliases: ";
+                    for (int i = 0; i < command.Aliases.Count(); i++)
+                        content += $"`{command.Aliases[i]}`{(i < command.Aliases.Count() - 1 ? ", " : "\n\n")}";
+                    content += $"Official Documentation on [Trello]({command.Trello}).";
                     break;
 
                 default:

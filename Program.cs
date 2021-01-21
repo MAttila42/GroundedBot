@@ -63,6 +63,8 @@ namespace GroundedBot
             // Dev
             if (Evaluate.Aliases.Contains(command) && HasPerm(Evaluate.AllowedRoles))
                 Evaluate.DoCommand();
+            if (Ping.Aliases.Contains(command) && BotChannel())
+                Ping.DoCommand(false);
             if (Restart.Aliases.Contains(command) && BotChannel() && HasPerm(Restart.AllowedRoles))
                 Restart.DoCommand();
             if (Test.Aliases.Contains(command) && BotChannel() && HasPerm(Test.AllowedRoles))
@@ -70,8 +72,6 @@ namespace GroundedBot
             // Fun
             if (Minesweeper.Aliases.Contains(command) && BotChannel())
                 Minesweeper.DoCommand();
-            if (Ping.Aliases.Contains(command) && BotChannel())
-                Ping.DoCommand(false);
             // Info
             if (Leaderboard.Aliases.Contains(command) && BotChannel())
                 Leaderboard.DoCommand();

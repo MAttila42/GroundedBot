@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using GroundedBot.Json;
 using Discord;
-using Discord.WebSocket;
-using Discord.Rest;
 
 namespace GroundedBot.Commands
 {

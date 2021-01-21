@@ -9,7 +9,7 @@ namespace GroundedBot.Commands
         public string[] Aliases { get; set; }
         public string Description { get; set; }
         public string Usage { get; set; }
-        public string Perm { get; set; }
+        public string Permission { get; set; }
         public string Category { get; set; }
         public string Trello { get; set; }
 
@@ -19,7 +19,7 @@ namespace GroundedBot.Commands
             Aliases = aliases;
             Description = desc;
             Usage = usage;
-            Perm = perm;
+            Permission = perm;
             Category = category;
             Trello = trello;
         }
@@ -37,9 +37,10 @@ namespace GroundedBot.Commands
             "segítség",
             "segitseg"
         };
-        public static string Description = "Shows the list or the specified command.";
-        public static string usage = ".commands [command]";
-
+        public static string Description = "Shows the list of commands or information about the one asked.";
+        public static string Usage = ".commands [command]";
+        public static string Permission = "Anyone can use it.";
+        public static string Trello = "https://trello.com/c/VUQlIot5/27-commands";
 
         public static async void DoCommand()
         {

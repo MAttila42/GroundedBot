@@ -11,6 +11,10 @@ namespace GroundedBot.Commands
             new List<ulong>(BaseConfig.GetConfig().Roles.Admin);
 
         public static string[] Aliases = { "restart" };
+        public static string Description = "Restart or shutdown the bot. Updates from the Github repository.";
+        public static string Usage = ".restart [option]";
+        public static string Permission = "Only Devs can use it.";
+        public static string Trello = "https://trello.com/c/2t1CC8e0/6-restart";
 
         public async static void DoCommand()
         {

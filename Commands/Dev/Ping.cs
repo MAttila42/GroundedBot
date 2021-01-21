@@ -13,9 +13,12 @@ namespace GroundedBot.Commands
         public static string[] Aliases =
         {
             "ping",
-            "latency",
-            "pong"
+            "latency"
         };
+        public static string Description = "Calculates the bot's ping.";
+        public static string Usage = ".ping";
+        public static string Permission = "Anyone can use it.";
+        public static string Trello = "https://trello.com/c/2wXQDMBX/31-ping";
 
         public static async void DoCommand(bool isResponse)
         {

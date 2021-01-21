@@ -30,6 +30,11 @@ namespace GroundedBot.Commands
             "money",
             "floppy"
         };
+        public static string Description = "Gives information about the user. Positions on the leaderboards, their XP, Rank, Floppy.";
+        public static string Usage = ".userinfo [member]";
+        public static string Permission = "Anyone can use it, but only members with Ptan+ Budget can search for other members.";
+        public static string Trello = "https://trello.com/c/DMA4C4RC/10-userinfo";
+
         public async static void DoCommand()
         {
             await Program.Log("command");

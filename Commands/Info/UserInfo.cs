@@ -10,7 +10,7 @@ namespace GroundedBot.Commands
     class UserInfo
     {
         public static List<ulong> RequiredRoles =
-            new List<ulong>(BaseConfig.GetConfig().Roles.PtanS);
+            new List<ulong>(BaseConfig.GetConfig().Roles.PtanB);
 
         public static string[] Aliases =
         {
@@ -42,7 +42,7 @@ namespace GroundedBot.Commands
                     id = Program.GetUserId(m[1]);
                 else
                 {
-                    await message.Channel.SendMessageAsync("❌ Only members with Ptan+ Standard can search for other members!");
+                    await message.Channel.SendMessageAsync("❌ Only members with Ptan+ Budget can search for other members!");
                     return;
                 }
             if (m.Length > 2)

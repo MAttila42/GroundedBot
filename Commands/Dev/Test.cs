@@ -54,12 +54,6 @@ namespace GroundedBot.Commands
             {
                 switch (message.Content.Split()[1].ToLower())
                 {
-                    case "rankupfloppy":
-                        for (int i = 0; i < members.Count; i++)
-                            members[i].Floppy += members[i].Rank;
-                        Members.PushData(members);
-                        await message.Channel.SendMessageAsync("Szintlépésért járó Floppyk kiosztva.");
-                        return;
                     case "helpfloppy":
                         for (int i = 0; i < members.Count; i++)
                         {

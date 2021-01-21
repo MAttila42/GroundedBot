@@ -65,7 +65,11 @@ namespace GroundedBot.Events
                         .ConfigureAwait(false);
             }
 
-            members[memberIndex].Rank = rank;
+            if (members[memberIndex].Rank < rank)
+            {
+                members[memberIndex].Rank = rank;
+                members[memberIndex].Floppy++;
+            }
 
             Members.PushData(members);
         }

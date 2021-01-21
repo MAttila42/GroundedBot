@@ -51,7 +51,6 @@ namespace GroundedBot.Commands
                 switch (m[1])
                 {
                     case "cs":
-                        //result = Z.Expressions.Eval.Execute(code).ToString();
                         ExpressionEvaluator csEvaluator = new ExpressionEvaluator();
                         result = csEvaluator.ScriptEvaluate(code).ToString();
                         break;

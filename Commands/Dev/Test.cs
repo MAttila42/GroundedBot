@@ -16,7 +16,7 @@ namespace GroundedBot.Commands
             "teszt"
         };
         public static string Description = "A simple command to test stuff.";
-        public static string Usage = ".test [made parameters]";
+        public static string[] Usages = { ".test [made parameters]" };
         public static string Permission = "Only Devs can use it.";
         public static string Trello = "https://trello.com/c/FTc2lM9h/7-test";
 

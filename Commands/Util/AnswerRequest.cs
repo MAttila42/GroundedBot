@@ -20,7 +20,11 @@ namespace GroundedBot.Commands
             "answer"
         };
         public static string Description = "Request to review an answer. If someone wants to get paid for their help they need to run this command.";
-        public static string Usage = ".answerrequest [id] [approve/deny] [rating(1-5)]";
+        public static string[] Usages =
+        {
+            ".answerrequest",
+            ".answerrequest <id> <approve/deny> <rating(1-5)>"
+        };
         public static string Permission = "Anyone can request, but only Moderators can review.";
         public static string Trello = "https://trello.com/c/PYYyovJK/3-answer-request";
 

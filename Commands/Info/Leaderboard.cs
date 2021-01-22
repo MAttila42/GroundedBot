@@ -15,7 +15,7 @@ namespace GroundedBot.Commands
             "top"
         };
         public static string Description = "A command to show different types of leaderboards. By default it shows Floppy and only the TOP 5.";
-        public static string Usage = ".leaderboard [type]";
+        public static string[] Usages = { ".leaderboard [type]" };
         public static string Permission = "Anyone can use it.";
         public static string Trello = "https://trello.com/c/T1fixUma/9-leaderboard";
 

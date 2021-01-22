@@ -20,7 +20,11 @@ namespace GroundedBot.Commands
             "ping"
         };
         public static string Description = "Request to ping a programming language role to get help faster.";
-        public static string Usage = ".pingrequest [id] [approve/deny]";
+        public static string[] Usages =
+        {
+            ".pingrequest <language>",
+            ".pingrequest <id> <approve/deny>"
+        };
         public static string Permission = "Anyone can use it, with Ptan+ Pro, pinging is instant, but only Moderators can review.";
         public static string Trello = "https://trello.com/c/AAuBVeZY/2-ping-request";
 

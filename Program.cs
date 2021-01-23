@@ -26,6 +26,7 @@ namespace GroundedBot
         {
             _client = new DiscordSocketClient();
             _client.MessageReceived += MessageHandler;
+            _client.UserLeft += LeaveHandler;
             _client.Log += Log;
             var token = BaseConfig.GetConfig().Token;
             await _client.LoginAsync(TokenType.Bot, token);
@@ -84,6 +85,12 @@ namespace GroundedBot
             if (PingRequest.Aliases.Contains(command))
                 PingRequest.DoCommand();
 
+            return Task.CompletedTask;
+        }
+
+        private Task LeaveHandler(SocketGuildUser arg)
+        {
+            RemoveWhoLeft.DoEvent(arg.Id);
             return Task.CompletedTask;
         }
 

@@ -25,8 +25,7 @@ namespace GroundedBot
         public async Task MainAsync()
         {
             _client = new DiscordSocketClient();
-            _client.MessageReceived += EventHandler;
-            _client.MessageReceived += CommandHandler;
+            _client.MessageReceived += MessageHandler;
             _client.Log += Log;
             var token = BaseConfig.GetConfig().Token;
             await _client.LoginAsync(TokenType.Bot, token);
@@ -40,24 +39,24 @@ namespace GroundedBot
             return Task.CompletedTask;
         }
 
-        private Task EventHandler(SocketMessage message)
+        private Task MessageHandler(SocketMessage message)
         {
-            if ((message.Author.Id == BaseConfig.GetConfig().BotID && message.Content == "Pinging...") || !message.Author.IsBot)
+            string firstWord = message.Content.Split()[0];
+            bool pong = message.Author.Id == BaseConfig.GetConfig().BotID && firstWord == "Pinging...";
+
+            if (pong || !message.Author.IsBot)
                 Recieved.Message = message;
             else
                 return Task.CompletedTask;
 
+            // Events
             Xp.DoEvent();
 
-            return Task.CompletedTask;
-        }
-        private Task CommandHandler(SocketMessage message)
-        {
-            string firstWord = message.Content.Split()[0];
-            if (message.Author.Id == BaseConfig.GetConfig().BotID && firstWord == "Pinging...")
+            if (pong)
                 Ping.DoCommand(true);
             if (!message.Content.StartsWith(BaseConfig.GetConfig().Prefix) || message.Author.IsBot)
                 return Task.CompletedTask;
+
             string command = firstWord.Substring(1, firstWord.Length - 1).ToLower();
 
             // Dev

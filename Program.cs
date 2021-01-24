@@ -90,16 +90,17 @@ namespace GroundedBot
 
         private Task LeaveHandler(SocketGuildUser arg)
         {
-            RemoveWhoLeft.DoEvent(arg.Id);
+            RemoveWhoLeft.DoEvent(arg);
             return Task.CompletedTask;
         }
 
         /// <summary>
         /// Meghatározható típusú logolás a terminálba és a BaseConfigban beállított szobákba.
         /// </summary>
-        /// <param name="mode">command, rankup</param>
+        /// <param name="mode">command, event</param>
+        /// <param name="other">Other additional string</param>
         /// <returns></returns>
-        public async static Task Log(string mode)
+        public async static Task Log(string mode, string other)
         {
             var message = Recieved.Message;
             Console.Write(DateTime.Now.ToString("yyyy.MM.dd. HH:mm:ss") + " ");
@@ -108,6 +109,9 @@ namespace GroundedBot
             {
                 case "command":
                     output = $"Command run - {message.Author.Username}#{message.Author.Discriminator} in #{message.Channel}: {message.Content}";
+                    break;
+                case "event":
+                    output = $"Event - {other}";
                     break;
 
                 default:

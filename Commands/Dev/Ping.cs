@@ -33,7 +33,7 @@ namespace GroundedBot.Commands
             }
             else
             {
-                await Program.Log("command");
+                await Program.Log("command", "");
                 Recieved.PingTime = DateTime.Now;
                 await message.Channel.SendMessageAsync($"Pinging...");
             }

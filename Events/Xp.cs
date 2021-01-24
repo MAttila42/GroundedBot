@@ -63,6 +63,7 @@ namespace GroundedBot.Events
                         null,
                         embed: embed)
                         .ConfigureAwait(false);
+                await Program.Log("event", $"{message.Author.Username}#{message.Author.Discriminator} ranked up: {rank}");
             }
 
             if (members[memberIndex].Rank < rank)

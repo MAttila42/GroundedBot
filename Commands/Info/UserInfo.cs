@@ -37,7 +37,7 @@ namespace GroundedBot.Commands
 
         public async static void DoCommand()
         {
-            await Program.Log("command");
+            await Program.Log("command", "");
 
             var message = Recieved.Message;
             string[] m = message.Content.Split();

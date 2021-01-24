@@ -22,7 +22,7 @@ namespace GroundedBot.Commands
 
         public static async void DoCommand()
         {
-            await Program.Log("command");
+            await Program.Log("command", "");
 
             var message = Recieved.Message;
             var members = Members.PullData();

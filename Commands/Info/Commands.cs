@@ -75,13 +75,9 @@ namespace GroundedBot.Commands
                 case 1:
                     content += "For more information use `.commands [command]`.\n\n";
 
-                    string[] categories =
-                    {
-                        "Dev",
-                        "Fun",
-                        "Info",
-                        "Util"
-                    };
+                    var categories = new HashSet<string>();
+                    foreach (var i in commands)
+                        categories.Add(i.Category);
 
                     foreach (var category in categories)
                     {

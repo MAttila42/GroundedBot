@@ -13,8 +13,9 @@ namespace GroundedBot.Json
     }
     public class Channel
     {
-        public ulong[] BotChannel { get; set; }
         public ulong[] BotTerminal { get; set; }
+        public ulong[] Backups { get; set; }
+        public ulong[] BotChannel { get; set; }
         public ulong PingRequests { get; set; }
         public ulong AnswerRequests { get; set; }
         public ulong LevelUp { get; set; }

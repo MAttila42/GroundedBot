@@ -31,7 +31,12 @@ namespace GroundedBot
             var token = BaseConfig.GetConfig().Token;
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
-            await Task.Delay(-1);
+
+            while (true)
+            {
+                TimedEvents();
+                await Task.Delay(5000);
+            }
         }
 
         private Task Log(LogMessage msg)
@@ -86,6 +91,11 @@ namespace GroundedBot
                 PingRequest.DoCommand();
 
             return Task.CompletedTask;
+        }
+
+        static void TimedEvents()
+        {
+
         }
 
         private Task LeaveHandler(SocketGuildUser arg)

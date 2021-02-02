@@ -112,6 +112,7 @@ namespace GroundedBot.Commands
                 $"Progress:\n" +
                 $"`{progressBar}`"; // Figyelem! Az üres helyek tele vannak "láthatatlan" karakterekkel.
 
+            var avatar = Program._client.GetUser(id).GetAvatarUrl();
             var embed = new EmbedBuilder()
                 .WithAuthor(author =>
                 {
@@ -121,7 +122,7 @@ namespace GroundedBot.Commands
                 })
                 .WithDescription(output)
                 .WithFooter(((SocketGuildChannel)message.Channel).Guild.Name)
-                .WithThumbnailUrl(Program._client.GetUser(id).GetAvatarUrl())
+                .WithThumbnailUrl(avatar == null ? Program._client.GetUser(id).GetDefaultAvatarUrl() : avatar)
                 .WithColor(new Color(0xFFCC00)).Build();
             await message.Channel.SendMessageAsync(
                 null,

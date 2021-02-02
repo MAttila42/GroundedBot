@@ -45,6 +45,7 @@ namespace GroundedBot.Events
 
             if (rank > members[memberIndex].Rank)
             {
+                var avatar = message.Author.GetAvatarUrl();
                 var embed = new EmbedBuilder()
                     .WithAuthor(author =>
                     {
@@ -54,7 +55,7 @@ namespace GroundedBot.Events
                     })
                     .WithDescription($"Congratulations **{message.Author.Mention}**! You ranked up.\nNew rank: **{rank}**")
                     .WithFooter(((SocketGuildChannel)message.Channel).Guild.Name)
-                    .WithThumbnailUrl(message.Author.GetAvatarUrl())
+                    .WithThumbnailUrl(avatar == null ? message.Author.GetDefaultAvatarUrl() : avatar)
                     .WithColor(new Color(0xFFCC00)).Build();
 
                 var channel = BaseConfig.GetConfig().Channels.LevelUp;

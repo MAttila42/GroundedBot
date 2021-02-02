@@ -31,12 +31,8 @@ namespace GroundedBot
             var token = BaseConfig.GetConfig().Token;
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
-
-            while (true)
-            {
-                TimedEvents();
-                await Task.Delay(5000);
-            }
+            TimedEvents();
+            await Task.Delay(-1);
         }
 
         private Task Log(LogMessage msg)
@@ -93,15 +89,19 @@ namespace GroundedBot
             return Task.CompletedTask;
         }
 
-        static void TimedEvents()
-        {
-
-        }
-
         private Task LeaveHandler(SocketGuildUser arg)
         {
             RemoveWhoLeft.DoEvent(arg);
             return Task.CompletedTask;
+        }
+
+        static async void TimedEvents()
+        {
+            while (true)
+            {
+                Backup.DoEvent();
+                await Task.Delay(3600000);
+            }
         }
 
         /// <summary>

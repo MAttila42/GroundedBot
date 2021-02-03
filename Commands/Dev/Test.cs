@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.IO;
 using Discord;
 using GroundedBot.Json;
 
@@ -55,6 +57,63 @@ namespace GroundedBot.Commands
                             members.Remove(i);
                         Members.PushData(members);
                         await message.Channel.SendMessageAsync("Lelépett tagok adatai törölve.");
+                        return;
+
+                    case "revertdata":
+                        var ranks = new List<string>(File.ReadAllLines("ranks.txt"));
+                        var floppies = new List<string>(File.ReadAllLines("floppies.txt"));
+                        var ids = new HashSet<ulong>();
+
+                        foreach (var i in ranks)
+                            try { ids.Add(Program.GetUserId(i.Split('&')[0])); }
+                            catch (Exception) { }
+                        foreach (var i in floppies)
+                            try { ids.Add(Program.GetUserId(i.Split()[0])); }
+                            catch (Exception) { }
+                        foreach (var i in ids)
+                            if (i != 0)
+                                members.Add(new Members(i));
+
+                        foreach (var i in ranks)
+                        {
+                            try
+                            {
+                                var memberIndex = members.IndexOf(members.Find(x => x.ID == Program.GetUserId(i.Split('&')[0])));
+                                if (memberIndex == -1)
+                                    continue;
+
+                                var rank = int.Parse(i.Split('&')[1]);
+                                int rankup = 30;
+                                int xp = 0;
+                                for (int j = 0; j < rank; j++)
+                                {
+                                    xp += rankup;
+                                    rankup += rankup / 5;
+                                }
+
+                                members[memberIndex].XP = xp;
+                                members[memberIndex].Rank = rank;
+                                members[memberIndex].Floppy += rank;
+                            }
+                            catch (Exception) { }
+                        }
+
+                        foreach (var i in floppies)
+                        {
+                            try
+                            {
+                                var memberIndex = members.IndexOf(members.Find(x => x.ID == ulong.Parse(i.Split()[0])));
+                                if (memberIndex == -1)
+                                    continue;
+                                var floppy = int.Parse(i.Split()[1]);
+                                members[memberIndex].Floppy += floppy * 10;
+                            }
+                            catch (Exception) { }
+                        }
+
+                        Members.PushData(members);
+                        await message.Channel.SendMessageAsync("Kész.");
+
                         return;
 
                     default:

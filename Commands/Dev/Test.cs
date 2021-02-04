@@ -41,7 +41,7 @@ namespace GroundedBot.Commands
                             members[i].Help = 0;
                         }
                         Members.PushData(members);
-                        await message.Channel.SendMessageAsync("Kész.");
+                        await message.Channel.SendMessageAsync("Done.");
                         return;
 
                     case "removewholeft":
@@ -56,7 +56,7 @@ namespace GroundedBot.Commands
                         foreach (var i in lefts)
                             members.Remove(i);
                         Members.PushData(members);
-                        await message.Channel.SendMessageAsync("Kész.");
+                        await message.Channel.SendMessageAsync("Done.");
                         return;
 
                     case "revertdata":
@@ -112,20 +112,20 @@ namespace GroundedBot.Commands
                         }
 
                         Members.PushData(members);
-                        await message.Channel.SendMessageAsync("Kész.");
+                        await message.Channel.SendMessageAsync("Done.");
 
                         return;
 
                     case "searchhelps":
                         foreach (var i in members.Where(x => x.Help > 0))
                             await message.Channel.SendMessageAsync($"{Program._client.GetUser(i.ID).Mention} - {i.Help}");
-                        await message.Channel.SendMessageAsync("Kész.");
+                        await message.Channel.SendMessageAsync("Done.");
                         return;
 
                     case "searchlasthelps":
                         foreach (var i in members.Where(x => x.LastHelp > 0))
                             await message.Channel.SendMessageAsync($"{Program._client.GetUser(i.ID).Mention} - {i.LastHelp}");
-                        await message.Channel.SendMessageAsync("Kész.");
+                        await message.Channel.SendMessageAsync("Done.");
                         return;
 
                     case "revertlasthelps":
@@ -136,7 +136,16 @@ namespace GroundedBot.Commands
                             members[members.IndexOf(members.Find(x => x.ID == id))].LastHelp = int.Parse(i.Split()[1]);
                         }
                         Members.PushData(members);
-                        await message.Channel.SendMessageAsync("Kész.");
+                        await message.Channel.SendMessageAsync("Done.");
+                        return;
+
+                    case "removeduplicates":
+                        var fixedMembers = new List<Members>();
+                        foreach (var i in members)
+                            if (fixedMembers.Find(x => x.ID == i.ID) == null)
+                                fixedMembers.Add(i);
+                        Members.PushData(fixedMembers);
+                        await message.Channel.SendMessageAsync("Done.");
                         return;
 
                     default:

@@ -11,6 +11,8 @@ namespace GroundedBot.Commands
     {
         public static List<ulong> RequiredRoles =
             new List<ulong>(BaseConfig.GetConfig().Roles.Mod);
+        public static List<ulong> PtanProRoles =
+            new List<ulong>(BaseConfig.GetConfig().Roles.PtanP);
 
         public static string[] Aliases =
         {
@@ -81,6 +83,27 @@ namespace GroundedBot.Commands
             var requests = PingRequests.PullData();
             Random r = new Random();
             var pingRequestsChannel = (IMessageChannel)Program._client.GetChannel(BaseConfig.GetConfig().Channels.PingRequests);
+
+            if (Program.HasPerm(PtanProRoles))
+            {
+                ulong[] allowedRoles =
+                {
+                    643057615542157325,
+                    642999690140450816,
+                    693928850576506962,
+                    718745058328707144,
+                    656934086295945222,
+                    656934935978049586,
+                    656935125610790932,
+                    656935401889464320
+                };
+
+                if (allowedRoles.Contains(role.Id))
+                    await message.Channel.SendMessageAsync(role.Mention, allowedMentions: AllowedMentions.None);
+                else
+                    await message.Channel.SendMessageAsync("❌ No, I will not ping that!");
+                return;
+            }
 
             var responseEmbed = new EmbedBuilder()
                 .WithAuthor(author =>

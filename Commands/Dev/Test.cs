@@ -41,7 +41,7 @@ namespace GroundedBot.Commands
                             members[i].Help = 0;
                         }
                         Members.PushData(members);
-                        await message.Channel.SendMessageAsync("Segítségért járó Floppyk kiosztva.");
+                        await message.Channel.SendMessageAsync("Kész.");
                         return;
 
                     case "removewholeft":
@@ -56,7 +56,7 @@ namespace GroundedBot.Commands
                         foreach (var i in lefts)
                             members.Remove(i);
                         Members.PushData(members);
-                        await message.Channel.SendMessageAsync("Lelépett tagok adatai törölve.");
+                        await message.Channel.SendMessageAsync("Kész.");
                         return;
 
                     case "revertdata":
@@ -114,6 +114,29 @@ namespace GroundedBot.Commands
                         Members.PushData(members);
                         await message.Channel.SendMessageAsync("Kész.");
 
+                        return;
+
+                    case "searchhelps":
+                        foreach (var i in members.Where(x => x.Help > 0))
+                            await message.Channel.SendMessageAsync($"{Program._client.GetUser(i.ID).Mention} - {i.Help}");
+                        await message.Channel.SendMessageAsync("Kész.");
+                        return;
+
+                    case "searchlasthelps":
+                        foreach (var i in members.Where(x => x.LastHelp > 0))
+                            await message.Channel.SendMessageAsync($"{Program._client.GetUser(i.ID).Mention} - {i.LastHelp}");
+                        await message.Channel.SendMessageAsync("Kész.");
+                        return;
+
+                    case "revertlasthelps":
+                        foreach (var i in File.ReadAllLines("lasthelps.txt"))
+                        {
+                            ulong id = ulong.Parse(i.Split()[0]);
+                            members.Add(new Members(id));
+                            members[members.IndexOf(members.Find(x => x.ID == id))].LastHelp = int.Parse(i.Split()[1]);
+                        }
+                        Members.PushData(members);
+                        await message.Channel.SendMessageAsync("Kész.");
                         return;
 
                     default:

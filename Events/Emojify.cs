@@ -43,13 +43,13 @@ namespace GroundedBot.Events
                 {
                     try
                     {
-                        if (i.Contains(emoteId.ToString()))
+                        if (emoteId != 0 && ulong.Parse(i.Substring(0, 18)) != 0)
                             return;
                     }
                     catch (Exception) { }
                     emote = Program._client.Guilds.SelectMany(x => x.Emotes).FirstOrDefault(x => x.Name == i);
                     try { emoteId = emote.Id; }
-                    catch (Exception) { }
+                    catch (Exception) { emoteId = 0; }
                     if (emote != null)
                     {
                         emotes.Add($":{i}:", $"<:{i}:{emote.Id}>");
@@ -69,7 +69,8 @@ namespace GroundedBot.Events
                 catch (Exception) { webhook = await ((ITextChannel)message.Channel).CreateWebhookAsync("emoji"); }
                 var webhookClient = new DiscordWebhookClient(webhook);
                 await webhookClient.SendMessageAsync(output, username: ((SocketGuildUser)message.Author).Nickname == null ? message.Author.Username : ((SocketGuildUser)message.Author).Nickname, avatarUrl: message.Author.GetAvatarUrl() == null ? message.Author.GetDefaultAvatarUrl() : message.Author.GetAvatarUrl(), allowedMentions: AllowedMentions.None);
-                await message.Channel.DeleteMessageAsync(message);
+                try { await message.Channel.DeleteMessageAsync(message); }
+                catch (Exception) { }
             }
         }
     }

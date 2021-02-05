@@ -53,6 +53,7 @@ namespace GroundedBot
 
             // Events
             Xp.DoEvent();
+            Emojify.DoEvent();
 
             if (pong)
                 Ping.DoCommand(true);

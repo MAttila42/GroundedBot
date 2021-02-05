@@ -29,7 +29,7 @@ namespace GroundedBot.Events
             {
                 try
                 {
-                    output = $"<:{m[1]}:{Program._client.Guilds.SelectMany(x => x.Emotes).FirstOrDefault(x => x.Name == m[1]).Id}>";
+                    output = $"<a:{m[1]}:{Program._client.Guilds.SelectMany(x => x.Emotes).FirstOrDefault(x => x.Name == m[1]).Id}>";
                     containsEmote = true;
                 }
                 catch (Exception) { }
@@ -47,12 +47,12 @@ namespace GroundedBot.Events
                             return;
                     }
                     catch (Exception) { }
-                    emote = Program._client.Guilds.SelectMany(x => x.Emotes).FirstOrDefault(x => x.Name == i);
+                    emote = Program._client.Guilds.SelectMany(x => x.Emotes).FirstOrDefault(x => x.Name == i && x.Animated);
                     try { emoteId = emote.Id; }
                     catch (Exception) { emoteId = 0; }
                     if (emote != null)
                     {
-                        emotes.Add($":{i}:", $"<:{i}:{emote.Id}>");
+                        emotes.Add($":{i}:", $"<a:{i}:{emote.Id}>");
                         containsEmote = true;
                     }
                 }

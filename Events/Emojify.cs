@@ -8,6 +8,16 @@ using GroundedBot.Json;
 
 namespace GroundedBot.Events
 {
+    class EmotePair
+    {
+        public string Name { get; set; }
+        public Emote Emote { get; set; }
+        public EmotePair(string name, Emote emote)
+        {
+            Name = name;
+            Emote = emote;
+        }
+    }
     class Emojify
     {
         public static List<ulong> RequiredRoles =
@@ -38,7 +48,7 @@ namespace GroundedBot.Events
             {
                 Emote emote;
                 ulong emoteId = 0;
-                var emotes = new Dictionary<string, string>();
+                var emotes = new List<EmotePair>();
                 foreach (var i in m)
                 {
                     try
@@ -52,13 +62,15 @@ namespace GroundedBot.Events
                     catch (Exception) { emoteId = 0; }
                     if (emote != null)
                     {
-                        emotes.Add($":{i}:", $"{emote}");
+                        if (emotes.Count(x => x.Name == i) < 1)
+                            emotes.Add(new EmotePair(i, emote));
                         containsEmote = true;
                     }
                 }
                 if (containsEmote)
                     foreach (var i in emotes)
-                        output = output.Replace(i.Key, i.Value);
+                        output = output.Replace($":{i.Name}:", i.Emote.ToString());
+
             }
 
             if (containsEmote)

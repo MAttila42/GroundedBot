@@ -140,9 +140,9 @@ namespace GroundedBot
         /// <returns></returns>
         public static bool HasPerm(List<ulong> allowedRoles)
         {
+            bool isAdmin = ((SocketGuildUser)Recieved.Message.Author).Roles.First().Permissions.Administrator;
             foreach (var role in (Recieved.Message.Author as SocketGuildUser).Roles)
-                if (allowedRoles.Contains(role.Id) ||
-                    BaseConfig.GetConfig().Roles.Admin.Contains(role.Id))
+                if (allowedRoles.Contains(role.Id) || isAdmin)
                     return true;
             return false;
         }

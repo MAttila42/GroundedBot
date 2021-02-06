@@ -35,16 +35,7 @@ namespace GroundedBot.Events
             string[] m = message.Content.Split(':');
             bool containsEmote = false;
 
-            if (!Program.HasPerm(PtanProRoles))
-            {
-                try
-                {
-                    output = $"{Program._client.Guilds.SelectMany(x => x.Emotes).FirstOrDefault(x => x.Name == m[1])}";
-                    containsEmote = true;
-                }
-                catch (Exception) { }
-            }
-            else
+            if (Program.HasPerm(PtanProRoles))
             {
                 Emote emote;
                 ulong emoteId = 0;
@@ -70,7 +61,15 @@ namespace GroundedBot.Events
                 if (containsEmote)
                     foreach (var i in emotes)
                         output = output.Replace($":{i.Name}:", i.Emote.ToString());
-
+            }
+            else
+            {
+                try
+                {
+                    output = $"{Program._client.Guilds.SelectMany(x => x.Emotes).FirstOrDefault(x => x.Name == m[1])}";
+                    containsEmote = true;
+                }
+                catch (Exception) { }
             }
 
             if (containsEmote)

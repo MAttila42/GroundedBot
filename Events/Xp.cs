@@ -11,6 +11,9 @@ namespace GroundedBot.Events
         public async static void DoEvent()
         {
             var message = Recieved.Message;
+            if (((SocketGuildChannel)message.Channel).Guild.Id != 642864087088234506)
+                return;
+
             bool isSpam = false;
             try
             {

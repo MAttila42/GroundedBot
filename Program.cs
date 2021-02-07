@@ -27,11 +27,11 @@ namespace GroundedBot
             _client = new DiscordSocketClient();
             _client.MessageReceived += MessageHandler;
             _client.UserLeft += LeaveHandler;
+            _client.Ready += Ready;
             _client.Log += Log;
             var token = BaseConfig.GetConfig().Token;
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
-            TimedEvents();
             await Task.Delay(-1);
         }
 
@@ -46,7 +46,7 @@ namespace GroundedBot
             string firstWord = message.Content.Split()[0];
             bool pong = message.Author.Id == BaseConfig.GetConfig().BotID && firstWord == "Pinging...";
 
-            if (pong || !message.Author.IsBot)
+            if (pong || (!message.Author.IsBot && !message.Author.IsWebhook))
                 Recieved.Message = message;
             else
                 return Task.CompletedTask;
@@ -96,12 +96,19 @@ namespace GroundedBot
             return Task.CompletedTask;
         }
 
-        static async void TimedEvents()
+        private Task Ready()
+        {
+            HourlyEvents();
+            return Task.CompletedTask;
+        }
+
+        private async static void HourlyEvents()
         {
             while (true)
             {
                 Backup.DoEvent();
-                await Task.Delay(3600000);
+                PtanCheck.DoEvent();
+                await Task.Delay(10000); // 3600000
             }
         }
 

@@ -108,7 +108,7 @@ namespace GroundedBot
             {
                 Backup.DoEvent();
                 PtanCheck.DoEvent();
-                await Task.Delay(10000); // 3600000
+                await Task.Delay(3600000);
             }
         }
 

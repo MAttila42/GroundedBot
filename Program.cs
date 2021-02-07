@@ -218,11 +218,7 @@ namespace GroundedBot
                     {
                         var users = ((SocketGuildChannel)message.Channel).Guild.Users;
                         string[] userStr = inputName.Split('#');
-                        if (userStr.Length > 2)
-                        {
-                            message.Channel.SendMessageAsync("❌ Unknown user!");
-                            return 0;
-                        }
+                        if (userStr.Length > 2) { return 0; }
                         bool userMissing = true;
                         bool multipleFound = false;
                         if (userStr.Length == 2)
@@ -280,16 +276,10 @@ namespace GroundedBot
                         {
                             if (multipleFound)
                                 message.Channel.SendMessageAsync("❌ Multiple users found!");
-                            else
-                                message.Channel.SendMessageAsync("❌ Unknown user!");
                             return 0;
                         }
                     }
-                    catch (Exception)
-                    {
-                        message.Channel.SendMessageAsync("❌ Unknown user!");
-                        return 0;
-                    }
+                    catch (Exception) { return 0; }
                 }
             }
             return id;

@@ -62,6 +62,7 @@ namespace GroundedBot
 
             string command = firstWord.Substring(1, firstWord.Length - 1).ToLower();
 
+            // Commands
             // Dev
             if (Evaluate.Aliases.Contains(command) && HasPerm(Evaluate.AllowedRoles))
                 Evaluate.DoCommand();
@@ -86,6 +87,8 @@ namespace GroundedBot
                 AnswerRequest.DoCommand();
             if (PingRequest.Aliases.Contains(command))
                 PingRequest.DoCommand();
+            if (Store.Aliases.Contains(command) && BotChannel())
+                Store.DoCommand();
 
             return Task.CompletedTask;
         }

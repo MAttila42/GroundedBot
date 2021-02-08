@@ -45,7 +45,7 @@ namespace GroundedBot.Commands
         public static string Permission = "Anyone can use it.";
         public static string Trello = "https://trello.com/c/VUQlIot5/27-commands";
 
-        public static async void DoCommand()
+        public async static void DoCommand()
         {
             await Program.Log("command", "");
 
@@ -67,6 +67,7 @@ namespace GroundedBot.Commands
             // Util
             commands.Add(new Command("AnswerRequest", AnswerRequest.Aliases, AnswerRequest.Description, AnswerRequest.Usages, AnswerRequest.Permission, "Util", AnswerRequest.Trello));
             commands.Add(new Command("PingRequest", PingRequest.Aliases, PingRequest.Description, PingRequest.Usages, PingRequest.Permission, "Util", PingRequest.Trello));
+            commands.Add(new Command("Store", Store.Aliases, Store.Description, Store.Usages, Store.Permission, "Util", Store.Trello));
 
             string content = "";
 

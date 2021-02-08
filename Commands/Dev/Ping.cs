@@ -20,7 +20,7 @@ namespace GroundedBot.Commands
         public static string Permission = "Anyone can use it.";
         public static string Trello = "https://trello.com/c/2wXQDMBX/31-ping";
 
-        public static async void DoCommand(bool isResponse)
+        public async static void DoCommand(bool isResponse)
         {
             var message = Recieved.Message;
             if (message.Content.Split().Length > 1)

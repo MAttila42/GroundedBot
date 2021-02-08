@@ -23,7 +23,7 @@ namespace GroundedBot.Commands
         public static string Permission = "Anyone can us it, but only members with Ptan+ Standard can create custom boards.";
         public static string Trello = "https://trello.com/c/onWdynw5/1-minesweeper";
 
-        public static async void DoCommand()
+        public async static void DoCommand()
         {
             await Program.Log("command", "");
 

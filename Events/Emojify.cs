@@ -25,7 +25,7 @@ namespace GroundedBot.Events
         public static List<ulong> PtanProRoles =
             new List<ulong>(BaseConfig.GetConfig().Roles.PtanP);
 
-        public static async void DoEvent()
+        public async static void DoEvent()
         {
             if (!Program.HasPerm(RequiredRoles))
                 return;

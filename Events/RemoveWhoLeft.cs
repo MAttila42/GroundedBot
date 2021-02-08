@@ -6,7 +6,7 @@ namespace GroundedBot.Events
 {
     class RemoveWhoLeft
     {
-        public static async void DoEvent(SocketGuildUser user)
+        public async static void DoEvent(SocketGuildUser user)
         {
             try
             {

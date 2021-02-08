@@ -6,7 +6,7 @@ namespace GroundedBot.Events
 {
     class Backup
     {
-        public static async void DoEvent()
+        public async static void DoEvent()
         {
             foreach (var id in BaseConfig.GetConfig().Channels.Backups)
                 try

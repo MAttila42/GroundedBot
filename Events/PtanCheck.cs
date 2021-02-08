@@ -7,7 +7,7 @@ namespace GroundedBot.Events
 {
     class PtanCheck
     {
-        public static async void DoEvent()
+        public async static void DoEvent()
         {
             var members = Members.PullData();
             for (int i = 0; i < members.Count; i++)
@@ -18,7 +18,7 @@ namespace GroundedBot.Events
                 if (date < DateTime.Now && members[i].PPlusDate != "")
                 {
                     members[i].PPlusDate = "";
-                    var user = Program._client.GetGuild(642864087088234506).GetUser(469150536399323157);
+                    var user = Program._client.GetGuild(642864087088234506).GetUser(members[i].ID);
                     foreach (var role in user.Roles)
                     {
                         if (!BaseConfig.GetConfig().Roles.Mod.Contains(role.Id))

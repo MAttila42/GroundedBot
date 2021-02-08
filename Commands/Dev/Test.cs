@@ -22,7 +22,7 @@ namespace GroundedBot.Commands
         public static string Permission = "Only Devs can use it.";
         public static string Trello = "https://trello.com/c/FTc2lM9h/7-test";
 
-        public static async void DoCommand()
+        public async static void DoCommand()
         {
             await Program.Log("command", "");
 

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
 using Discord;
+using Discord.WebSocket;
 using GroundedBot.Json;
 
 namespace GroundedBot.Commands
@@ -59,8 +59,9 @@ namespace GroundedBot.Commands
                         await message.Channel.SendMessageAsync("Done.");
                         return;
 
-                    case "getaptan+date": // Puts the current date as the expiry date of Ptan+
-                        members[Members.GetMemberIndex(members, message.Author.Id.ToString())].PPlusDate = DateTime.Now.ToString("dd/MM/yyyy");
+                    case "makestaffsbroke": // Removes every Floppy from every staff member that didn't come from ranking up.
+                        foreach (var i in members.Where(x => Program._client.GetGuild(642864087088234506).GetUser(x.ID).Roles.Count(y => y.Id == 642864137960947755) > 0 || Program._client.GetGuild(642864087088234506).GetUser(x.ID).Roles.Count(y => y.Id == 727070093816758352) > 0))
+                            members[members.IndexOf(members.Find(x => x.ID == i.ID))].Floppy = members[members.IndexOf(members.Find(x => x.ID == i.ID))].Rank;
                         Members.PushData(members);
                         await message.Channel.SendMessageAsync("Done.");
                         return;
@@ -71,10 +72,11 @@ namespace GroundedBot.Commands
                         break;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 await message.Channel.SendMessageAsync($"ping||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||{message.Author.Mention}");
                 await message.Channel.SendMessageAsync($"{message.Author.Mention}", allowedMentions: AllowedMentions.None);
+                await message.Channel.SendMessageAsync($"```{e.Message}```");
             }
         }
     }

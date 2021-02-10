@@ -62,6 +62,7 @@ namespace GroundedBot.Commands
             commands.Add(new Command("Minesweeper", Minesweeper.Aliases, Minesweeper.Description, Minesweeper.Usages, Minesweeper.Permission, "Fun", Minesweeper.Trello));
             // Info
             commands.Add(new Command("Commands", Commands.Aliases, Commands.Description, Commands.Usages, Commands.Permission, "Info", Commands.Trello));
+            commands.Add(new Command("EmojiList", EmojiList.Aliases, EmojiList.Description, EmojiList.Usages, EmojiList.Permission, "Info", EmojiList.Trello));
             commands.Add(new Command("Leaderboard", Leaderboard.Aliases, Leaderboard.Description, Leaderboard.Usages, Leaderboard.Permission, "Info", Leaderboard.Trello));
             commands.Add(new Command("UserInfo", UserInfo.Aliases, UserInfo.Description, UserInfo.Usages, UserInfo.Permission, "Info", UserInfo.Trello));
             // Util

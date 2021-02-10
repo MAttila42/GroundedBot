@@ -78,6 +78,8 @@ namespace GroundedBot
             // Info
             if (Commands.Commands.Aliases.Contains(command) && BotChannel())
                 Commands.Commands.DoCommand();
+            if (EmojiList.Aliases.Contains(command) && BotChannel())
+                EmojiList.DoCommand();
             if (Leaderboard.Aliases.Contains(command) && BotChannel())
                 Leaderboard.DoCommand();
             if (UserInfo.Aliases.Contains(command) && BotChannel())

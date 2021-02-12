@@ -70,12 +70,20 @@ namespace GroundedBot.Commands
             commands.Add(new Command("PingRequest", PingRequest.Aliases, PingRequest.Description, PingRequest.Usages, PingRequest.Permission, "Util", PingRequest.Trello));
             commands.Add(new Command("Store", Store.Aliases, Store.Description, Store.Usages, Store.Permission, "Util", Store.Trello));
 
-            string content = "";
+            commands.Add(new Command("Placeholder", null, null, null, null, "Placeholder", null));
+            commands.Add(new Command("Placeholder", null, null, null, null, "Placeholder2", null));
+
+            var embed = new EmbedBuilder()
+                .WithAuthor(author => { author.WithIconUrl("https://cdn.discordapp.com/attachments/782305154342322226/801852346350174208/noun_Information_405516.png"); }) // Information by Viktor Ostrovsky from the Noun Project
+                .WithFooter(((SocketGuildChannel)message.Channel).Guild.Name)
+                .WithColor(new Color(0x7289DA));
 
             switch (m.Length)
             {
                 case 1:
-                    content += "For more information use `.commands [command]`.\n\n";
+                    embed.WithAuthor(author => { author.WithName("Commands"); });
+                    embed.WithDescription("For more information use `.commands [command]`.\n" +
+                        "Official Documentation on [Trello](https://trello.com/b/Ns1WcpEB/groundedbot).");
 
                     var categories = new HashSet<string>();
                     foreach (var i in commands)
@@ -83,31 +91,29 @@ namespace GroundedBot.Commands
 
                     foreach (var category in categories)
                     {
-                        content += $"**{category}**\n";
+                        string content = "```\n";
                         var currentCategory = commands.Where(x => x.Category == category).ToList();
                         for (int j = 0; j < currentCategory.Count(); j++)
-                            content += $"`{currentCategory[j].Name}`{(j < currentCategory.Count() - 1 ? ", " : "\n\n")}";
+                            content += $"{currentCategory[j].Name}\n";
+                        for (int j = 0; j < commands.GroupBy(x => x.Category).OrderBy(x => x.Count()).Last().Count() - currentCategory.Count(); j++)
+                            content += " \n";
+                        content += "```";
+                        embed.AddField(category, content, true);
                     }
-                    content += "Official Documentation on [Trello](https://trello.com/b/Ns1WcpEB/groundedbot).";
-
-                    var embed = new EmbedBuilder()
-                        .WithAuthor(author =>
-                        {
-                            author
-                                .WithName("Commands")
-                                .WithIconUrl("https://cdn.discordapp.com/attachments/782305154342322226/801852346350174208/noun_Information_405516.png"); // Information by Viktor Ostrovsky from the Noun Project
-                        })
-                        .WithDescription(content)
-                        .WithFooter(((SocketGuildChannel)message.Channel).Guild.Name)
-                        .WithColor(new Color(0x7289DA)).Build();
-                    await message.Channel.SendMessageAsync(null, embed: embed);
+                    await message.Channel.SendMessageAsync(null, embed: embed.Build());
                     break;
                 case 2:
-                    var foundCommands = commands.Where(x => x.Aliases.Contains(m[1])).ToList();
+                    List<Command> foundCommands;
+                    try { foundCommands = commands.Where(x => x.Aliases.Contains(m[1].ToLower())).ToList(); }
+                    catch (Exception) { return; }
+
+                    if (foundCommands.Count < 1)
+                        return;
 
                     foreach (var command in foundCommands)
                     {
-                        content = "";
+                        embed.WithAuthor(author => { author.WithName(command.Name); });
+                        string content = "";
                         content += $"Category: **{command.Category}**\n" +
                             $"{command.Description}\n" +
                             $"{command.Permission}\n\n" +
@@ -118,18 +124,8 @@ namespace GroundedBot.Commands
                         for (int j = 0; j < command.Aliases.Count(); j++)
                             content += $"`{command.Aliases[j]}`{(j < command.Aliases.Count() - 1 ? ", " : "\n\n")}";
                         content += $"Official Documentation on [Trello]({command.Trello}).";
-
-                        var embed2 = new EmbedBuilder()
-                            .WithAuthor(author =>
-                            {
-                                author
-                                    .WithName(command.Name)
-                                    .WithIconUrl("https://cdn.discordapp.com/attachments/782305154342322226/801852346350174208/noun_Information_405516.png"); // Information by Viktor Ostrovsky from the Noun Project
-                            })
-                            .WithDescription(content)
-                            .WithFooter(((SocketGuildChannel)message.Channel).Guild.Name)
-                            .WithColor(new Color(0x7289DA)).Build();
-                        await message.Channel.SendMessageAsync(null, embed: embed2);
+                        embed.WithDescription(content);
+                        await message.Channel.SendMessageAsync(null, embed: embed.Build());
                     }
                     break;
 

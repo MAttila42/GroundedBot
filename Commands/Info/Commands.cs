@@ -70,8 +70,8 @@ namespace GroundedBot.Commands
             commands.Add(new Command("PingRequest", PingRequest.Aliases, PingRequest.Description, PingRequest.Usages, PingRequest.Permission, "Util", PingRequest.Trello));
             commands.Add(new Command("Store", Store.Aliases, Store.Description, Store.Usages, Store.Permission, "Util", Store.Trello));
 
-            commands.Add(new Command("Placeholder", null, null, null, null, "Placeholder", null));
-            commands.Add(new Command("Placeholder", null, null, null, null, "Placeholder2", null));
+            commands.Add(new Command("Placeholder", new string[] { }, "", new string[] { }, "", "Placeholder", ""));
+            commands.Add(new Command("Placeholder", new string[] { }, "", new string[] { }, "", "Placeholder2", ""));
 
             var embed = new EmbedBuilder()
                 .WithAuthor(author => { author.WithIconUrl("https://cdn.discordapp.com/attachments/782305154342322226/801852346350174208/noun_Information_405516.png"); }) // Information by Viktor Ostrovsky from the Noun Project

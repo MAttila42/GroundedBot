@@ -99,7 +99,10 @@ namespace GroundedBot.Commands
                 };
 
                 if (allowedRoles.Contains(role.Id))
+                {
                     await message.Channel.SendMessageAsync(role.Mention);
+                    await message.Channel.DeleteMessageAsync(message);
+                }
                 else
                     await message.Channel.SendMessageAsync("❌ No, I will not ping that!");
                 return;

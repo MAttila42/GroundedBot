@@ -36,6 +36,8 @@ namespace GroundedBot.Commands
 
             if (m.Length == 1)
             {
+                output += $"Buying something works like this: `{BaseConfig.GetConfig().Prefix}store buy <itemName>`.\n\n";
+
                 foreach (var i in items)
                 {
                     output += $"**{i.Name}** - **{i.Price}**:floppy_disk:{(i.Type == "ptan+" ? "/month" : "")}\n" +

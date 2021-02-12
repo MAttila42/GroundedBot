@@ -102,8 +102,9 @@ namespace GroundedBot
             return Task.CompletedTask;
         }
 
-        private Task Ready()
+        private async Task<Task> Ready()
         {
+            await Log("event", "Bot started");
             HourlyEvents();
             return Task.CompletedTask;
         }

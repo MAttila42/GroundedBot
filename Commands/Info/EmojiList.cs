@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using Discord;
 using Discord.WebSocket;
-using System.Linq;
+using GroundedBot.Json;
 
 namespace GroundedBot.Commands
 {
@@ -20,7 +20,7 @@ namespace GroundedBot.Commands
             "emotes"
         };
         public static string Description = "Shows a categorized list of avaliable emojis.";
-        public static string[] Usages = { ".emojilist [category]" };
+        public static string[] Usages = { "emojilist [category]" };
         public static string Permission = "Anyone can us it.";
         public static string Trello = "https://trello.com/c/eQ5k04TI/30-emoji";
 
@@ -49,7 +49,7 @@ namespace GroundedBot.Commands
                     }
                     embed.AddField(i.Name, emojis, true);
                 }
-                embed.WithDescription("For more use `.emojilist [category]`");
+                embed.WithDescription($"For more use `{BaseConfig.GetConfig().Prefix}emojilist [category]`");
             }
             else
             {

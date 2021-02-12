@@ -21,7 +21,7 @@ namespace GroundedBot.Commands
             "eval"
         };
         public static string Description = "Run code from different kinds of programming languages.";
-        public static string[] Usages = { ".evaluate <language> <code>" };
+        public static string[] Usages = { "evaluate <language> <code>" };
         public static string Permission = "Only Devs can use it.";
         public static string Trello = "https://trello.com/c/ZPzDklu7/5-evaluate";
 

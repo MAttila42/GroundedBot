@@ -20,8 +20,8 @@ namespace GroundedBot.Commands
         public static string Description = "Store to spend your Floppies. You can buy here Ptan+ and other stuff.";
         public static string[] Usages =
         {
-            ".store",
-            ".store buy <név>"
+            "store",
+            "store buy <név>"
         };
         public static string Permission = "Anyone can use it.";
         public static string Trello = "https://trello.com/c/LCLzeAYa/32-store";

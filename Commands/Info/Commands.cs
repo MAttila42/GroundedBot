@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Discord;
 using Discord.WebSocket;
+using GroundedBot.Json;
 
 namespace GroundedBot.Commands
 {
@@ -41,7 +42,7 @@ namespace GroundedBot.Commands
             "segitseg"
         };
         public static string Description = "Shows the list of commands or information about the one asked.";
-        public static string[] Usages = { ".commands [command]" };
+        public static string[] Usages = { "commands [command]" };
         public static string Permission = "Anyone can use it.";
         public static string Trello = "https://trello.com/c/VUQlIot5/27-commands";
 
@@ -82,7 +83,7 @@ namespace GroundedBot.Commands
             {
                 case 1:
                     embed.WithAuthor(author => { author.WithName("Commands"); });
-                    embed.WithDescription("For more information use `.commands [command]`.\n" +
+                    embed.WithDescription($"For more information use `{BaseConfig.GetConfig().Prefix}commands [command]`.\n" +
                         "Official Documentation on [Trello](https://trello.com/b/Ns1WcpEB/groundedbot).");
 
                     var categories = new HashSet<string>();
@@ -119,7 +120,7 @@ namespace GroundedBot.Commands
                             $"{command.Permission}\n\n" +
                             $"Usage{(command.Usages.Length > 1 ? "s:\n" : ": ")}";
                         foreach (var usage in command.Usages)
-                            content += $"`{usage}`\n";
+                            content += $"`{BaseConfig.GetConfig().Prefix}{usage}`\n";
                         content += $"\nAliases: ";
                         for (int j = 0; j < command.Aliases.Count(); j++)
                             content += $"`{command.Aliases[j]}`{(j < command.Aliases.Count() - 1 ? ", " : "\n\n")}";

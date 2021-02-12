@@ -52,8 +52,9 @@ namespace GroundedBot
                 return Task.CompletedTask;
 
             // Events
-            Xp.DoEvent();
+            BotMention.DoEvent();
             Emojify.DoEvent();
+            Xp.DoEvent();
 
             if (pong)
                 Ping.DoCommand(true);

@@ -81,7 +81,7 @@ namespace GroundedBot.Commands
                         await message.Channel.SendMessageAsync("Done.");
                         return;
 
-                    case "floppystats":
+                    case "floppystats": // Shows some economy statistics.
                         int count = 0;
                         int sum = 0;
                         foreach (var i in members)

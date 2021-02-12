@@ -35,6 +35,9 @@ namespace GroundedBot.Events
             string[] m = message.Content.Split(':');
             bool containsEmote = false;
 
+            if (m.Length < 3)
+                return;
+
             Emote emote;
             ulong emoteId = 0;
             var emotes = new List<EmotePair>();

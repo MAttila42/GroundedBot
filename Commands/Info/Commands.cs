@@ -66,13 +66,14 @@ namespace GroundedBot.Commands
             commands.Add(new Command("EmojiList", EmojiList.Aliases, EmojiList.Description, EmojiList.Usages, EmojiList.Permission, "Info", EmojiList.Trello));
             commands.Add(new Command("Leaderboard", Leaderboard.Aliases, Leaderboard.Description, Leaderboard.Usages, Leaderboard.Permission, "Info", Leaderboard.Trello));
             commands.Add(new Command("UserInfo", UserInfo.Aliases, UserInfo.Description, UserInfo.Usages, UserInfo.Permission, "Info", UserInfo.Trello));
+            // Mod
+            commands.Add(new Command("Placeholder", new string[] { }, "", new string[] { }, "", "Mod", ""));
+            // Music
+            commands.Add(new Command("Placeholder", new string[] { }, "", new string[] { }, "", "Music", ""));
             // Util
             commands.Add(new Command("AnswerRequest", AnswerRequest.Aliases, AnswerRequest.Description, AnswerRequest.Usages, AnswerRequest.Permission, "Util", AnswerRequest.Trello));
             commands.Add(new Command("PingRequest", PingRequest.Aliases, PingRequest.Description, PingRequest.Usages, PingRequest.Permission, "Util", PingRequest.Trello));
             commands.Add(new Command("Store", Store.Aliases, Store.Description, Store.Usages, Store.Permission, "Util", Store.Trello));
-
-            commands.Add(new Command("Placeholder", new string[] { }, "", new string[] { }, "", "Placeholder", ""));
-            commands.Add(new Command("Placeholder", new string[] { }, "", new string[] { }, "", "Placeholder2", ""));
 
             var embed = new EmbedBuilder()
                 .WithAuthor(author => { author.WithIconUrl("https://cdn.discordapp.com/attachments/782305154342322226/801852346350174208/noun_Information_405516.png"); }) // Information by Viktor Ostrovsky from the Noun Project

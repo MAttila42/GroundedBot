@@ -119,10 +119,10 @@ namespace GroundedBot.Commands
                         content += $"Category: **{command.Category}**\n" +
                             $"{command.Description}\n" +
                             $"{command.Permission}\n\n" +
-                            $"Usage{(command.Usages.Length > 1 ? "s:\n" : ": ")}";
+                            $"**Usage{(command.Usages.Length > 1 ? "s:\n" : ": ")}**";
                         foreach (var usage in command.Usages)
                             content += $"`{BaseConfig.GetConfig().Prefix}{usage}`\n";
-                        content += $"\nAliases: ";
+                        content += $"\n**Aliases:** ";
                         for (int j = 0; j < command.Aliases.Count(); j++)
                             content += $"`{command.Aliases[j]}`{(j < command.Aliases.Count() - 1 ? ", " : "\n\n")}";
                         content += $"Official Documentation on [Trello]({command.Trello}).";

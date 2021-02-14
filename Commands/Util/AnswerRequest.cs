@@ -23,7 +23,8 @@ namespace GroundedBot.Commands
         public static string[] Usages =
         {
             "answerrequest",
-            "answerrequest <id> <approve/deny> <rating(1-5)>"
+            "answerrequest <id> approve <rating(1-5)>",
+            "answerrequest <id> deny"
         };
         public static string Permission = "Anyone can request, but only Moderators can review.";
         public static string Trello = "https://trello.com/c/PYYyovJK/3-answer-request";

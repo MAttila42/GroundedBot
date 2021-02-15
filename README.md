@@ -9,7 +9,7 @@ Official Documentation on [Trello](https://trello.com/b/Ns1WcpEB/groundedbot)
 So you would like to help developing the bot I see. Good. I'll try to cover everything you need to know below.
 
 ## Setting up
-I recommend using [Visual Studio Code](https://visualstudio.microsoft.com/vs/community/). Don't forget to have [Git](https://git-scm.com/downloads) installed. [Clone](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository) this repository. The project uses Discord.Net 2.3.0.
+I recommend using [Visual Studio](https://visualstudio.microsoft.com/vs/community/). Don't forget to have [Git](https://git-scm.com/downloads) installed. [Clone](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository) this repository. The project uses Discord.Net 2.3.0.
 
 The Bot won't work like this though, you will need a `BaseConfig.json` file next to the built Bot. The `BaseConfig.cs` has a summary for everything you need in it, but here's an example:
 ```json

@@ -12,8 +12,8 @@ The Bot won't work like this though, you will need a `BaseConfig.json` file next
 ```json
 {
 	"Token": "YOUR-BOT'S-TOKEN",
-  "Prefix": "&",
-  "BotID": 763791179711512616,
+	"Prefix": "&",
+	"BotID": 763791179711512616,
 	"Roles": {
 		"Admin": [
 			642864137960947755,
@@ -25,21 +25,21 @@ The Bot won't work like this though, you will need a `BaseConfig.json` file next
 			728992546658975804
 		],
 		"PtanB": [
-      680465501599563794,
-      791662389568339998,
-      752836577016676522,
-      791662435505274881,
-      727070093816758352
+      			680465501599563794,
+      			791662389568339998,
+      			752836577016676522,
+      			791662435505274881,
+      			727070093816758352
 		],
 		"PtanS": [
-      791662389568339998,
-      752836577016676522,
-      791662435505274881,
-      727070093816758352
+      			791662389568339998,
+      			752836577016676522,
+      			791662435505274881,
+      			727070093816758352
 		],
 		"PtanP": [
-      791662435505274881,
-      727070093816758352
+      			791662435505274881,
+      			727070093816758352
 		]
 	},
 	"Channels": {
@@ -49,13 +49,13 @@ The Bot won't work like this though, you will need a `BaseConfig.json` file next
 		"Backups": [
 			0
 		],
-    "BotChannel": [
-      656872640958431232,
-      656923734069739521
-    ],
-    "PingRequests": 781989837195968545,
-    "AnswerRequests": 781989530197950524,
-    "LevelUp": 0
+    		"BotChannel": [
+      			656872640958431232,
+      			656923734069739521
+    		],
+    		"PingRequests": 781989837195968545,
+    		"AnswerRequests": 781989530197950524,
+    		"LevelUp": 0
 	}
 }
 ```
@@ -166,4 +166,4 @@ idk
 Thank you for contributing, I appreciate it. If I end up hiring someone as a Developer for this bot then it might just be You.
 
 Love y'all <3
-\- ExAtom
+- ExAtom

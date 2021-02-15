@@ -1,6 +1,8 @@
 # GroundedBot
-Official Discord bot for the ProgramTan server network
+Official Discord bot for the ProgramTan server network.
+
 Feel free to use some code.
+
 Official Documentation on [Trello](https://trello.com/b/Ns1WcpEB/groundedbot)
 
 # Contributing Guide
@@ -8,6 +10,7 @@ So you would like to help developing the bot I see. Good. I'll try to cover ever
 
 ## Setting up
 I recommend using [Visual Studio Code](https://visualstudio.microsoft.com/vs/community/). Don't forget to have [Git](https://git-scm.com/downloads) installed. [Clone](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository) this repository. The project uses Discord.Net 2.3.0.
+
 The Bot won't work like this though, you will need a `BaseConfig.json` file next to the built Bot. The `BaseConfig.cs` has a summary for everything you need in it, but here's an example:
 ```json
 {
@@ -60,6 +63,7 @@ The Bot won't work like this though, you will need a `BaseConfig.json` file next
 }
 ```
 You should be able to just put 0's at places that you don't need.
+
 The Bot is now fully funcitonal and you are ready to make some new features.
 
 ## File structure
@@ -70,6 +74,7 @@ The start of the Bot. This contains many useful pieces of code. From top to bott
 
 ### Recieved Message and PingTime
 PingTime is nothing special it is only used for the Ping command.
+
 In `Message` the latest message is stored sent by a user. You can acces it anywhere with `Recieved.Message`.
 
 ### \_client
@@ -83,9 +88,13 @@ Puts some basic logging on the console sent by the client.
 
 ### MessageHandler
 Here's what most of the fun happens.
+
 If the recieved message is from a Bot then it won't do anything. If it is an answer to a Ping command then it runs that. Lastly, if it is from a user then it continues.
+
 Below the `Events` comment are the message based event funcitons. If you make a new one then put it here.
+
 If the recieved message starts with the Bot's prefix then it will continue to the commands.
+
 Below the `Commands` comment there are further comments with categry names in alphabetical ordar (Please maintain that). Every command is in it's own if statement checking conditions. These can be wheter the user has permission to run that command or if it only be used in bot channels. More on how they work below.
 
 ### LeaveHandler
@@ -117,10 +126,12 @@ The Bot uses JSONs to save data. To access them you will need `using GroundedBot
 
 ### BaseConfig
 I've mentiond it multiple times, but what exactly is this? It's a simple JSON containing every non-variable values such as the Token, different roles or channels etc. Like I said in the beggining the `BaseConfig.cs` file contains summary for everything in it.
+
 Then simply use `BaseConfig.GetConfig()`. You may save this in a variable or get the desired value rightaway.
 
 ### Members
 Stores many values of each user as long as they are on the server. To get the list simply use `Members.PullData()`. It works the same as the BaseConfig. However you can change the values stored in this by editing the values of the pulled JSON, then Pushing it back into the file with `Members.PushData(list)`. Unique feature is the `GetMemberIndex`. Feed a list and a member, and it will return back their position in the list.
+
 The constructor only needs a single parameter which is the ID.
 
 ### Other
@@ -138,7 +149,9 @@ Lets say you now want to make a new command. Here's what you need to have:
 * `DoCommand` (function where the command starts)
   * Must have `await Program.Log();` preferably at the top.
   * Must have some sort of response.
+  
 Ok, you made a new command, what now?
+
 Call it from the MessageHandler with the right condition. Example:
 ```cs
 if (YourCommand.Aliases.Contains(command) && BotChannel() && HasPerm(YourCommand.AllowedRoles))

@@ -13,7 +13,7 @@ namespace GroundedBot.Events
                 var members = Members.PullData();
                 members.RemoveAt(members.IndexOf(members.Find(x => x.ID == user.Id)));
                 Members.PushData(members);
-                await Program.Log("event", $"{user.Username}#{user.Discriminator} ({user.Id}) removed from the database");
+                await Program.Log($"{user.Username}#{user.Discriminator} ({user.Id}) removed from the database");
             }
             catch (Exception) { }
         }

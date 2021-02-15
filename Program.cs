@@ -27,15 +27,15 @@ namespace GroundedBot
             _client = new DiscordSocketClient();
             _client.MessageReceived += MessageHandler;
             _client.UserLeft += LeaveHandler;
+            _client.Log += ClientLog;
             _client.Ready += Ready;
-            _client.Log += Log;
             var token = BaseConfig.GetConfig().Token;
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
             await Task.Delay(-1);
         }
 
-        private Task Log(LogMessage msg)
+        private Task ClientLog(LogMessage msg)
         {
             Console.WriteLine(msg.ToString());
             return Task.CompletedTask;
@@ -102,9 +102,8 @@ namespace GroundedBot
             return Task.CompletedTask;
         }
 
-        private async Task<Task> Ready()
+        private Task Ready()
         {
-            await Log("event", "Bot started");
             HourlyEvents();
             return Task.CompletedTask;
         }
@@ -120,28 +119,29 @@ namespace GroundedBot
         }
 
         /// <summary>
-        /// Meghatározható típusú logolás a terminálba és a BaseConfigban beállított szobákba.
+        /// Parancs logolás a terminálba és a BaseConfigban beállított szobákba.
         /// </summary>
-        /// <param name="mode">command, event</param>
-        /// <param name="other">Other additional string</param>
         /// <returns></returns>
-        public async static Task Log(string mode, string other)
+        public async static Task Log()
         {
             var message = Recieved.Message;
             Console.Write(DateTime.Now.ToString("yyyy.MM.dd. HH:mm:ss") + " ");
-            string output;
-            switch (mode)
-            {
-                case "command":
-                    output = $"Command run - {message.Author.Username}#{message.Author.Discriminator} in #{message.Channel}: {message.Content}";
-                    break;
-                case "event":
-                    output = $"Event - {other}";
-                    break;
-
-                default:
-                    return;
-            }
+            string output = $"Command run - {message.Author.Username}#{message.Author.Discriminator} in #{message.Channel}: {message.Content}";
+            foreach (var id in BaseConfig.GetConfig().Channels.BotTerminal)
+                try { await ((IMessageChannel)_client.GetChannel(id)).SendMessageAsync(output, allowedMentions: AllowedMentions.None); }
+                catch (Exception) { }
+            Console.WriteLine(output);
+        }
+        /// <summary>
+        /// Event logolás a terminálba és a BaseConfigban beállított szobákba.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public async static Task Log(string text)
+        {
+            var message = Recieved.Message;
+            Console.Write(DateTime.Now.ToString("yyyy.MM.dd. HH:mm:ss") + " ");
+            string output = $"Event - {text}";
             foreach (var id in BaseConfig.GetConfig().Channels.BotTerminal)
                 try { await ((IMessageChannel)_client.GetChannel(id)).SendMessageAsync(output, allowedMentions: AllowedMentions.None); }
                 catch (Exception) { }

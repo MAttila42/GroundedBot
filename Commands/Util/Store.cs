@@ -27,7 +27,7 @@ namespace GroundedBot.Commands
         public static string Trello = "https://trello.com/c/LCLzeAYa/32-store";
         public async static void DoCommand()
         {
-            await Program.Log("command", "");
+            await Program.Log();
             var message = Recieved.Message;
             string[] m = message.Content.Split();
             var members = Members.PullData();

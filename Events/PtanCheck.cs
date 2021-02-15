@@ -31,7 +31,7 @@ namespace GroundedBot.Events
                                 await user.RemoveRoleAsync(role);
                         }
                     }
-                    await Program.Log("event", $"{user.Username}#{user.Discriminator}'s Ptan+ subscription has expired");
+                    await Program.Log($"{user.Username}#{user.Discriminator}'s Ptan+ subscription has expired");
                     Members.PushData(members);
                 }
             }

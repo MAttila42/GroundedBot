@@ -39,7 +39,7 @@ namespace GroundedBot.Commands
             if (m.Length == 1)
                 return;
 
-            await Program.Log("command", "");
+            await Program.Log();
 
             if (m.Length >= 3 && Program.HasPerm(RequiredRoles))
             {

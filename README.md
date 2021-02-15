@@ -165,5 +165,5 @@ idk
 ## Thank you
 Thank you for contributing, I appreciate it. If I end up hiring someone as a Developer for this bot then it might just be You.
 
-> Love y'all <3
-> - ExAtom
+Love y'all <3
+\- ExAtom

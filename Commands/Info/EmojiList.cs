@@ -53,8 +53,15 @@ namespace GroundedBot.Commands
             }
             else
             {
-                var server = Program._client.Guilds.First(x => x.Name.ToLower() == m[1].ToLower());
-                embed.WithAuthor(author => { author.WithName(server.Name); });
+                SocketGuild server;
+                try
+                {
+                    server = Program._client.Guilds.First(x => x.Name.ToLower() == m[1].ToLower());
+                    embed.WithAuthor(author => { author.WithName(server.Name); });
+                }
+                catch (Exception) { return; }
+                if (server == null)
+                    return;
                 var emotes = server.Emotes.Where(x => !x.Animated).OrderBy(x => x.Name);
                 var animatedEmotes = server.Emotes.Where(x => x.Animated).OrderBy(x => x.Name);
 

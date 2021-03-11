@@ -70,7 +70,7 @@ namespace GroundedBot.Json
         /// <summary>
         /// A Bot saját ID-je.
         /// </summary>
-        public ulong BotID { get; set; }
+        public ulong ServerID { get; set; }
         /// <summary>
         /// Szükséges role-ok listája.
         /// </summary>

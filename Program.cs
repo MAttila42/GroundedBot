@@ -44,7 +44,7 @@ namespace GroundedBot
         private Task MessageHandler(SocketMessage message)
         {
             string firstWord = message.Content.Split()[0];
-            bool pong = message.Author.Id == BaseConfig.GetConfig().BotID && firstWord == "Pinging...";
+            bool pong = message.Author.Id == _client.CurrentUser.Id && firstWord == "Pinging...";
 
             if (pong || (!message.Author.IsBot && !message.Author.IsWebhook))
                 Recieved.Message = message;

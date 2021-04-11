@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Timers;
 using Microsoft.Scripting;
 using Microsoft.Scripting.Hosting;
@@ -30,7 +31,7 @@ namespace GroundedBot.Commands
         static int counter;
         static Timer timer;
 
-        public async static void DoCommand()
+        public async static Task DoCommand()
         {
             await Program.Log();
 

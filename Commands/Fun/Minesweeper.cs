@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
 using GroundedBot.Json;
 
@@ -20,10 +21,10 @@ namespace GroundedBot.Commands
         };
         public static string Description = "Generates a client-side minesweeper table.";
         public static string[] Usages = { "minesweeper [row] [column] [mines] [help(0/1)]" };
-        public static string Permission = "Anyone can us it, but only members with Ptan+ Standard can create custom boards.";
+        public static string Permission = "Anyone can use it, but only members with Ptan+ Standard can create custom boards.";
         public static string Trello = "https://trello.com/c/onWdynw5/1-minesweeper";
 
-        public async static void DoCommand()
+        public static async Task DoCommand()
         {
             await Program.Log();
 

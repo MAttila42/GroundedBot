@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Discord.WebSocket;
 using GroundedBot.Json;
 
@@ -6,7 +7,7 @@ namespace GroundedBot.Events
 {
     class RemoveWhoLeft
     {
-        public async static void DoEvent(SocketGuildUser user)
+        public async static Task DoEvent(SocketGuildUser user)
         {
             try
             {

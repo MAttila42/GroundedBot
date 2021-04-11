@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
 using Discord;
 using Discord.WebSocket;
@@ -31,7 +32,7 @@ namespace GroundedBot.Commands
         public static string Permission = "Anyone can use it, with Ptan+ Pro, pinging is instant, but only Moderators can review.";
         public static string Trello = "https://trello.com/c/AAuBVeZY/2-ping-request";
 
-        public async static void DoCommand()
+        public async static Task DoCommand()
         {
             var message = Recieved.Message;
             string[] m = message.Content.Split();

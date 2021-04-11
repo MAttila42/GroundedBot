@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
 using Discord;
 using Discord.WebSocket;
@@ -22,7 +23,7 @@ namespace GroundedBot.Commands
         public static string Permission = "Only Devs can use it.";
         public static string Trello = "https://trello.com/c/FTc2lM9h/7-test";
 
-        public async static void DoCommand()
+        public async static Task DoCommand()
         {
             await Program.Log();
 

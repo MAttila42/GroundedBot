@@ -121,7 +121,7 @@ namespace GroundedBot.Commands
                 .WithColor(role.Color).Build();
             var response = await message.Channel.SendMessageAsync(null, embed: responseEmbed);
 
-            var embedMessage = await pingRequestsChannel.SendMessageAsync(null, embed: new EmbedBuilder().Build());
+            var embedMessage = await pingRequestsChannel.SendMessageAsync(null, embed: new EmbedBuilder().WithDescription("Embed").Build());
             var requestEmbed = new EmbedBuilder()
                 .WithAuthor(author =>
                 {

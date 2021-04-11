@@ -115,7 +115,7 @@ namespace GroundedBot.Commands
                 .WithColor(new Color(0x7289DA)).Build();
             var response = await message.Channel.SendMessageAsync(null, embed: responseEmbed);
 
-            var embedMessage = await answerRequestsChannel.SendMessageAsync(null, embed: new EmbedBuilder().Build());
+            var embedMessage = await answerRequestsChannel.SendMessageAsync(null, embed: new EmbedBuilder().WithDescription("Embed").Build());
             var requestEmbed = new EmbedBuilder()
                 .WithAuthor(author =>
                 {

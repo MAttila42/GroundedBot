@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using GroundedBot.Json;
 using Discord;
 
@@ -20,7 +21,7 @@ namespace GroundedBot.Commands
         public static string Permission = "Anyone can use it.";
         public static string Trello = "https://trello.com/c/2wXQDMBX/31-ping";
 
-        public async static void DoCommand(bool isResponse)
+        public async static Task DoCommand(bool isResponse)
         {
             var message = Recieved.Message;
             if (message.Content.Split().Length > 1)

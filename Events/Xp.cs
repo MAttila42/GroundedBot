@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using GroundedBot.Json;
@@ -8,7 +9,7 @@ namespace GroundedBot.Events
 {
     public class Xp
     {
-        public async static void DoEvent()
+        public async static Task DoEvent()
         {
             var message = Recieved.Message;
             if (((SocketGuildChannel)message.Channel).Guild.Id != 642864087088234506)

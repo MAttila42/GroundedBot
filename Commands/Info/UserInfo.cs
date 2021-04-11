@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
 using Discord;
 using Discord.WebSocket;
@@ -35,7 +36,7 @@ namespace GroundedBot.Commands
         public static string Permission = "Anyone can use it, but only members with Ptan+ Budget can search for other members.";
         public static string Trello = "https://trello.com/c/DMA4C4RC/10-userinfo";
 
-        public async static void DoCommand()
+        public async static Task DoCommand()
         {
             await Program.Log();
 

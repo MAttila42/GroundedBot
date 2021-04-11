@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Discord;
 using GroundedBot.Json;
 
@@ -6,7 +7,7 @@ namespace GroundedBot.Events
 {
     class Backup
     {
-        public async static void DoEvent()
+        public async static Task DoEvent()
         {
             foreach (var id in BaseConfig.GetConfig().Channels.Backups)
                 try

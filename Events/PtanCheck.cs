@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Globalization;
+using System.Threading.Tasks;
 using GroundedBot.Json;
 
 namespace GroundedBot.Events
 {
     class PtanCheck
     {
-        public async static void DoEvent()
+        public async static Task DoEvent()
         {
             var members = Members.PullData();
             for (int i = 0; i < members.Count; i++)
@@ -18,7 +19,7 @@ namespace GroundedBot.Events
                 if (date < DateTime.Now && members[i].PPlusDate != "")
                 {
                     members[i].PPlusDate = "";
-                    var user = Program._client.GetGuild(642864087088234506).GetUser(members[i].ID);
+                    var user = Program._client.GetGuild(830806387956514826).GetUser(members[i].ID);
                     foreach (var role in user.Roles)
                     {
                         if (!BaseConfig.GetConfig().Roles.Mod.Contains(role.Id))

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using GroundedBot.Json;
@@ -19,7 +20,7 @@ namespace GroundedBot.Commands
         public static string Permission = "Anyone can use it.";
         public static string Trello = "https://trello.com/c/T1fixUma/9-leaderboard";
 
-        public async static void DoCommand()
+        public async static Task DoCommand()
         {
             await Program.Log();
 

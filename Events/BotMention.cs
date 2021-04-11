@@ -1,10 +1,11 @@
-﻿using GroundedBot.Json;
+﻿using System.Threading.Tasks;
+using GroundedBot.Json;
 
 namespace GroundedBot.Events
 {
     class BotMention
     {
-        public async static void DoEvent()
+        public async static Task DoEvent()
         {
             var message = Recieved.Message;
             ulong id = Program._client.CurrentUser.Id;

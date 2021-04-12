@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Diagnostics;
 using GroundedBot.Json;
 
@@ -16,7 +17,7 @@ namespace GroundedBot.Commands
         public static string Permission = "Only Devs can use it.";
         public static string Trello = "https://trello.com/c/2t1CC8e0/6-restart";
 
-        public async static void DoCommand()
+        public async static Task DoCommand()
         {
             await Program.Log();
 

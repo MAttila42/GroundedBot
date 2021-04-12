@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using GroundedBot.Json;
@@ -21,10 +22,10 @@ namespace GroundedBot.Commands
         };
         public static string Description = "Shows a categorized list of avaliable emojis.";
         public static string[] Usages = { "emojilist [category]" };
-        public static string Permission = "Anyone can us it.";
+        public static string Permission = "Anyone can use it.";
         public static string Trello = "https://trello.com/c/eQ5k04TI/30-emoji";
 
-        public async static void DoCommand()
+        public async static Task DoCommand()
         {
             await Program.Log();
             var message = Recieved.Message;

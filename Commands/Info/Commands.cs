@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
 using Discord;
 using Discord.WebSocket;
@@ -46,7 +47,7 @@ namespace GroundedBot.Commands
         public static string Permission = "Anyone can use it.";
         public static string Trello = "https://trello.com/c/VUQlIot5/27-commands";
 
-        public async static void DoCommand()
+        public async static Task DoCommand()
         {
             await Program.Log();
 
@@ -60,6 +61,7 @@ namespace GroundedBot.Commands
             commands.Add(new Command("Restart", Restart.Aliases, Restart.Description, Restart.Usages, Restart.Permission, "Dev", Restart.Trello));
             commands.Add(new Command("Test", Test.Aliases, Test.Description, Test.Usages, Test.Permission, "Dev", Test.Trello));
             // Fun
+            commands.Add(new Command("Math", MathEval.Aliases, MathEval.Description, MathEval.Usages, MathEval.Permission, "Fun", MathEval.Trello));
             commands.Add(new Command("Minesweeper", Minesweeper.Aliases, Minesweeper.Description, Minesweeper.Usages, Minesweeper.Permission, "Fun", Minesweeper.Trello));
             // Info
             commands.Add(new Command("Commands", Commands.Aliases, Commands.Description, Commands.Usages, Commands.Permission, "Info", Commands.Trello));
@@ -72,6 +74,7 @@ namespace GroundedBot.Commands
             commands.Add(new Command("Placeholder", new string[] { }, "", new string[] { }, "", "Music", ""));
             // Util
             commands.Add(new Command("AnswerRequest", AnswerRequest.Aliases, AnswerRequest.Description, AnswerRequest.Usages, AnswerRequest.Permission, "Util", AnswerRequest.Trello));
+            commands.Add(new Command("Contributors", Contributors.Aliases, Contributors.Description, Contributors.Usages, null, "Util", Contributors.Trello));
             commands.Add(new Command("PingRequest", PingRequest.Aliases, PingRequest.Description, PingRequest.Usages, PingRequest.Permission, "Util", PingRequest.Trello));
             commands.Add(new Command("Store", Store.Aliases, Store.Description, Store.Usages, Store.Permission, "Util", Store.Trello));
 
@@ -106,8 +109,7 @@ namespace GroundedBot.Commands
                     break;
                 case 2:
                     List<Command> foundCommands;
-                    try { foundCommands = commands.Where(x => x.Aliases.Contains(m[1].ToLower())).ToList(); }
-                    catch (Exception) { return; }
+                    foundCommands = commands.Where(x => x.Aliases.Contains(m[1].ToLower())).ToList();
 
                     if (foundCommands.Count < 1)
                         return;

@@ -51,69 +51,82 @@ namespace GroundedBot
             else
                 return Task.CompletedTask;
 
-            // Events
-            BotMention.DoEvent();
-            Emojify.DoEvent();
-            Xp.DoEvent();
+            try
+            {
+                // Events
+                BotMention.DoEvent().Wait();
+                Xp.DoEvent().Wait();
+                
 
-            if (pong)
-                Ping.DoCommand(true);
-            if (!message.Content.StartsWith(BaseConfig.GetConfig().Prefix) || message.Author.IsBot)
-                return Task.CompletedTask;
+                if (pong)
+                    Ping.DoCommand(true).Wait();
+                if (!message.Content.StartsWith(BaseConfig.GetConfig().Prefix) || message.Author.IsBot)
+                    return Task.CompletedTask;
 
-            string command = firstWord.Substring(1, firstWord.Length - 1).ToLower();
+                string command = firstWord.Substring(1, firstWord.Length - 1).ToLower();
 
-            // Commands
-            // Dev
-            if (Evaluate.Aliases.Contains(command) && HasPerm(Evaluate.AllowedRoles))
-                Evaluate.DoCommand();
-            if (Ping.Aliases.Contains(command) && BotChannel())
-                Ping.DoCommand(false);
-            if (Restart.Aliases.Contains(command) && BotChannel() && HasPerm(Restart.AllowedRoles))
-                Restart.DoCommand();
-            if (Test.Aliases.Contains(command) && BotChannel() && HasPerm(Test.AllowedRoles))
-                Test.DoCommand();
-            // Fun
-            if (Minesweeper.Aliases.Contains(command) && BotChannel())
-                Minesweeper.DoCommand();
-            // Info
-            if (Commands.Commands.Aliases.Contains(command) && BotChannel())
-                Commands.Commands.DoCommand();
-            if (EmojiList.Aliases.Contains(command) && BotChannel())
-                EmojiList.DoCommand();
-            if (Leaderboard.Aliases.Contains(command) && BotChannel())
-                Leaderboard.DoCommand();
-            if (UserInfo.Aliases.Contains(command) && BotChannel())
-                UserInfo.DoCommand();
-            // Util
-            if (AnswerRequest.Aliases.Contains(command))
-                AnswerRequest.DoCommand();
-            if (PingRequest.Aliases.Contains(command))
-                PingRequest.DoCommand();
-            if (Store.Aliases.Contains(command) && BotChannel())
-                Store.DoCommand();
-
+                // Commands
+                // Dev
+                if (Evaluate.Aliases.Contains(command) && HasPerm(Evaluate.AllowedRoles))
+                    Evaluate.DoCommand().Wait();
+                if (Ping.Aliases.Contains(command) && BotChannel())
+                    Ping.DoCommand(false).Wait();
+                if (Restart.Aliases.Contains(command) && BotChannel() && HasPerm(Restart.AllowedRoles))
+                    Restart.DoCommand().Wait();
+                if (Test.Aliases.Contains(command) && BotChannel() && HasPerm(Test.AllowedRoles))
+                    Test.DoCommand().Wait();
+                // Fun
+                if (Minesweeper.Aliases.Contains(command) && BotChannel())
+                    Minesweeper.DoCommand().Wait();
+                if (MathEval.Aliases.Contains(command) && BotChannel())
+                    MathEval.DoCommand().Wait();
+                // Info
+                if (Commands.Commands.Aliases.Contains(command) && BotChannel())
+                    Commands.Commands.DoCommand().Wait();
+                if (EmojiList.Aliases.Contains(command) && BotChannel())
+                    EmojiList.DoCommand().Wait();
+                if (Leaderboard.Aliases.Contains(command) && BotChannel())
+                    Leaderboard.DoCommand().Wait();
+                if (UserInfo.Aliases.Contains(command) && BotChannel())
+                    UserInfo.DoCommand().Wait();
+                // Util
+                if (AnswerRequest.Aliases.Contains(command))
+                    AnswerRequest.DoCommand().Wait();
+                if (Contributors.Aliases.Contains(command))
+                    Contributors.DoCommand().Wait();
+                if (PingRequest.Aliases.Contains(command))
+                    PingRequest.DoCommand().Wait();
+                if (Store.Aliases.Contains(command) && BotChannel())
+                    Store.DoCommand().Wait();
+            } 
+            catch(Exception e)
+            {
+                foreach(var i in BaseConfig.GetConfig().Channels.BotTerminal)
+                {
+                    ((IMessageChannel)Program._client.GetChannel(i)).SendMessageAsync($"```{e.ToString()}```");
+                }
+            }
             return Task.CompletedTask;
         }
 
         private Task LeaveHandler(SocketGuildUser arg)
         {
-            RemoveWhoLeft.DoEvent(arg);
+            RemoveWhoLeft.DoEvent(arg).Wait();
             return Task.CompletedTask;
         }
 
         private Task Ready()
         {
-            HourlyEvents();
+            HourlyEvents().Wait();
             return Task.CompletedTask;
         }
 
-        private async static void HourlyEvents()
+        private async static Task HourlyEvents()
         {
             while (true)
             {
-                Backup.DoEvent();
-                PtanCheck.DoEvent();
+                Backup.DoEvent().Wait();
+                PtanCheck.DoEvent().Wait();
                 await Task.Delay(3600000);
             }
         }

@@ -64,6 +64,14 @@ namespace GroundedBot.Json
         /// </summary>
         public string Token { get; set; }
         /// <summary>
+        /// A GroundedBot github repository-ja
+        /// </summary>
+        public string GithubRepoUrl { get; set; }
+        /// <summary>
+        /// Egy GitHub token authentication miatt.
+        /// </summary>
+        public string GithubToken { get; set; }
+        /// <summary>
         /// Egykarakteres prefix a parancsokhoz.
         /// </summary>
         public char Prefix { get; set; }

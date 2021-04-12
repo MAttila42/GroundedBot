@@ -15,6 +15,8 @@ The Bot won't work like this though, you will need a `BaseConfig.json` file next
 ```json
 {
 	"Token": "YOUR-BOT'S-TOKEN",
+	"GithubRepoUrl" : "YOUR-GITHUB-REPOSITORY",
+	"GithubToken" : "YOUR-GITHUB-TOKEN-FOR-AUTHENTICATION",
 	"Prefix": "&",
 	"BotID": 763791179711512616,
 	"Roles": {

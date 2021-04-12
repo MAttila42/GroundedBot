@@ -61,7 +61,7 @@ namespace GroundedBot.Events
                     $"Github repository: https://github.com/ExAtom/GroundedBot \n" +
                     $"Trello board: https://trello.com/b/Ns1WcpEB/groundedbot")
                 .WithFooter(((SocketGuildChannel)message.Channel).Guild.Name)
-                .WithColor(new Color(0x763179)).Build();
+                .WithColor(new Color(0x7289DA)).Build();
 
             var contEmbed = new EmbedBuilder()
                 .WithAuthor(author =>
@@ -72,7 +72,7 @@ namespace GroundedBot.Events
                 })
                 .WithFields(fieldBuilders)
                 .WithFooter(((SocketGuildChannel)message.Channel).Guild.Name)
-                .WithColor(new Color(0x763179)).Build();
+                .WithColor(new Color(0x7289DA)).Build();
 
             if ((message.Content == $"<@!{id}>" || message.Content == $"<@{id}>") && Program.BotChannel())
             {

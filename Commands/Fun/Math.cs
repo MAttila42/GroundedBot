@@ -25,7 +25,7 @@ namespace GroundedBot.Commands
         public static string Description = "Evaluates simple math expressions";
         public static string[] Usages = { "math <expression>" };
         public static string Permission = "Only members with Ptan+ Budget or better can use it.";
-        public static string Trello = "Coming Soon!";
+        public static string Trello = "https://trello.com/c/pvjoPgfy/49-math";
 
         public async static Task DoCommand()
         {

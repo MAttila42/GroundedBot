@@ -41,7 +41,7 @@ namespace GroundedBot
             return Task.CompletedTask;
         }
 
-        private Task MessageHandler(SocketMessage message)
+        private async Task MessageHandler(SocketMessage message)
         {
             string firstWord = message.Content.Split()[0];
             bool pong = message.Author.Id == _client.CurrentUser.Id && firstWord == "Pinging...";
@@ -49,19 +49,19 @@ namespace GroundedBot
             if (pong || (!message.Author.IsBot && !message.Author.IsWebhook))
                 Recieved.Message = message;
             else
-                return Task.CompletedTask;
+                return;
 
             try
             {
                 // Events
                 BotMention.DoEvent().Wait();
                 Xp.DoEvent().Wait();
-                
+
 
                 if (pong)
                     Ping.DoCommand(true).Wait();
                 if (!message.Content.StartsWith(BaseConfig.GetConfig().Prefix) || message.Author.IsBot)
-                    return Task.CompletedTask;
+                    return;
 
                 string command = firstWord.Substring(1, firstWord.Length - 1).ToLower();
 
@@ -92,21 +92,12 @@ namespace GroundedBot
                 // Util
                 if (AnswerRequest.Aliases.Contains(command))
                     AnswerRequest.DoCommand().Wait();
-                if (Contributors.Aliases.Contains(command))
-                    Contributors.DoCommand().Wait();
                 if (PingRequest.Aliases.Contains(command))
                     PingRequest.DoCommand().Wait();
                 if (Store.Aliases.Contains(command) && BotChannel())
                     Store.DoCommand().Wait();
-            } 
-            catch(Exception e)
-            {
-                foreach(var i in BaseConfig.GetConfig().Channels.BotTerminal)
-                {
-                    ((IMessageChannel)Program._client.GetChannel(i)).SendMessageAsync($"```{e.ToString()}```");
-                }
             }
-            return Task.CompletedTask;
+            catch (Exception e) { await Log(e); }
         }
 
         private Task LeaveHandler(SocketGuildUser arg)
@@ -155,6 +146,21 @@ namespace GroundedBot
             var message = Recieved.Message;
             Console.Write(DateTime.Now.ToString("yyyy.MM.dd. HH:mm:ss") + " ");
             string output = $"Event - {text}";
+            foreach (var id in BaseConfig.GetConfig().Channels.BotTerminal)
+                try { await ((IMessageChannel)_client.GetChannel(id)).SendMessageAsync(output, allowedMentions: AllowedMentions.None); }
+                catch (Exception) { }
+            Console.WriteLine(output);
+        }
+        /// <summary>
+        /// Error logolás a terminálba és a BaseConfigban beállított szobákba.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public async static Task Log(Exception e)
+        {
+            var message = Recieved.Message;
+            Console.Write(DateTime.Now.ToString("yyyy.MM.dd. HH:mm:ss") + " ");
+            string output = $"Error ```\n{e.Message}\n```";
             foreach (var id in BaseConfig.GetConfig().Channels.BotTerminal)
                 try { await ((IMessageChannel)_client.GetChannel(id)).SendMessageAsync(output, allowedMentions: AllowedMentions.None); }
                 catch (Exception) { }

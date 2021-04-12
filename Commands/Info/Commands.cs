@@ -74,7 +74,6 @@ namespace GroundedBot.Commands
             commands.Add(new Command("Placeholder", new string[] { }, "", new string[] { }, "", "Music", ""));
             // Util
             commands.Add(new Command("AnswerRequest", AnswerRequest.Aliases, AnswerRequest.Description, AnswerRequest.Usages, AnswerRequest.Permission, "Util", AnswerRequest.Trello));
-            commands.Add(new Command("Contributors", Contributors.Aliases, Contributors.Description, Contributors.Usages, null, "Util", Contributors.Trello));
             commands.Add(new Command("PingRequest", PingRequest.Aliases, PingRequest.Description, PingRequest.Usages, PingRequest.Permission, "Util", PingRequest.Trello));
             commands.Add(new Command("Store", Store.Aliases, Store.Description, Store.Usages, Store.Permission, "Util", Store.Trello));
 

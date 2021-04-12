@@ -14,9 +14,9 @@ I recommend using [Visual Studio](https://visualstudio.microsoft.com/vs/communit
 The Bot won't work like this though, you will need a `BaseConfig.json` file next to the built Bot. The `BaseConfig.cs` has a summary for everything you need in it, but here's an example:
 ```json
 {
-	"Token": "YOUR-BOT'S-TOKEN",
+	"Token": "Y0UR-B0T'S-T0K3N",
 	"Prefix": "&",
-	"BotID": 763791179711512616,
+	"ServerID": your server's id,
 	"Roles": {
 		"Admin": [
 			642864137960947755,

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 using Discord.Webhook;
@@ -25,7 +26,7 @@ namespace GroundedBot.Events
         public static List<ulong> PtanProRoles =
             new List<ulong>(BaseConfig.GetConfig().Roles.PtanP);
 
-        public async static void DoEvent()
+        public async static Task DoEvent()
         {
             if (!Program.HasPerm(RequiredRoles))
                 return;

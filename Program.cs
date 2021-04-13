@@ -55,8 +55,8 @@ namespace GroundedBot
             {
                 // Events
                 BotMention.DoEvent().Wait();
+                Emojify.DoEvent().Wait();
                 Xp.DoEvent().Wait();
-
 
                 if (pong)
                     Ping.DoCommand(true).Wait();

@@ -41,7 +41,7 @@ namespace GroundedBot.Events
                         var response = httpClient.SendAsync(request).Result;
                         using(StreamReader reader = new StreamReader(response.Content.ReadAsStream()))
                         {
-                            responseString = "szia teszt xd";
+                            responseString = reader.ReadToEnd();
                         }
                     }
                 }

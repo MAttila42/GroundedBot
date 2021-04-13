@@ -3,7 +3,6 @@ using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Text.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Discord;
@@ -23,42 +22,49 @@ namespace GroundedBot.Events
                 return;
             char prefix = BaseConfig.GetConfig().Prefix;
             string responseString = "";
-            
+
             List<EmbedFieldBuilder> fieldBuilders = new List<EmbedFieldBuilder>();
             Embed contEmbed;
 
             using (var httpClient = new HttpClient())
+            {
+                using (var request = new HttpRequestMessage(new HttpMethod("GET"), BaseConfig.GetConfig().GithubRepoUrl))
                 {
-                    using (var request = new HttpRequestMessage(new HttpMethod("GET"), BaseConfig.GetConfig().GithubRepoUrl))
+                    var base64authorization = Convert.ToBase64String(Encoding.ASCII.GetBytes($"username:{BaseConfig.GetConfig().GithubToken}"));
+                    request.Headers.TryAddWithoutValidation("Authorization", $"Basic {base64authorization}");
+                    request.Headers.TryAddWithoutValidation("Accept", "application/vnd.github.v3+json");
+
+                    request.Headers.UserAgent.Add(new ProductInfoHeaderValue("GroundedBot", "1.0"));
+                    request.Headers.UserAgent.Add(new ProductInfoHeaderValue("(+https://github.com/ExAtom/GroundedBot)"));
+
+                    var response = httpClient.SendAsync(request).Result;
+                    using (StreamReader reader = new StreamReader(response.Content.ReadAsStream()))
                     {
-                        var base64authorization = Convert.ToBase64String(Encoding.ASCII.GetBytes($"username:{BaseConfig.GetConfig().GithubToken}"));
-                        request.Headers.TryAddWithoutValidation("Authorization", $"Basic {base64authorization}"); 
-                        request.Headers.TryAddWithoutValidation("Accept", "application/vnd.github.v3+json");
-
-                        request.Headers.UserAgent.Add(new ProductInfoHeaderValue("GroundedBot", "1.0"));
-                        request.Headers.UserAgent.Add(new ProductInfoHeaderValue("(+https://github.com/ExAtom/GroundedBot)"));
-
-                        var response = httpClient.SendAsync(request).Result;
-                        using(StreamReader reader = new StreamReader(response.Content.ReadAsStream()))
-                        {
-                            responseString = reader.ReadToEnd();
-                        }
+                        responseString = reader.ReadToEnd();
                     }
                 }
+            }
             try
             {
                 //looping through the response of the GitHub API
                 JArray Response = JArray.Parse(responseString);
-                foreach(JObject Contributor in Response)
+                foreach (JObject Contributor in Response)
                 {
                     fieldBuilders.Add(new EmbedFieldBuilder().WithIsInline(false)
-                            .WithName(Contributor["login"].ToString())
-                            .WithValue(Contributor["html_url"].ToString()));
+                        .WithName(Contributor["login"].ToString())
+                        .WithValue(Contributor["html_url"].ToString()));
                 }
             }
-            catch(Exception e) {Program.Log($"```{e}```\n```Response contents: \n{responseString}```").Wait();} //nice log
+            catch (Exception e)
+            {
+                foreach (var i in BaseConfig.GetConfig().Channels.BotTerminal)
+                {
+                    await ((IMessageChannel)Program._client.GetChannel(i)).SendMessageAsync($"```{e}```");
+                    await ((IMessageChannel)Program._client.GetChannel(i)).SendMessageAsync($"```{responseString.Substring(0, 1994)}```");
+                }
+            }
 
-            if(fieldBuilders.Count == 0)
+            if (fieldBuilders.Count == 0)
             {
                 contEmbed = new EmbedBuilder()
                 .WithAuthor(author =>
@@ -100,7 +106,7 @@ namespace GroundedBot.Events
                 .WithFooter(((SocketGuildChannel)message.Channel).Guild.Name)
                 .WithColor(new Color(0x7289DA)).Build();
 
-            if((message.Content == $"<@!{id}>" || message.Content == $"<@{id}>") && Program.BotChannel())
+            if ((message.Content == $"<@!{id}>" || message.Content == $"<@{id}>") && Program.BotChannel())
             {
                 await message.Channel.SendMessageAsync(
                     null,

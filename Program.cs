@@ -41,7 +41,7 @@ namespace GroundedBot
             return Task.CompletedTask;
         }
 
-        private async Task MessageHandler(SocketMessage message)
+        private Task MessageHandler(SocketMessage message)
         {
             string firstWord = message.Content.Split()[0];
             bool pong = message.Author.Id == _client.CurrentUser.Id && firstWord == "Pinging...";
@@ -49,7 +49,7 @@ namespace GroundedBot
             if (pong || (!message.Author.IsBot && !message.Author.IsWebhook))
                 Recieved.Message = message;
             else
-                return;
+                return Task.CompletedTask;
 
             try
             {
@@ -61,7 +61,7 @@ namespace GroundedBot
                 if (pong)
                     Ping.DoCommand(true).Wait();
                 if (!message.Content.StartsWith(BaseConfig.GetConfig().Prefix) || message.Author.IsBot)
-                    return;
+                    return Task.CompletedTask;
 
                 string command = firstWord.Substring(1, firstWord.Length - 1).ToLower();
 
@@ -102,6 +102,7 @@ namespace GroundedBot
                 foreach (var i in BaseConfig.GetConfig().Channels.BotTerminal)
                     ((IMessageChannel)_client.GetChannel(i)).SendMessageAsync($"```{e}```");
             }
+            return Task.CompletedTask;
         }
 
         private Task LeaveHandler(SocketGuildUser arg)

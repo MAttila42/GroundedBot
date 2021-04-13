@@ -59,7 +59,12 @@ namespace GroundedBot.Commands
                     embed: embed)
                     .ConfigureAwait(false);
             }
-            catch (Exception e) { await Program.Log(e); }
+            catch (Exception e)
+            {
+                await message.Channel.SendMessageAsync("❌ | Sorry, I didn't understand that!");
+                foreach (var i in BaseConfig.GetConfig().Channels.BotTerminal)
+                    await ((IMessageChannel)Program._client.GetChannel(i)).SendMessageAsync($"```{e}```");
+            }
         }
     }
 }

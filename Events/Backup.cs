@@ -12,8 +12,11 @@ namespace GroundedBot.Events
             foreach (var id in BaseConfig.GetConfig().Channels.Backups)
                 try
                 {
-                    await ((IMessageChannel)Program._client.GetChannel(id)).SendFileAsync(@"Members.json");
-                    await Program.Log($"Made a backup in <#{id}>");
+                    if (id != 0)
+                    {
+                        await ((IMessageChannel)Program._client.GetChannel(id)).SendFileAsync(@"Members.json");
+                        await Program.Log($"Made a backup in <#{id}>");
+                    }
                 }
                 catch (Exception) { }
         }

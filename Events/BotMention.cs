@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Discord;
@@ -18,6 +19,8 @@ namespace GroundedBot.Events
         {
             var message = Recieved.Message;
             ulong id = Program._client.CurrentUser.Id;
+            if (!((message.Content == $"<@!{id}>" || message.Content == $"<@{id}>") && Program.BotChannel()))
+                return;
             char prefix = BaseConfig.GetConfig().Prefix;
             string responseString = "";
             
@@ -96,8 +99,6 @@ namespace GroundedBot.Events
                     $"Trello board: https://trello.com/b/Ns1WcpEB/groundedbot")
                 .WithFooter(((SocketGuildChannel)message.Channel).Guild.Name)
                 .WithColor(new Color(0x7289DA)).Build();
-
-            
 
             if((message.Content == $"<@!{id}>" || message.Content == $"<@{id}>") && Program.BotChannel())
             {

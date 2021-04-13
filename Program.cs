@@ -97,7 +97,11 @@ namespace GroundedBot
                 if (Store.Aliases.Contains(command) && BotChannel())
                     Store.DoCommand().Wait();
             }
-            catch (Exception e) { Log(e).Wait(); }
+            catch (Exception e)
+            {
+                foreach (var i in BaseConfig.GetConfig().Channels.BotTerminal)
+                    ((IMessageChannel)_client.GetChannel(i)).SendMessageAsync($"```{e}```");
+            }
         }
 
         private Task LeaveHandler(SocketGuildUser arg)

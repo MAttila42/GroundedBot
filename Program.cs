@@ -113,18 +113,23 @@ namespace GroundedBot
 
         private Task Ready()
         {
-            HourlyEvents().Wait();
+            //sets the interval between action calls to one hour.
+            SetInterval(() => HourlyEvents(), TimeSpan.FromHours(1));
             return Task.CompletedTask;
         }
 
-        private async static Task HourlyEvents()
+        private static void HourlyEvents()
         {
-            while (true)
-            {
-                Backup.DoEvent().Wait();
-                PtanCheck.DoEvent().Wait();
-                await Task.Delay(3600000);
-            }
+            Backup.DoEvent().Wait();
+            PtanCheck.DoEvent().Wait();
+        }
+
+        // repeats an action in a defined interval
+        public static async Task SetInterval(Action action, TimeSpan timeout)
+        {
+            action();
+            await Task.Delay(timeout).ConfigureAwait(false);
+            SetInterval(action, timeout);
         }
 
         /// <summary>

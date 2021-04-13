@@ -113,8 +113,10 @@ namespace GroundedBot
 
         private Task Ready()
         {
-            //sets the interval between action calls to one hour.
+            // Sets the interval between action calls to one hour.
+#pragma warning disable CS4014
             SetInterval(() => HourlyEvents(), TimeSpan.FromHours(1));
+#pragma warning restore CS4014
             return Task.CompletedTask;
         }
 
@@ -124,12 +126,19 @@ namespace GroundedBot
             PtanCheck.DoEvent().Wait();
         }
 
-        // repeats an action in a defined interval
+        /// <summary>
+        /// Repeats an action in a defined interval
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
         public static async Task SetInterval(Action action, TimeSpan timeout)
         {
             action();
             await Task.Delay(timeout).ConfigureAwait(false);
+#pragma warning disable CS4014
             SetInterval(action, timeout);
+#pragma warning restore CS4014
         }
 
         /// <summary>

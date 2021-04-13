@@ -14,7 +14,9 @@ I recommend using [Visual Studio](https://visualstudio.microsoft.com/vs/communit
 The Bot won't work like this though, you will need a `BaseConfig.json` file next to the built Bot. The `BaseConfig.cs` has a summary for everything you need in it, but here's an example:
 ```json
 {
-	"Token": "Y0UR-B0T'S-T0K3N",
+	"Token": "YOUR-BOT'S-TOKEN",
+	"GithubRepoUrl" : "YOUR-GITHUB-REPOSITORY",
+	"GithubToken" : "YOUR-GITHUB-TOKEN-FOR-AUTHENTICATION",
 	"Prefix": "&",
 	"ServerID": your server's id,
 	"Roles": {

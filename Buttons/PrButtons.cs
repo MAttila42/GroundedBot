@@ -33,7 +33,7 @@ namespace GroundedBot.Buttons
                 await (await channel.GetMessageAsync(pingMsgId)).DeleteAsync();
                 await Context.Interaction.Message.DeleteAsync();
             }
-            catch (Exception) { }
+            catch (Exception e) { await RespondAsync(embed: EmbedService.Error("Hiba", $"Hiba történt az elutasítás közben.\n```{e.Message}```"), ephemeral: true); }
         }
     }
 }

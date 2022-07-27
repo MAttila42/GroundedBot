@@ -41,9 +41,9 @@ namespace GroundedBot.Modals
         [ModalInteraction("classmodal-create")]
         public async Task Create(ClassModal modal)
         {
-            int id = 0;
+            int id;
             try { id = _mongo.Classes.AsQueryable().Select(c => c.ID).Max() + 1; }
-            catch (Exception) { }
+            catch (Exception) { id = 0; }
             TanClass newClass = new()
             {
                 ID = id,
@@ -200,7 +200,7 @@ namespace GroundedBot.Modals
             await ((IMessageChannel)await Context.Guild.GetChannelAsync(Context.Interaction.ChannelId ?? 0)).ModifyMessageAsync(messageId, m => m.Content = Context.Guild.GetRole(gs.Role.ClassRequest).Mention);
             if (teacher != null)
                 await teacher.RemoveRoleAsync(gs.Role.Teacher);
-            if (text != null && text != null)
+            if (text != null && voice != null)
             {
                 await text.DeleteAsync();
                 await voice.DeleteAsync();

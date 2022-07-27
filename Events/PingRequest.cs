@@ -20,7 +20,7 @@ namespace GroundedBot.Events
             }
             catch (Exception)
             {
-                try { role = Context.Guild.Roles.First(r => r.Name.ToLower() == m[1].ToLower()); }
+                try { role = Context.Guild.Roles.First(r => r.Name.ToLowerInvariant() == m[1].ToLowerInvariant()); }
                 catch (Exception) { return; }
             }
 

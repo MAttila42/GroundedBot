@@ -7,7 +7,7 @@ namespace GroundedBot.Services
 {
     public class MongoService
     {
-        private MongoClient dbClient;
+        private readonly MongoClient dbClient;
 
         private IMongoDatabase db => this.dbClient.GetDatabase("groundedbot");
         public IMongoCollection<GuildSettings> Guilds => this.db.GetCollection<GuildSettings>("guilds");

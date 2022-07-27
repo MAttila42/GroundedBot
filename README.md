@@ -1,4 +1,4 @@
-# GroundedBot `v2.0.0`
+# GroundedBot `v2.0.3`
 Hivatalos nyílt-forráskódú Discord bot a ProgramTAN csapattól. 
 [Hívd be](https://discord.com/api/oauth2/authorize?client_id=760874343554089010&permissions=8&scope=bot%20applications.commands) akár a saját szerveredre, vagy próbáld ki a [ProgramTAN](https://discord.gg/psHsB7B)-on.
 

@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.29911.84
+VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroundedBot", "GroundedBot.csproj", "{DABDA0C3-99E2-4706-9CF5-A971110300C7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroundedBot", "GroundedBot.csproj", "{DFEDD1C9-2632-4BBE-8298-E9C367B1597A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DABDA0C3-99E2-4706-9CF5-A971110300C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DABDA0C3-99E2-4706-9CF5-A971110300C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DABDA0C3-99E2-4706-9CF5-A971110300C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DABDA0C3-99E2-4706-9CF5-A971110300C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFEDD1C9-2632-4BBE-8298-E9C367B1597A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFEDD1C9-2632-4BBE-8298-E9C367B1597A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFEDD1C9-2632-4BBE-8298-E9C367B1597A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFEDD1C9-2632-4BBE-8298-E9C367B1597A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {94189B1F-2F11-4A82-B1DD-D6B59FD8C7DF}
+		SolutionGuid = {8187DB66-E670-47E1-862D-4578C7918A78}
 	EndGlobalSection
 EndGlobal

@@ -76,6 +76,7 @@ namespace GroundedBot.Services
     {
         [BsonId]
         public int ID { get; set; }
+        public ulong Guild { get; set; }
         public ulong Teacher { get; set; }
         public string Theme { get; set; }
         public string Description { get; set; }

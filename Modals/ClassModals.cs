@@ -47,6 +47,7 @@ namespace GroundedBot.Modals
             TanClass newClass = new()
             {
                 ID = id,
+                Guild = Context.Guild.Id,
                 Teacher = Context.User.Id,
                 Theme = modal.Theme,
                 Description = modal.Description,

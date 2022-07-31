@@ -35,7 +35,7 @@ namespace GroundedBot.Commands
                         string commands =
                             "cd ..\n" +
                             "sudo git pull\n" +
-                            "sudo dotnet build -o build\n" +
+                            "sudo dotnet build -c Release -o build\n" +
                             "cd build\n" +
                             "sudo dotnet GroundedBot.dll";
                         var process = new ProcessStartInfo

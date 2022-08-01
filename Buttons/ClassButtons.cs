@@ -18,7 +18,7 @@ namespace GroundedBot.Buttons
         [ComponentInteraction("classbutton-approve:*")]
         public async Task Approve(string classId)
         {
-            if (((IGuildUser)Context.User).RoleIds.Contains(_mongo.GetGuildSettings(Context.Guild.Id).Role.Moderator))
+            if (!((IGuildUser)Context.User).RoleIds.Contains(_mongo.GetGuildSettings(Context.Guild.Id).Role.Moderator))
             {
                 await DeferAsync();
                 return;
@@ -39,7 +39,7 @@ namespace GroundedBot.Buttons
         [ComponentInteraction("classbutton-reject:*")]
         public async Task Reject(string classId)
         {
-            if (((IGuildUser)Context.User).RoleIds.Contains(_mongo.GetGuildSettings(Context.Guild.Id).Role.Moderator))
+            if (!((IGuildUser)Context.User).RoleIds.Contains(_mongo.GetGuildSettings(Context.Guild.Id).Role.Moderator))
             {
                 await DeferAsync();
                 return;

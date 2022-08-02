@@ -15,7 +15,7 @@ namespace GroundedBot.Services
 
         public GuildSettings GetGuildSettings(ulong guildId) => this.Guilds.AsQueryable().First(s => s.Guild == guildId);
 
-        public async Task InsertAllGuilds(IReadOnlyCollection<SocketGuild> guilds)
+        public async Task UpdateGuilds(IReadOnlyCollection<SocketGuild> guilds)
         {
             List<ulong> knownGuilds = this.Guilds.AsQueryable().Select(s => s.Guild).ToList();
             foreach (ulong g in guilds.Select(g => g.Id))

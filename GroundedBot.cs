@@ -63,7 +63,7 @@ namespace GroundedBot
             _client.Ready += async () =>
             {
                 _emoji.LoadEmojis(_client, _config.EmojiGuilds);
-                await _mongo.InsertAllGuilds(_client.Guilds);
+                await _mongo.UpdateGuilds(_client.Guilds);
                 await _interaction.AddModulesAsync(Assembly.GetExecutingAssembly(), _services);
                 #if DEBUG
                 await _interaction.RegisterCommandsToGuildAsync(_config.DebugGuild, true);
@@ -71,6 +71,8 @@ namespace GroundedBot
                 await _interaction.RegisterCommandsGloballyAsync(true);
                 #endif
             };
+
+            _client.JoinedGuild += async g => await _mongo.UpdateGuilds(_client.Guilds); 
 
             await Task.Delay(-1).ConfigureAwait(false);
         }

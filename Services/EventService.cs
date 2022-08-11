@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Discord.Commands;
+﻿using Discord.Commands;
 using Discord.WebSocket;
 
 namespace GroundedBot.Services
@@ -30,13 +29,13 @@ namespace GroundedBot.Services
 
     public abstract class Event
     {
-        virtual public Config _config { get; set; } = new();
-        virtual public DiscordSocketClient _client { get; set; } = new();
-        virtual public EmojiService _emoji { get; set; } = new();
-        virtual public MongoService _mongo { get; set; } = new();
+        public Config _config { get; set; } = new();
+        public DiscordSocketClient _client { get; set; } = new();
+        public EmojiService _emoji { get; set; } = new();
+        public MongoService _mongo { get; set; } = new();
     }
     public abstract class MessageEvent : Event
     {
-        virtual public SocketCommandContext Context { get; set; }
+        public SocketCommandContext Context { get; set; }
     }
 }

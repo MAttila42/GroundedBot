@@ -193,7 +193,7 @@ namespace GroundedBot.Modals
             {
                 await _client.GetUser(cClass.Teacher).SendMessageAsync(embed: EmbedService.Success($"Egy osztályod létrehozása el lett fogadva", $"Osztály: **{cClass.Theme}**\nSzerver: **{Context.Guild}**"));
             }
-            catch (Exception) { }
+            catch (Exception) { /*ignore*/ }
         }
         private async Task Revert(ulong messageId, IGuildUser teacher = null, ITextChannel text = null, IVoiceChannel voice = null)
         {
@@ -219,7 +219,7 @@ namespace GroundedBot.Modals
             {
                 await _client.GetUser(cClass.Teacher).SendMessageAsync(embed: EmbedService.Error($"Egy osztályod létrehozása el lett utasítva", $"Osztály: **{cClass.Theme}**\nSzerver: **{Context.Guild}**\nIndoklás:\n```{modal.Reason}```"));
             }
-            catch (Exception) { }
+            catch (Exception) { /*ignore*/ }
         }
     }
 }

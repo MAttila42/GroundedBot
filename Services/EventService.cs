@@ -10,7 +10,7 @@ namespace GroundedBot.Services
         public async Task ExecuteEventsAsync(IServiceProvider services, SocketCommandContext messageContext = null)
         {
             List<Event> events = new List<Event>();
-            foreach (Type t in Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsSubclassOf(typeof(Event)) && !t.IsAbstract))
+            foreach (Type t in typeof(Event).Assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(Event)) && !t.IsAbstract))
             {
                 dynamic e = Convert.ChangeType(Activator.CreateInstance(t), t);
                 foreach (var p in t.GetProperties())
@@ -30,13 +30,13 @@ namespace GroundedBot.Services
 
     public abstract class Event
     {
-        public Config _config { get; set; } = new();
-        public DiscordSocketClient _client { get; set; } = new();
-        public EmojiService _emoji { get; set; } = new();
-        public MongoService _mongo { get; set; } = new();
+        virtual public Config _config { get; set; } = new();
+        virtual public DiscordSocketClient _client { get; set; } = new();
+        virtual public EmojiService _emoji { get; set; } = new();
+        virtual public MongoService _mongo { get; set; } = new();
     }
     public abstract class MessageEvent : Event
     {
-        public SocketCommandContext Context { get; set; }
+        virtual public SocketCommandContext Context { get; set; }
     }
 }

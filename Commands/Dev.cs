@@ -32,16 +32,16 @@ namespace GroundedBot.Commands
                         Environment.Exit(0);
                         break;
                     case Command.Restart:
-                        string commands =
-                            "cd ..\n" +
-                            "sudo git pull\n" +
-                            "sudo dotnet build -c Release -o build\n" +
-                            "cd build\n" +
-                            "sudo dotnet GroundedBot.dll";
                         var process = new ProcessStartInfo
                         {
                             FileName = "/bin/bash",
-                            Arguments = $"-c \"{commands}\"",
+                            Arguments = $"-c \"" +
+                                "cd ..\n" +
+                                "sudo git pull\n" +
+                                "sudo dotnet build -c Release -o build\n" +
+                                "cd build\n" +
+                                "sudo dotnet GroundedBot.dll" +
+                                "\"",
                             RedirectStandardOutput = true,
                             UseShellExecute = false,
                             CreateNoWindow = true
@@ -49,6 +49,9 @@ namespace GroundedBot.Commands
                         Process.Start(process);
                         await RespondAsync(embed: EmbedService.Info("Újraindítás...", "Ez eltarthat egy darabig"));
                         Environment.Exit(0);
+                        break;
+                    default:
+                        await RespondAsync(embed: EmbedService.Error("Nem sikerült futtatni a parancsot", $"Nincs {command} parancs."), ephemeral: true);
                         break;
                 }
             }

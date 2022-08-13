@@ -7,8 +7,6 @@ namespace GroundedBot.Commands
 {
     public class Dev : InteractionModuleBase
     {
-        public MongoService _mongo { get; set; }
-
         public enum Command
         {
             Test,
@@ -16,7 +14,7 @@ namespace GroundedBot.Commands
             Restart
         }
 
-        [SlashCommand("dev", "[DEV] Developer commands")]
+        [SlashCommand("dev", "[DEV] Fejlesztő parancsok")]
         [RequireOwner]
         public async Task Run(Command command)
         {
@@ -47,7 +45,7 @@ namespace GroundedBot.Commands
                             CreateNoWindow = true
                         };
                         Process.Start(process);
-                        await RespondAsync(embed: EmbedService.Info("Újraindítás...", "Ez eltarthat egy darabig"));
+                        await RespondAsync(embed: EmbedService.Info("Újraindítás...", "Ez eltarthat egy darabig."));
                         Environment.Exit(0);
                         break;
                     default:

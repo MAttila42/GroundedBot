@@ -29,7 +29,10 @@ namespace GroundedBot.Commands
                 l.Add(role.Id);
                 p.SetValue(gs.Role, l);
                 await _mongo.Guilds.ReplaceOneAsync(g => g.Guild == gs.Guild, gs);
-                await RespondAsync(embed: EmbedService.Success("Sikeres beállítás"), ephemeral: true);
+
+                await RespondAsync(
+                    embed: EmbedService.Success("Sikeres beállítás"),
+                    ephemeral: true);
             }
         }
         [Group("remove", "[ADMIN]")]
@@ -46,7 +49,10 @@ namespace GroundedBot.Commands
                 l.Remove(role.Id);
                 p.SetValue(gs.Role, l);
                 await _mongo.Guilds.ReplaceOneAsync(g => g.Guild == gs.Guild, gs);
-                await RespondAsync(embed: EmbedService.Success("Sikeres beállítás"), ephemeral: true);
+
+                await RespondAsync(
+                    embed: EmbedService.Success("Sikeres beállítás"),
+                    ephemeral: true);
             }
         }
 
@@ -77,8 +83,25 @@ namespace GroundedBot.Commands
             [SlashCommand("category", "[ADMIN] Aktuális kategória konfigurálása")]
             public async Task Category(CategoryTask task)
             {
-                try { await SetPropertyValue(task.ToString(), ((SocketGuild)Context.Guild).CategoryChannels.ToList().Find(c => c.Channels.Select(ch => ch.Id).Contains(Context.Channel.Id)).Id); }
-                catch (Exception e) { await RespondAsync(embed: EmbedService.Error("Sikertelen beállítás", $"Lehet, hogy a szoba nincs egy kategóriában se.\n```{e.Message}```"), ephemeral: true); }
+                try
+                {
+                    await SetPropertyValue(
+                        task.ToString(),
+                        ((SocketGuild)Context.Guild).CategoryChannels.ToList()
+                            .Find(c => c.Channels
+                                .Select(ch => ch.Id)
+                                .Contains(Context.Channel.Id)
+                            ).Id);
+                }
+                catch (Exception e)
+                {
+                    await RespondAsync(
+                        embed: EmbedService.Error(
+                            "Sikertelen beállítás",
+                            $"Lehet, hogy a szoba nincs egy kategóriában se.\n" +
+                            $"```{e.Message}```"),
+                        ephemeral: true);
+                }
             }
 
             [SlashCommand("channel", "[ADMIN] Aktuális csatorna konfigurálása")]
@@ -95,7 +118,10 @@ namespace GroundedBot.Commands
                 object s = gs.GetType().GetProperty(g).GetValue(gs);
                 s.GetType().GetProperty(name).SetValue(s, value);
                 await _mongo.Guilds.ReplaceOneAsync(g => g.Guild == gs.Guild, gs);
-                await RespondAsync(embed: EmbedService.Success("Sikeres beállítás"), ephemeral: true);
+
+                await RespondAsync(
+                    embed: EmbedService.Success("Sikeres beállítás"),
+                    ephemeral: true);
             }
         }
     }

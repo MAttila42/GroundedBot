@@ -1,10 +1,10 @@
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/5b6e343ae1b842fa8c92661416b7d515)](https://www.codacy.com/gh/ExAtom/GroundedBot/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ExAtom/GroundedBot&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/5b6e343ae1b842fa8c92661416b7d515)](https://www.codacy.com/gh/ExAtom/GroundedBot/dashboard?utm_source=github.com&utm_medium=referral&utm_content=ExAtom/GroundedBot&utm_campaign=Badge_Grade)
 
-# GroundedBot `v2.0.11-dev-1`
+# GroundedBot `v2.0.11`
 
-Hivatalos nyílt-forráskódú Discord bot a ProgramTAN csapattól.
-[Hívd be](https://discord.com/api/oauth2/authorize?client_id=760874343554089010&permissions=8&scope=bot%20applications.commands) akár a saját szerveredre, vagy próbáld ki a [ProgramTAN](https://discord.gg/psHsB7B)-on.
+Hivatalos nyï¿½lt-forrï¿½skï¿½dï¿½ Discord bot a ProgramTAN csapattï¿½l.
+[Hï¿½vd be](https://discord.com/api/oauth2/authorize?client_id=760874343554089010&permissions=8&scope=bot%20applications.commands) akï¿½r a sajï¿½t szerveredre, vagy prï¿½bï¿½ld ki a [ProgramTAN](https://discord.gg/psHsB7B)-on.
 
-## Fejlesztés
+## Fejlesztï¿½s
 
-Bárki hozzájárulhat a bot fejlesztéséhez. Ehhez mindössze létre kell hoznod egy [Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)et. Minden segítségért hálásak vagyunk.
+Bï¿½rki hozzï¿½jï¿½rulhat a bot fejlesztï¿½sï¿½hez. Ehhez mindï¿½ssze lï¿½tre kell hoznod egy [Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)et. Minden segï¿½tsï¿½gï¿½rt hï¿½lï¿½sak vagyunk.

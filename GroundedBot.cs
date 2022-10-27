@@ -70,7 +70,7 @@ namespace GroundedBot
 					{
 						SocketGuildUser user = guild.GetUser(userId);
 						if (user != null)
-							await _mongo.Classes.UpdateOneAsync(c => c.Students.Contains(userId) || c.Guild == guild.Id, Builders<TanClass>.Update.Pull(c => c.Students, userId));
+							await _mongo.Classes.UpdateManyAsync(c => c.Students.Contains(userId) && c.Guild == guild.Id, Builders<TanClass>.Update.Pull(c => c.Students, userId));
 					}
 
 				await _interaction.AddModulesAsync(typeof(GroundedBot).Assembly, _services);
@@ -82,7 +82,7 @@ namespace GroundedBot
 			};
 
 			_client.JoinedGuild += async g => await _mongo.UpdateGuilds(_client.Guilds);
-			_client.UserLeft += async (g, u) => await _mongo.Classes.UpdateManyAsync(c => c.Students.Contains(u.Id) || c.Guild == g.Id, Builders<TanClass>.Update.Pull(c => c.Students, u.Id));
+			_client.UserLeft += async (g, u) => await _mongo.Classes.UpdateManyAsync(c => c.Students.Contains(u.Id) && c.Guild == g.Id, Builders<TanClass>.Update.Pull(c => c.Students, u.Id));
 
 			await Task.Delay(-1).ConfigureAwait(false);
 		}

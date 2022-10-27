@@ -1,6 +1,6 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/5b6e343ae1b842fa8c92661416b7d515)](https://www.codacy.com/gh/ExAtom/GroundedBot/dashboard?utm_source=github.com&utm_medium=referral&utm_content=ExAtom/GroundedBot&utm_campaign=Badge_Grade)
 
-# GroundedBot `v2.0.11`
+# GroundedBot `v2.0.12`
 
 Hivatalos nyílt-forráskódú Discord bot a ProgramTAN csapattól.
 [Hívd be](https://discord.com/api/oauth2/authorize?client_id=760874343554089010&permissions=8&scope=bot%20applications.commands) akár a saját szerveredre, vagy próbáld ki a [ProgramTAN](https://discord.gg/psHsB7B)-on.

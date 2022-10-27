@@ -69,7 +69,7 @@ namespace GroundedBot
 					foreach (ulong userId in _mongo.Classes.AsQueryable().SelectMany(c => c.Students))
 					{
 						SocketGuildUser user = guild.GetUser(userId);
-						if (user != null)
+						if (user == null)
 							await _mongo.Classes.UpdateManyAsync(c => c.Students.Contains(userId) && c.Guild == guild.Id, Builders<TanClass>.Update.Pull(c => c.Students, userId));
 					}
 

@@ -34,7 +34,9 @@ namespace GroundedBot.Commands
 					CreateNoWindow = true
 				};
 				Process.Start(process);
-				await RespondAsync(embed: EmbedService.Info("Újraindítás...", "Ez eltarthat egy darabig."));
+				await RespondAsync(embed: EmbedService.Info(
+					"Újraindítás...",
+					"Ez eltarthat egy darabig."));
 				Environment.Exit(0);
 			}
 			catch (Exception e)
@@ -51,34 +53,52 @@ namespace GroundedBot.Commands
 		[SlashCommand("shutdown", "[DEV] Bot leállítása")]
 		public async Task Shutdown()
 		{
-			await RespondAsync(embed: EmbedService.Info("Kikapcsolás..."));
+			await RespondAsync(embed: EmbedService.Info(
+				"Kikapcsolás..."));
 			Environment.Exit(0);
 		}
 
 		[SlashCommand("test", "[DEV] Tesztelés")]
-		public async Task Test()
-		{
-			await RespondAsync(Context.User.Mention, allowedMentions: AllowedMentions.None);
-		}
+		public async Task Test() =>
+			await RespondAsync(
+				Context.User.Mention,
+				allowedMentions: AllowedMentions.None);
 
-
-		[SlashCommand("dbfix", "[DEV] Adatbázis javítása")]
-		public async Task DbFix()
+		[SlashCommand(
+			"classmodify",
+			"[DEV] Osztály módosítása gomb hozzáadása az osztályokhoz")]
+		public async Task ClassModify()
 		{
-			var classes = _mongo.Classes.AsQueryable().Where(c => c.Guild == Context.Guild.Id).ToList();
-			foreach (var c in classes)
+			foreach (TanClass tanClass in _mongo.Classes.AsQueryable())
 			{
-				var channel = await Context.Guild.GetTextChannelAsync(c.TextChannel);
-				var perms = channel.PermissionOverwrites;
-				foreach (var p in perms)
-				{
-					if (p.TargetType != PermissionTarget.User) continue;
-					if (p.TargetId == c.Teacher || p.TargetId == _client.CurrentUser.Id) continue;
-					if (!c.Students.Contains(p.TargetId)) c.Students.Add(p.TargetId);
-				}
-				await _mongo.Classes.ReplaceOneAsync(cl => cl.ID == c.ID, c);
+				var guild = _client.GetGuild(tanClass.Guild);
+				var channel = guild.GetTextChannel(
+						_mongo.Guilds.AsQueryable()
+						.SingleOrDefault(g => g.Guild == tanClass.Guild)
+						.Channel.Classes);
+				var messages = await channel.GetMessagesAsync(5).FlattenAsync();
+				var message = messages.First(
+						m => m.Embeds.First()
+							.Author.Value.Name == tanClass.Theme);
+				await ((IUserMessage)message).ModifyAsync(m => m.Components = new ComponentBuilder()
+						.WithButton(
+							"Csatlakozás",
+							$"classbutton-join:{tanClass.ID}",
+							ButtonStyle.Success)
+						.WithButton(
+							"Módosítás",
+							$"classbutton-modify:{tanClass.ID}",
+							ButtonStyle.Primary)
+						.WithButton(
+							"Törlés",
+							$"classbutton-delete:{tanClass.ID}",
+							ButtonStyle.Danger)
+						.Build());
 			}
-			await RespondAsync(embed: EmbedService.Success("Adatbázis javítva!"), ephemeral: true);
+			await RespondAsync(
+				embed: EmbedService.Info(
+					"Módosítás gomb hozzáadva az osztályokhoz"),
+				ephemeral: true);
 		}
 	}
 }

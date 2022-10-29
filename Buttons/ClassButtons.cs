@@ -140,7 +140,10 @@ namespace GroundedBot.Buttons
 				.RoleIds;
 			if (Context.User.Id != cClass.Teacher &&
 				!roles.Contains(gs.Role.Moderator))
+			{
+				await DeferAsync();
 				return;
+			}
 
 			Modal modal = new ModalBuilder()
 				.WithCustomId(
@@ -181,7 +184,10 @@ namespace GroundedBot.Buttons
 			IReadOnlyCollection<ulong> roles = ((IGuildUser)Context.User).RoleIds;
 			if (Context.User.Id != cClass.Teacher &&
 				!roles.Contains(gs.Role.Moderator))
+			{
+				await DeferAsync();
 				return;
+			}
 
 			Modal modal = new ModalBuilder()
 				.WithCustomId(

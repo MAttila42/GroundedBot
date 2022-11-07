@@ -2,16 +2,17 @@
 using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
+using MongoDB.Driver;
 using GroundedBot.Services;
 
 namespace GroundedBot.Commands
 {
-    [Group("dev", "[DEV] Fejlesztő parancsok")]
-    [RequireOwner]
-    public class Dev : InteractionModuleBase
-    {
-        public DiscordSocketClient _client { get; set; }
-        public MongoService _mongo { get; set; }
+	[Group("dev", "[DEV] Fejlesztő parancsok")]
+	[RequireOwner]
+	public class Dev : InteractionModuleBase
+	{
+		public DiscordSocketClient _client { get; set; }
+		public MongoService _mongo { get; set; }
 
         [SlashCommand("restart", "[DEV] Bot újraindítása")]
         public async Task Restart()
@@ -33,7 +34,9 @@ namespace GroundedBot.Commands
                     CreateNoWindow = true
                 };
                 Process.Start(process);
-                await RespondAsync(embed: EmbedService.Info("Újraindítás...", "Ez eltarthat egy darabig."));
+                await RespondAsync(embed: EmbedService.Info(
+					"Újraindítás...",
+					"Ez eltarthat egy darabig."));
                 Environment.Exit(0);
             }
             catch (Exception e)

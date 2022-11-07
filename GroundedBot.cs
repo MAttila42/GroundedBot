@@ -65,13 +65,13 @@ namespace GroundedBot
                 _emoji.LoadEmojis(_client, _config.EmojiGuilds);
                 await _mongo.UpdateGuilds(_client.Guilds);
 
-                foreach (SocketGuild guild in _client.Guilds)
-                    foreach (ulong userId in _mongo.Classes.AsQueryable().SelectMany(c => c.Students))
-                    {
-                        SocketGuildUser user = guild.GetUser(userId);
-                        if (user == null)
-                            await _mongo.Classes.UpdateManyAsync(c => c.Students.Contains(userId) && c.Guild == guild.Id, Builders<TanClass>.Update.Pull(c => c.Students, userId));
-                    }
+				foreach (SocketGuild guild in _client.Guilds)
+				{
+					await guild.DownloadUsersAsync();
+					foreach (ulong userId in _mongo.Classes.AsQueryable().SelectMany(c => c.Students))
+						if (guild.GetUser(userId) is null)
+							await _mongo.Classes.UpdateManyAsync(c => c.Students.Contains(userId) && c.Guild == guild.Id, Builders<TanClass>.Update.Pull(c => c.Students, userId));
+				}
 
                 await _interaction.AddModulesAsync(typeof(GroundedBot).Assembly, _services);
 #if DEBUG

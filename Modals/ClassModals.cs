@@ -105,6 +105,7 @@ namespace GroundedBot.Modals
 				.WithColor(EmbedService.Blurple);
 			ComponentBuilder components = new ComponentBuilder()
 				.WithButton("Csatlakozás", $"classbutton-join:{cClass.ID}", ButtonStyle.Success)
+				.WithButton("Módosítás", $"classbutton-modify:{cClass.ID}", ButtonStyle.Primary)
 				.WithButton("Törlés", $"classbutton-delete:{cClass.ID}", ButtonStyle.Danger);
 
 			await ((IMessageChannel)await Context.Guild.GetChannelAsync(Context.Interaction.ChannelId ?? 0)).ModifyMessageAsync(messageId, m => m.Content = $"{Context.Guild.GetRole(gs.Role.ClassRequest).Mention} {_emoji.GetEmoji("util_loading")}");
@@ -221,6 +222,136 @@ namespace GroundedBot.Modals
 				await _client.GetUser(cClass.Teacher).SendMessageAsync(embed: EmbedService.Error($"Egy osztályod létrehozása el lett utasítva", $"Osztály: **{cClass.Theme}**\nSzerver: **{Context.Guild}**\nIndoklás:\n```{modal.Reason}```"));
 			}
 			catch (Exception) { /*ignore*/ }
+		}
+
+		[ModalInteraction("classmodal-modify:*,*")]
+		public async Task Modify(string classId, string messageId, ClassModal modal)
+		{
+			await DeferAsync();
+
+			TanClass cClass = _mongo.Classes.AsQueryable().First(c => c.ID == int.Parse(classId));
+			cClass.Theme = modal.Theme;
+			cClass.Description = modal.Description;
+			cClass.CourseURL = modal.CourseURL;
+
+			EmbedBuilder embed = new EmbedBuilder()
+				.WithAuthor(cClass.Theme, EmbedService.BookIcon)
+				.AddField("Tanár", (await Context.Guild.GetUserAsync(cClass.Teacher)).Mention)
+				.AddField("Leírás", cClass.Description)
+				.AddField("Tananyag", cClass.CourseURL)
+				.WithFooter(Context.Guild.Name)
+				.WithColor(EmbedService.Blurple);
+
+			await Context.Channel.ModifyMessageAsync(ulong.Parse(messageId), m => m.Embed = embed.Build());
+			_mongo.Classes.ReplaceOne(c => c.ID == cClass.ID, cClass);
+		}
+
+		[ModalInteraction("classmodal-delete:*,*")]
+		public async Task Delete(
+			string classIdStr, string messageId, RejectClassModal modal)
+		{
+			await DeferAsync();
+
+			int classId = int.Parse(classIdStr);
+			GuildSettings gs = _mongo.GetGuildSettings(Context.Guild.Id);
+			TanClass cClass = _mongo.Classes.AsQueryable()
+			.First(c => c.ID == classId);
+
+			if (modal.Reason != cClass.Theme)
+			{
+				await FollowupAsync(
+					embed: EmbedService.Error(
+						"Hiba",
+						"A megerősítő szöveg nem egyezik az osztály nevével."),
+						ephemeral: true);
+				return;
+			}
+
+			try
+			{
+				foreach (ulong id in cClass.Students)
+					if (_mongo.Classes.AsQueryable()
+						.Count(c => c.Students.Contains(id)) == 1
+					)
+						await (await Context.Guild
+							.GetUserAsync(id))
+							.RemoveRoleAsync(gs.Role.Student);
+			}
+			catch (Exception e)
+			{
+				await FollowupAsync(
+					embed: EmbedService.Error(
+						"Nem sikerült törölni az osztályt",
+						"Szólj egy adminisztrátornak, hogy nem találok `Student` role-t, vagy nincs jogom elvenni!\n" +
+						$"```{e.Message}```"),
+						ephemeral: true);
+				return;
+			}
+			try
+			{
+				if (_mongo.Classes.AsQueryable()
+					.Count(c => c.Teacher == cClass.Teacher) == 1
+				)
+					await (await Context.Guild
+						.GetUserAsync(cClass.Teacher))
+						.RemoveRoleAsync(gs.Role.Teacher);
+			}
+			catch (Exception e)
+			{
+				await FollowupAsync(
+					embed: EmbedService.Error(
+						"Nem sikerült törölni az osztályt",
+						"Szólj egy adminisztrátornak, hogy nem találok `Teacher` role-t, vagy nincs jogom elvenni!\n" +
+						$"```{e.Message}```"),
+						ephemeral: true);
+				await RevertStudentRoles(cClass.Students);
+				return;
+			}
+			try
+			{
+				await (await Context.Guild
+					.GetChannelAsync(cClass.TextChannel))
+					.DeleteAsync();
+				await (await Context.Guild
+					.GetChannelAsync(cClass.VoiceChannel))
+					.DeleteAsync();
+			}
+			catch (Exception e)
+			{
+				await FollowupAsync(
+					embed: EmbedService.Error(
+						"Nem sikerült törölni az osztályt",
+						"Szólj egy adminisztrátornak, hogy nincs jogom törölni a csatornákat!\n" +
+						$"```{e.Message}```"),
+						ephemeral: true);
+				await RevertStudentRoles(cClass.Students);
+				await (await Context.Guild
+					.GetUserAsync(cClass.Teacher))
+					.AddRoleAsync(gs.Role.Teacher);
+				return;
+			}
+
+			await Context.Channel
+				.DeleteMessageAsync(ulong.Parse(messageId));
+			await _mongo.Classes
+				.DeleteOneAsync(c => c.ID == classId);
+
+			if (Context.User.Id != cClass.Teacher)
+				await (await Context.Guild
+					.GetUserAsync(cClass.Teacher))
+					.SendMessageAsync(
+						embed: EmbedService.Error(
+							"Egy osztályod törölve lett",
+							$"Osztály: **{cClass.Theme}**\n" +
+							$"Szerver: **{Context.Guild.Name}**"));
+		}
+		private async Task RevertStudentRoles(List<ulong> students)
+		{
+			GuildSettings gs = _mongo.GetGuildSettings(Context.Guild.Id);
+			foreach (ulong id in students)
+				await (await Context.Guild
+					.GetUserAsync(id))
+					.AddRoleAsync(gs.Role.Student);
 		}
 	}
 }

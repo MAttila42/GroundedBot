@@ -25,7 +25,7 @@ namespace GroundedBot
 			this._client = new DiscordSocketClient(new DiscordSocketConfig
 			{
 				AlwaysDownloadUsers = true,
-				GatewayIntents = GatewayIntents.Guilds | GatewayIntents.GuildMembers | GatewayIntents.GuildMessages,
+				GatewayIntents = GatewayIntents.Guilds | GatewayIntents.GuildMembers | GatewayIntents.GuildMessages | GatewayIntents.MessageContent,
 				UseInteractionSnowflakeDate = false
 			});
 			this._interaction = new InteractionService(_client.Rest);

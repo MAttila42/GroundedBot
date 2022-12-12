@@ -50,55 +50,21 @@ namespace GroundedBot.Commands
 			}
 		}
 
+		[SlashCommand("guildcount", "[DEV] Szerverek száma")]
+		public async Task ServerCount() =>
+			await RespondAsync(embed: EmbedService.Info($"A bot {_client.Guilds.Count} db szerveren van bent."));
+
 		[SlashCommand("shutdown", "[DEV] Bot leállítása")]
 		public async Task Shutdown()
 		{
-			await RespondAsync(embed: EmbedService.Info(
-				"Kikapcsolás..."));
+			await RespondAsync(embed: EmbedService.Info("Kikapcsolás..."));
 			Environment.Exit(0);
 		}
 
 		[SlashCommand("test", "[DEV] Tesztelés")]
-		public async Task Test() =>
-			await RespondAsync(
-				Context.User.Mention,
-				allowedMentions: AllowedMentions.None);
-
-		[SlashCommand(
-			"classmodify",
-			"[DEV] Osztály módosítása gomb hozzáadása az osztályokhoz")]
-		public async Task ClassModify()
+		public async Task Test()
 		{
-			foreach (TanClass tanClass in _mongo.Classes.AsQueryable())
-			{
-				var guild = _client.GetGuild(tanClass.Guild);
-				var channel = guild.GetTextChannel(
-						_mongo.Guilds.AsQueryable()
-						.SingleOrDefault(g => g.Guild == tanClass.Guild)
-						.Channel.Classes);
-				var messages = await channel.GetMessagesAsync(5).FlattenAsync();
-				var message = messages.First(
-						m => m.Embeds.First()
-							.Author.Value.Name == tanClass.Theme);
-				await ((IUserMessage)message).ModifyAsync(m => m.Components = new ComponentBuilder()
-						.WithButton(
-							"Csatlakozás",
-							$"classbutton-join:{tanClass.ID}",
-							ButtonStyle.Success)
-						.WithButton(
-							"Módosítás",
-							$"classbutton-modify:{tanClass.ID}",
-							ButtonStyle.Primary)
-						.WithButton(
-							"Törlés",
-							$"classbutton-delete:{tanClass.ID}",
-							ButtonStyle.Danger)
-						.Build());
-			}
-			await RespondAsync(
-				embed: EmbedService.Info(
-					"Módosítás gomb hozzáadva az osztályokhoz"),
-				ephemeral: true);
+			await RespondAsync(Context.User.Mention, allowedMentions: AllowedMentions.None);
 		}
 	}
 }

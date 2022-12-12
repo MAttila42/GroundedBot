@@ -24,10 +24,10 @@ namespace GroundedBot.Commands
 					FileName = "/bin/bash",
 					Arguments = $"-c \"" +
 						"cd ..\n" +
-						"sudo git pull\n" +
-						"sudo dotnet build -c Release -o build\n" +
+						"git pull\n" +
+						"dotnet build -c Release -o build\n" +
 						"cd build\n" +
-						"sudo dotnet GroundedBot.dll" +
+						"dotnet GroundedBot.dll" +
 						"\"",
 					RedirectStandardOutput = true,
 					UseShellExecute = false,

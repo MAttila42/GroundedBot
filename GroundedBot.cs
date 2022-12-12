@@ -96,7 +96,7 @@ namespace GroundedBot
 		private async Task ExecuteInteractionAsync<T>(T i)
 			where T : SocketInteraction
 		{
-			SocketInteractionContext<T> ctx = new SocketInteractionContext<T>(_client, i);
+			SocketInteractionContext<T> ctx = new(_client, i);
 			await _interaction.ExecuteCommandAsync(ctx, _services);
 		}
 	}

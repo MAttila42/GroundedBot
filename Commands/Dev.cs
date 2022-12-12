@@ -25,9 +25,9 @@ namespace GroundedBot.Commands
 					Arguments = $"-c \"" +
 						"cd ..\n" +
 						"git pull\n" +
-						"dotnet build -c Release -o build\n" +
+						"dotnet build -c Release -o build -f net6.0\n" +
 						"cd build\n" +
-						"dotnet GroundedBot.dll" +
+						"dotnet GroundedBot.dll -f net6.0" +
 						"\"",
 					RedirectStandardOutput = true,
 					UseShellExecute = false,

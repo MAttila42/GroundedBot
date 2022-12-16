@@ -2,7 +2,6 @@
 using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
-using MongoDB.Driver;
 using GroundedBot.Services;
 
 namespace GroundedBot.Commands

@@ -200,7 +200,7 @@ namespace GroundedBot.Buttons
 					"tb-reason",
 					placeholder:
 						cClass.Theme,
-					minLength: 1, maxLength: 10)
+					minLength: 1, maxLength: 50)
 				.Build();
 
 			await RespondWithModalAsync(modal);

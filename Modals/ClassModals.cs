@@ -303,7 +303,10 @@ namespace GroundedBot.Modals
 						"Nem sikerült törölni az osztályt",
 						"Szólj egy adminisztrátornak, hogy nem találok `Teacher` role-t, vagy nincs jogom elvenni!\n" +
 						$"```{e.Message}```"),
-						ephemeral: true);
+					components: new ComponentBuilder()
+						.WithButton("Force Delete", $"classbutton-forcedelete:{classIdStr},{messageId}")
+						.Build(),
+					ephemeral: true);
 				await RevertStudentRoles(cClass.Students);
 				return;
 			}

@@ -205,5 +205,84 @@ namespace GroundedBot.Buttons
 
 			await RespondWithModalAsync(modal);
 		}
+
+		[ComponentInteraction("classbutton-forcedelete:*,*")]
+		public async Task ForceDelete(string classIdStr, string messageId)
+		{
+			await DeferAsync();
+
+			int classId = int.Parse(classIdStr);
+			GuildSettings gs = _mongo.GetGuildSettings(Context.Guild.Id);
+			TanClass cClass = _mongo.Classes.AsQueryable()
+			.First(c => c.ID == classId);
+
+			try
+			{
+				foreach (ulong id in cClass.Students)
+					if (_mongo.Classes.AsQueryable()
+						.Count(c => c.Students.Contains(id)) == 1
+					)
+						await Context.Guild
+							.GetUser(id)
+							.RemoveRoleAsync(gs.Role.Student);
+			}
+			catch (Exception e)
+			{
+				await FollowupAsync(
+					embed: EmbedService.Error(
+						"Student role nem lett elvéve"),
+						ephemeral: true);
+			}
+			try
+			{
+				if (_mongo.Classes.AsQueryable()
+					.Count(c => c.Teacher == cClass.Teacher) == 1
+				)
+					await Context.Guild
+						.GetUser(cClass.Teacher)
+						.RemoveRoleAsync(gs.Role.Teacher);
+			}
+			catch (Exception e)
+			{
+				await FollowupAsync(
+					embed: EmbedService.Error(
+						"Teacher role nem lett elvéve"),
+					ephemeral: true);
+			}
+			try
+			{
+				await Context.Guild
+					.GetChannel(cClass.TextChannel)
+					.DeleteAsync();
+				await Context.Guild
+					.GetChannel(cClass.VoiceChannel)
+					.DeleteAsync();
+			}
+			catch (Exception e)
+			{
+				await FollowupAsync(
+					embed: EmbedService.Error(
+						"A csatornák nem lettek törölve"),
+						ephemeral: true);
+			}
+
+			await Context.Channel
+				.DeleteMessageAsync(ulong.Parse(messageId));
+			await _mongo.Classes
+				.DeleteOneAsync(c => c.ID == classId);
+
+			try
+			{
+				if (Context.User.Id != cClass.Teacher)
+					await Context.Guild
+						.GetUser(cClass.Teacher)
+						.SendMessageAsync(
+							embed: EmbedService.Error(
+								"Egy osztályod törölve lett",
+								$"Osztály: **{cClass.Theme}**\n" +
+								$"Szerver: **{Context.Guild.Name}**"));
+			}
+			catch { }
+		}
 	}
 }

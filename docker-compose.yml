@@ -1,0 +1,8 @@
+services:
+  bot:
+    build: .
+
+  db:
+    image: mongo:4.4
+    volumes:
+      - ./mongo/:/data/db/

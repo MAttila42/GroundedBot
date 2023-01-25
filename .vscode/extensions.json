@@ -1,0 +1,10 @@
+{
+	"recommendations": [
+		"ms-dotnettools.csharp",
+		"editorconfig.editorconfig",
+		"teledemic.branch-warnings",
+		"github.copilot",
+		"jmrog.vscode-nuget-package-manager",
+		"k--kato.docomment"
+	]
+}

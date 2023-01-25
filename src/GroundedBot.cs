@@ -17,7 +17,6 @@ public class GroundedBot
 
 	public DiscordSocketClient Client { get; }
 	public InteractionService Interaction { get; }
-	// public EventService Event { get; }
 	public EmoteService Emote { get; }
 	public MongoService Mongo { get; }
 
@@ -38,7 +37,6 @@ public class GroundedBot
 			UseInteractionSnowflakeDate = false
 		});
 		this.Interaction = new(this.Client);
-		// this.Event = new();
 		this.Emote = new();
 #if DEBUG
 		this.Mongo = new("mongodb://localhost:27017");
@@ -113,7 +111,7 @@ public class GroundedBot
 
 	private async Task ReadyHandler()
 	{
-		Emote.LoadEmotes(Client, this.config.EmojiGuilds);
+		Emote.LoadEmotes(Client, this.config.EmoteGuilds);
 		await Mongo.UpdateGuilds(Client.Guilds);
 
 		foreach (SocketGuild guild in Client.Guilds)
@@ -137,11 +135,11 @@ public class GroundedBot
 
 		await Interaction.AddModulesAsync(
 			typeof(GroundedBot).Assembly, this.services);
-		// #if DEBUG
+#if DEBUG
 		await Interaction.RegisterCommandsToGuildAsync(
 			this.config.DebugGuild, true);
-		// #else
-		// await Interaction.RegistercommandsGloballyAsync(true);
-		// #endif
+#else
+		await Interaction.RegistercommandsGloballyAsync(true);
+#endif
 	}
 }

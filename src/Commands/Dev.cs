@@ -15,42 +15,6 @@ public class Dev : InteractionModuleBase
 	public DiscordSocketClient Client { get; set; }
 	public MongoService Mongo { get; set; }
 
-	// [SlashCommand("restart", "[DEV] Bot újraindítása")]
-	// public async Task Restart()
-	// {
-	// 	try
-	// 	{
-	// 		var process = new ProcessStartInfo
-	// 		{
-	// 			FileName = "/bin/bash",
-	// 			Arguments = $"-c \"" +
-	// 				"cd ..\n" +
-	// 				"git pull\n" +
-	// 				"dotnet build -c Release -o build -f net6.0\n" +
-	// 				"cd build\n" +
-	// 				"dotnet GroundedBot.dll -f net6.0" +
-	// 				"\"",
-	// 			RedirectStandardOutput = true,
-	// 			UseShellExecute = false,
-	// 			CreateNoWindow = true
-	// 		};
-	// 		Process.Start(process);
-	// 		await RespondAsync(embed: EmbedService.Info(
-	// 			"Újraindítás...",
-	// 			"Ez eltarthat egy darabig."));
-	// 		Environment.Exit(0);
-	// 	}
-	// 	catch (Exception e)
-	// 	{
-	// 		await RespondAsync(
-	// 			embed: EmbedService.Error(
-	// 				"Hiba",
-	// 				$"Nem található bash a `/bin/bash` helyen.\n" +
-	// 				$"```{e.Message}```"),
-	// 			ephemeral: true);
-	// 	}
-	// }
-
 	[SlashCommand("guildcount", "[DEV] Szerverek száma")]
 	public async Task ServerCount() =>
 		await RespondAsync(embed: Embeds.Info($"A bot {Client.Guilds.Count} db szerveren van bent."));

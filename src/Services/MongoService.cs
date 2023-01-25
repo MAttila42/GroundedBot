@@ -31,7 +31,8 @@ public class MongoService
 	{
 		var knownGuilds = this.GuildSettings
 			.AsQueryable()
-			.Select(s => s.Guild);
+			.Select(s => s.Guild)
+			.ToList();
 		foreach (ulong guildId in guilds.Select(g => g.Id))
 			if (!knownGuilds.Contains(guildId))
 				await this.GuildSettings.InsertOneAsync(new(guildId));

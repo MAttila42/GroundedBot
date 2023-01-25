@@ -139,7 +139,7 @@ public class GroundedBot
 		await Interaction.RegisterCommandsToGuildAsync(
 			this.config.DebugGuild, true);
 #else
-		await Interaction.RegistercommandsGloballyAsync(true);
+		await Interaction.RegisterCommandsGloballyAsync(true);
 #endif
 	}
 }

@@ -1,8 +1,12 @@
+version: '3'
+
 services:
   bot:
     build: .
+    restart: always
 
   db:
     image: mongo:4.4.6
+    restart: always
     volumes:
       - ./mongo/:/data/db/

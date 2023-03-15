@@ -1,4 +1,4 @@
-# GroundedBot `v2.0.21`
+# GroundedBot `v2.0.22`
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/5b6e343ae1b842fa8c92661416b7d515)](https://www.codacy.com/gh/ExAtom/GroundedBot/dashboard?utm_source=github.com&utm_medium=referral&utm_content=ExAtom/GroundedBot&utm_campaign=Badge_Grade)
 

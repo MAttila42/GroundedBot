@@ -36,6 +36,9 @@ public class MongoService
 		foreach (ulong guildId in guilds.Select(g => g.Id))
 			if (!knownGuilds.Contains(guildId))
 				await this.GuildSettings.InsertOneAsync(new(guildId));
+		foreach (ulong guildId in knownGuilds)
+			if (!guilds.Select(g => g.Id).Contains(guildId))
+				await this.GuildSettings.DeleteOneAsync(s => s.Guild == guildId);
 	}
 }
 
